@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0e0e0e;
+  --surface: #161616;
+  --surface2: #1f1f1f;
+  --border: #2a2a2a;
+  --border2: #383838;
+  --text: #e8e4dc;
+  --text2: #8a8580;
+  --text3: #4a4845;
+  --accent: #c9a96e;
+  --accent2: #8b6f42;
+  --tag-señal: #1a2a1a;
+  --tag-señal-text: #7db87d;
+  --tag-patron: #2a1a0e;
+  --tag-patron-text: #c9863e;
+  --tag-insight: #1a1a2a;
+  --tag-insight-text: #7d7dcc;
+  --tag-lugar: #1a1f2a;
+  --tag-lugar-text: #6a9ec9;
+  --danger: #8b3a3a;
+}
+
+html { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; }
+
+body { min-height: 100vh; }
+
+button { font-family: 'DM Mono', monospace; cursor: pointer; }
+input, textarea, select { font-family: 'DM Mono', monospace; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
