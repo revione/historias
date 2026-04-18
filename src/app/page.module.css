@@ -44,7 +44,17 @@
   display: flex;
   align-items: baseline;
   gap: 8px;
+  cursor: pointer;
+  padding: 4px 6px;
+  margin: -4px -6px;
+  border-radius: 3px;
+  transition: all 0.15s;
 }
+
+.statItem:hover .statLabel { color: var(--text2); }
+
+.statItemActive .statLabel { color: var(--text2); }
+.statItemActive .statNum { color: var(--accent); }
 
 .statNum {
   font-size: 20px;
@@ -59,41 +69,6 @@
   letter-spacing: 0.06em;
 }
 
-.filterBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.filterTitle {
-  font-size: 10px;
-  color: var(--text3);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.filterBtn {
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  padding: 6px 10px;
-  font-size: 12px;
-  color: var(--text2);
-  text-align: left;
-  transition: all 0.15s;
-}
-
-.filterBtn:hover {
-  border-color: var(--border2);
-  color: var(--text);
-}
-
-.filterActive {
-  border-color: var(--accent2);
-  color: var(--accent);
-  background: rgba(201, 169, 110, 0.05);
-}
 
 .addBtn {
   margin-top: auto;

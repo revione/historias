@@ -84,33 +84,20 @@ export default function StoriesClient({ stories }: { stories: Story[] }) {
           <span className={styles.logoAccent}>//</span> diario
         </div>
         <div className={styles.statsBlock}>
-          <div className={styles.statItem}>
-            <span className={styles.statNum}>{stories.length}</span>
-            <span className={styles.statLabel}>historias</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statNum}>{signalCount}</span>
-            <span className={styles.statLabel}>señales</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statNum}>{patternCount}</span>
-            <span className={styles.statLabel}>patrones</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statNum}>{insightCount}</span>
-            <span className={styles.statLabel}>insights</span>
-          </div>
-        </div>
-        <div className={styles.filterBlock}>
-          <p className={styles.filterTitle}>filtrar por</p>
-          {(['señal', 'patron', 'insight', 'lugar'] as Tag[]).map(t => (
-            <button
-              key={t}
-              className={`${styles.filterBtn} ${filterTag === t ? styles.filterActive : ''}`}
-              onClick={() => setFilterTag(filterTag === t ? null : t)}
+          {([
+            { label: 'historias', count: stories.length, tag: null },
+            { label: 'señales',   count: signalCount,    tag: 'señal'  as Tag },
+            { label: 'patrones',  count: patternCount,   tag: 'patron' as Tag },
+            { label: 'insights',  count: insightCount,   tag: 'insight' as Tag },
+          ] as const).map(({ label, count, tag }) => (
+            <div
+              key={label}
+              className={`${styles.statItem} ${filterTag === tag ? styles.statItemActive : ''}`}
+              onClick={() => setFilterTag(filterTag === tag ? null : tag)}
             >
-              {TAG_LABELS[t]}
-            </button>
+              <span className={styles.statNum}>{count}</span>
+              <span className={styles.statLabel}>{label}</span>
+            </div>
           ))}
         </div>
         <button className={styles.addBtn} onClick={openNew}>+ nueva historia</button>
