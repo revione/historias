@@ -1,9 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 
-const contentDir = path.join(process.cwd(), 'content', 'historias')
-
-export type Tag = 'señal' | 'patron' | 'insight' | 'lugar'
+export type Lang = 'es' | 'de' | 'en'
+export type Tag = 'signal' | 'pattern' | 'insight' | 'place'
 
 export interface Story {
   id: string
@@ -17,6 +16,10 @@ export interface Story {
 }
 
 type Fields = Record<string, string | string[]>
+
+function getContentDir(lang: Lang): string {
+  return path.join(process.cwd(), 'content', 'historias', lang)
+}
 
 function parseFrontmatter(raw: string): Fields {
   const fields: Fields = {}
@@ -83,31 +86,34 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, '')
 }
 
-export function readStories(): Story[] {
-  if (!fs.existsSync(contentDir)) return []
-  return fs.readdirSync(contentDir)
+export function readStories(lang: Lang): Story[] {
+  const dir = getContentDir(lang)
+  if (!fs.existsSync(dir)) return []
+  return fs.readdirSync(dir)
     .filter(f => f.endsWith('.mdx'))
     .sort()
     .reverse()
     .map(filename => {
       const id = filename.replace(/\.mdx$/, '')
-      const source = fs.readFileSync(path.join(contentDir, filename), 'utf-8')
+      const source = fs.readFileSync(path.join(dir, filename), 'utf-8')
       const { fm } = splitMdx(source)
       return { id, ...parseFrontmatter(fm) } as Story
     })
 }
 
-export function writeStory(filename: string, fields: Fields, body = '') {
-  if (!fs.existsSync(contentDir)) fs.mkdirSync(contentDir, { recursive: true })
+export function writeStory(lang: Lang, filename: string, fields: Fields, body = '') {
+  const dir = getContentDir(lang)
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
   fs.writeFileSync(
-    path.join(contentDir, filename),
+    path.join(dir, filename),
     `---\n${serialiseFrontmatter(fields)}\n---\n${body}`,
     'utf-8'
   )
 }
 
-export function updateStoryFile(id: string, updates: Fields) {
-  const filepath = path.join(contentDir, `${id}.mdx`)
+export function updateStoryFile(lang: Lang, id: string, updates: Fields) {
+  const dir = getContentDir(lang)
+  const filepath = path.join(dir, `${id}.mdx`)
   if (!fs.existsSync(filepath)) throw new Error(`Story not found: ${id}`)
   const source = fs.readFileSync(filepath, 'utf-8')
   const { fm, body } = splitMdx(source)
@@ -115,7 +121,8 @@ export function updateStoryFile(id: string, updates: Fields) {
   fs.writeFileSync(filepath, `---\n${serialiseFrontmatter(merged)}\n---\n${body}`, 'utf-8')
 }
 
-export function deleteStoryFile(id: string) {
-  const filepath = path.join(contentDir, `${id}.mdx`)
+export function deleteStoryFile(lang: Lang, id: string) {
+  const dir = getContentDir(lang)
+  const filepath = path.join(dir, `${id}.mdx`)
   if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
 }
