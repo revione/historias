@@ -181,10 +181,10 @@
   letter-spacing: 0.04em;
 }
 
-.tag_señal { background: var(--tag-señal); color: var(--tag-señal-text); }
-.tag_patron { background: var(--tag-patron); color: var(--tag-patron-text); }
+.tag_signal { background: var(--tag-signal); color: var(--tag-signal-text); }
+.tag_pattern { background: var(--tag-pattern); color: var(--tag-pattern-text); }
 .tag_insight { background: var(--tag-insight); color: var(--tag-insight-text); }
-.tag_lugar { background: var(--tag-lugar); color: var(--tag-lugar-text); }
+.tag_place { background: var(--tag-place); color: var(--tag-place-text); }
 
 .chevron {
   font-size: 14px;
@@ -353,10 +353,10 @@
 }
 
 .tagOpt:hover { border-color: var(--border2); color: var(--text); }
-.tagOpt_señal { background: var(--tag-señal); color: var(--tag-señal-text); border-color: transparent; }
-.tagOpt_patron { background: var(--tag-patron); color: var(--tag-patron-text); border-color: transparent; }
+.tagOpt_signal { background: var(--tag-signal); color: var(--tag-signal-text); border-color: transparent; }
+.tagOpt_pattern { background: var(--tag-pattern); color: var(--tag-pattern-text); border-color: transparent; }
 .tagOpt_insight { background: var(--tag-insight); color: var(--tag-insight-text); border-color: transparent; }
-.tagOpt_lugar { background: var(--tag-lugar); color: var(--tag-lugar-text); border-color: transparent; }
+.tagOpt_place { background: var(--tag-place); color: var(--tag-place-text); border-color: transparent; }
 
 .modalFooter {
   display: flex;
@@ -388,3 +388,34 @@
 
 .saveBtn:hover { background: rgba(201, 169, 110, 0.15); }
 .saveBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Language switcher */
+.langSwitcher {
+  display: flex;
+  gap: 4px;
+}
+
+.langBtn {
+  flex: 1;
+  padding: 5px 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  font-size: 11px;
+  font-family: inherit;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.15s;
+}
+
+.langBtn:hover {
+  border-color: var(--border2);
+  color: var(--text2);
+}
+
+.langBtnActive {
+  background: rgba(201, 169, 110, 0.12);
+  border-color: var(--accent2);
+  color: var(--accent);
+}
