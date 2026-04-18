@@ -3,7 +3,8 @@
     "allow": [
       "Bash(node:*)",
       "Bash(npx tsc:*)",
-      "Bash(pnpm outdated:*)"
+      "Bash(pnpm outdated:*)",
+      "WebFetch(domain:claude.com)"
     ]
   }
 }
