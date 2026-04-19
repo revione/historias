@@ -303,15 +303,24 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
               </div>
 
               {expanded !== s.id && (
-                <p className={styles.preview}>{s.what?.substring(0, 120)}{s.what?.length > 120 ? '...' : ''}</p>
+                <p className={styles.preview}>
+                  {(s.what || s.body || '').substring(0, 120)}
+                  {(s.what || s.body || '').length > 120 ? '...' : ''}
+                </p>
               )}
 
               {expanded === s.id && (
                 <div className={styles.cardBody}>
-                  {s.what     && <Section label={t.whatHappened}   text={s.what} />}
-                  {s.signals  && <Section label={t.signalsNoticed} text={s.signals} />}
-                  {s.response && <Section label={t.howIResponded}  text={s.response} />}
-                  {s.insight  && <Section label={t.insightPattern} text={s.insight} />}
+                  {s.body ? (
+                    <div className={styles.bodyContent} dangerouslySetInnerHTML={{ __html: mdToHtml(s.body) }} />
+                  ) : (
+                    <>
+                      {s.what     && <Section label={t.whatHappened}   text={s.what} />}
+                      {s.signals  && <Section label={t.signalsNoticed} text={s.signals} />}
+                      {s.response && <Section label={t.howIResponded}  text={s.response} />}
+                      {s.insight  && <Section label={t.insightPattern} text={s.insight} />}
+                    </>
+                  )}
                   <div className={styles.cardActions}>
                     <button className={styles.editBtn}   onClick={() => openEdit(s)}>{t.edit}</button>
                     <button className={styles.deleteBtn} onClick={() => handleDelete(s.id)}>{t.delete}</button>
@@ -392,4 +401,23 @@ function FormField({ label, children }: { label: string; children: React.ReactNo
       {children}
     </div>
   )
+}
+
+function inlineMd(text: string): string {
+  return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+}
+
+function mdToHtml(md: string): string {
+  const blocks = md.split(/\n\n+/)
+  return blocks.map(block => {
+    const trimmed = block.trim()
+    if (!trimmed) return ''
+    if (trimmed.startsWith('## ')) return `<h2>${inlineMd(trimmed.slice(3))}</h2>`
+    if (trimmed.startsWith('### ')) return `<h3>${inlineMd(trimmed.slice(4))}</h3>`
+    const lines = trimmed.split('\n')
+    if (lines.every(l => l.trimStart().startsWith('- '))) {
+      return '<ul>' + lines.map(l => `<li>${inlineMd(l.replace(/^\s*-\s*/, ''))}</li>`).join('') + '</ul>'
+    }
+    return `<p>${inlineMd(trimmed.replace(/\n/g, ' '))}</p>`
+  }).filter(Boolean).join('\n')
 }

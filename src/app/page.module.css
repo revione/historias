@@ -389,6 +389,60 @@
 .saveBtn:hover { background: rgba(201, 169, 110, 0.15); }
 .saveBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* Body content (long-form MDX) */
+.bodyContent {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.8;
+}
+
+.bodyContent h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--accent);
+  margin: 1.5rem 0 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.bodyContent h3 {
+  font-size: 13px;
+  color: var(--text2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 1rem 0 0.4rem;
+}
+
+.bodyContent p {
+  margin-bottom: 0.9rem;
+  color: var(--text);
+}
+
+.bodyContent ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0.9rem;
+}
+
+.bodyContent li {
+  padding-left: 1rem;
+  position: relative;
+  margin-bottom: 0.3rem;
+  color: var(--text2);
+}
+
+.bodyContent li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--accent2);
+}
+
+.bodyContent strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
 /* Language switcher */
 .langSwitcher {
   display: flex;

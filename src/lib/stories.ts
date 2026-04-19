@@ -13,6 +13,7 @@ export interface Story {
   response: string
   insight: string
   tags: Tag[]
+  body?: string
 }
 
 type Fields = Record<string, string | string[]>
@@ -96,8 +97,9 @@ export function readStories(lang: Lang): Story[] {
     .map(filename => {
       const id = filename.replace(/\.mdx$/, '')
       const source = fs.readFileSync(path.join(dir, filename), 'utf-8')
-      const { fm } = splitMdx(source)
-      return { id, ...parseFrontmatter(fm) } as Story
+      const { fm, body } = splitMdx(source)
+      const bodyTrimmed = body.trim()
+      return { id, ...parseFrontmatter(fm), ...(bodyTrimmed ? { body: bodyTrimmed } : {}) } as Story
     })
 }
 
