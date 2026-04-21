@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 
 export type Lang = 'es' | 'de' | 'en'
-export type Tag = 'signal' | 'pattern' | 'insight' | 'place'
+export type Tag = string
 
 export interface Story {
   id: string
@@ -98,8 +98,10 @@ export function readStories(lang: Lang): Story[] {
       const id = filename.replace(/\.mdx$/, '')
       const source = fs.readFileSync(path.join(dir, filename), 'utf-8')
       const { fm, body } = splitMdx(source)
+      const fields = parseFrontmatter(fm)
+      if (!Array.isArray(fields.tags)) fields.tags = []
       const bodyTrimmed = body.trim()
-      return { id, ...parseFrontmatter(fm), ...(bodyTrimmed ? { body: bodyTrimmed } : {}) } as Story
+      return { id, ...fields, ...(bodyTrimmed ? { body: bodyTrimmed } : {}) } as Story
     })
 }
 

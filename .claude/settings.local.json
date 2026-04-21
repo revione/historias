@@ -1,12 +1,5 @@
 {
   "permissions": {
-    "allow": [
-      "Bash(node:*)",
-      "Bash(npx tsc:*)",
-      "Bash(pnpm outdated:*)",
-      "WebFetch(domain:claude.com)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)"
-    ]
+    "allow": ["Bash(node:*)", "Bash(npx tsc:*)", "WebFetch(domain:claude.com)"]
   }
 }

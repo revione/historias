@@ -22,6 +22,7 @@ type Translations = {
   titleLabel: string
   dateLabel: string
   tagsLabel: string
+  addTagPlaceholder: string
   tagSignal: string
   tagPattern: string
   tagInsight: string
@@ -58,6 +59,7 @@ const T: Record<Lang, Translations> = {
     titleLabel: 'título',
     dateLabel: 'fecha',
     tagsLabel: 'etiquetas',
+    addTagPlaceholder: 'nuevo tag',
     tagSignal: 'Señal recibida',
     tagPattern: 'Patrón propio',
     tagInsight: 'Insight',
@@ -92,6 +94,7 @@ const T: Record<Lang, Translations> = {
     titleLabel: 'Titel',
     dateLabel: 'Datum',
     tagsLabel: 'Tags',
+    addTagPlaceholder: 'neuer Tag',
     tagSignal: 'Signal empfangen',
     tagPattern: 'Eigenes Muster',
     tagInsight: 'Erkenntnis',
@@ -126,6 +129,7 @@ const T: Record<Lang, Translations> = {
     titleLabel: 'title',
     dateLabel: 'date',
     tagsLabel: 'tags',
+    addTagPlaceholder: 'new tag',
     tagSignal: 'Signal received',
     tagPattern: 'Own pattern',
     tagInsight: 'Insight',
@@ -155,6 +159,7 @@ const EMPTY_FORM = {
 }
 
 const LANGS: Lang[] = ['es', 'de', 'en']
+const CORE_TAGS: Tag[] = ['signal', 'pattern', 'insight', 'place']
 
 export default function StoriesClient({ initialStories }: { initialStories: Story[] }) {
   const { lang, setLang } = useLanguage()
@@ -163,12 +168,13 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
   const [showModal, setShowModal] = useState(false)
   const [form, setForm] = useState(EMPTY_FORM)
   const [filterTag, setFilterTag] = useState<Tag | null>(null)
+  const [tagInput, setTagInput] = useState('')
   const [saving, setSaving] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
 
   const t = T[lang]
 
-  const TAG_LABELS: Record<Tag, string> = {
+  const TAG_LABELS: Record<string, string> = {
     signal: t.tagSignal,
     pattern: t.tagPattern,
     insight: t.tagInsight,
@@ -182,18 +188,21 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
   }, [lang])
 
   const filtered = filterTag ? stories.filter(s => s.tags.includes(filterTag)) : stories
-  const signalCount  = stories.filter(s => s.tags.includes('signal')).length
-  const patternCount = stories.filter(s => s.tags.includes('pattern')).length
-  const insightCount = stories.filter(s => s.tags.includes('insight')).length
+  const allTags = Array.from(new Set([...CORE_TAGS, ...stories.flatMap(s => s.tags), ...form.tags]))
+  const visibleTags = allTags.filter(tag => stories.some(s => s.tags.includes(tag)) || form.tags.includes(tag))
+  const tagCounts = new Map<Tag, number>()
+  stories.forEach(story => story.tags.forEach(tag => tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)))
 
   function openNew() {
     setForm(EMPTY_FORM)
+    setTagInput('')
     setEditId(null)
     setShowModal(true)
   }
 
   function openEdit(s: Story) {
     setForm({ title: s.title, date: s.date, what: s.what, signals: s.signals, response: s.response, insight: s.insight, tags: [...s.tags] })
+    setTagInput('')
     setEditId(s.id)
     setShowModal(true)
   }
@@ -203,6 +212,13 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
       ...f,
       tags: f.tags.includes(tag) ? f.tags.filter(t => t !== tag) : [...f.tags, tag]
     }))
+  }
+
+  function addCustomTag() {
+    const tag = tagInput.trim().toLowerCase().replace(/\s+/g, '-')
+    if (!tag) return
+    setForm(f => f.tags.includes(tag) ? f : { ...f, tags: [...f.tags, tag] })
+    setTagInput('')
   }
 
   async function save() {
@@ -254,12 +270,9 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
         </div>
 
         <div className={styles.statsBlock}>
-          {([
-            { label: t.storiesLabel,  count: stories.length, tag: null             },
-            { label: t.signalsLabel,  count: signalCount,    tag: 'signal'  as Tag },
-            { label: t.patternsLabel, count: patternCount,   tag: 'pattern' as Tag },
-            { label: t.insightsLabel, count: insightCount,   tag: 'insight' as Tag },
-          ] as const).map(({ label, count, tag }) => (
+          {[{ label: t.storiesLabel, count: stories.length, tag: null as Tag | null }]
+            .concat(visibleTags.map(tag => ({ label: tagLabel(tag, TAG_LABELS), count: tagCounts.get(tag) || 0, tag })))
+            .map(({ label, count, tag }) => (
             <div
               key={label}
               className={`${styles.statItem} ${filterTag === tag ? styles.statItemActive : ''}`}
@@ -277,7 +290,7 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
       <div className={styles.content}>
         <div className={styles.contentHeader}>
           <h1 className={styles.pageTitle}>
-            {filterTag ? TAG_LABELS[filterTag] : t.allStories}
+            {filterTag ? tagLabel(filterTag, TAG_LABELS) : t.allStories}
           </h1>
           <span className={styles.pageCount}>{filtered.length}</span>
         </div>
@@ -295,7 +308,7 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
                   <h2 className={styles.cardTitle}>{s.title}</h2>
                   <div className={styles.tags}>
                     {s.tags.map(tag => (
-                      <span key={tag} className={`${styles.tag} ${styles['tag_' + tag]}`}>{TAG_LABELS[tag]}</span>
+                      <span key={tag} className={`${styles.tag} ${styles['tag_' + tag] || styles.tagExtra}`}>{tagLabel(tag, TAG_LABELS)}</span>
                     ))}
                   </div>
                 </div>
@@ -361,15 +374,28 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
             </FormField>
             <FormField label={t.tagsLabel}>
               <div className={styles.tagSelector}>
-                {(['signal', 'pattern', 'insight', 'place'] as Tag[]).map(tag => (
+                {visibleTags.map(tag => (
                   <button
                     key={tag}
-                    className={`${styles.tagOpt} ${form.tags.includes(tag) ? styles['tagOpt_' + tag] : ''}`}
+                    className={`${styles.tagOpt} ${form.tags.includes(tag) ? styles['tagOpt_' + tag] || styles.tagOptSelected : ''}`}
                     onClick={() => toggleTag(tag)}
                   >
-                    {TAG_LABELS[tag]}
+                    {tagLabel(tag, TAG_LABELS)}
                   </button>
                 ))}
+                <input
+                  className={styles.tagInput}
+                  value={tagInput}
+                  onChange={e => setTagInput(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault()
+                      addCustomTag()
+                    }
+                  }}
+                  placeholder={t.addTagPlaceholder}
+                />
+                <button className={styles.tagOpt} onClick={addCustomTag}>+</button>
               </div>
             </FormField>
             <div className={styles.modalFooter}>
@@ -403,6 +429,10 @@ function FormField({ label, children }: { label: string; children: React.ReactNo
   )
 }
 
+function tagLabel(tag: Tag, labels: Record<string, string>) {
+  return labels[tag] || tag.replace(/-/g, ' ')
+}
+
 function inlineMd(text: string): string {
   return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
 }
@@ -412,9 +442,24 @@ function mdToHtml(md: string): string {
   return blocks.map(block => {
     const trimmed = block.trim()
     if (!trimmed) return ''
+    if (trimmed.startsWith('# '))  return `<h1>${inlineMd(trimmed.slice(2))}</h1>`
     if (trimmed.startsWith('## ')) return `<h2>${inlineMd(trimmed.slice(3))}</h2>`
     if (trimmed.startsWith('### ')) return `<h3>${inlineMd(trimmed.slice(4))}</h3>`
+    if (trimmed.startsWith('---')) return '<hr />'
     const lines = trimmed.split('\n')
+    // table: lines contain |
+    if (lines.length >= 2 && lines[0].includes('|') && lines[1].match(/^\|?[\s\-|]+\|?$/)) {
+      const headers = lines[0].split('|').map(c => c.trim()).filter(Boolean)
+      const rows = lines.slice(2).map(l => l.split('|').map(c => c.trim()).filter(Boolean))
+      const thead = '<thead><tr>' + headers.map(h => `<th>${inlineMd(h)}</th>`).join('') + '</tr></thead>'
+      const tbody = '<tbody>' + rows.map(r => '<tr>' + r.map(c => `<td>${inlineMd(c)}</td>`).join('') + '</tr>').join('') + '</tbody>'
+      return `<table>${thead}${tbody}</table>`
+    }
+    // numbered list
+    if (lines.every(l => /^\d+\.\s/.test(l.trimStart()))) {
+      return '<ol>' + lines.map(l => `<li>${inlineMd(l.replace(/^\s*\d+\.\s*/, ''))}</li>`).join('') + '</ol>'
+    }
+    // bullet list
     if (lines.every(l => l.trimStart().startsWith('- '))) {
       return '<ul>' + lines.map(l => `<li>${inlineMd(l.replace(/^\s*-\s*/, ''))}</li>`).join('') + '</ul>'
     }

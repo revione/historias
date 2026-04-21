@@ -185,6 +185,7 @@
 .tag_pattern { background: var(--tag-pattern); color: var(--tag-pattern-text); }
 .tag_insight { background: var(--tag-insight); color: var(--tag-insight-text); }
 .tag_place { background: var(--tag-place); color: var(--tag-place-text); }
+.tagExtra { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
 
 .chevron {
   font-size: 14px;
@@ -357,6 +358,18 @@
 .tagOpt_pattern { background: var(--tag-pattern); color: var(--tag-pattern-text); border-color: transparent; }
 .tagOpt_insight { background: var(--tag-insight); color: var(--tag-insight-text); border-color: transparent; }
 .tagOpt_place { background: var(--tag-place); color: var(--tag-place-text); border-color: transparent; }
+.tagOptSelected { background: var(--surface2); color: var(--text); border-color: var(--accent2); }
+.tagInput {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--text);
+  min-width: 110px;
+  outline: none;
+}
+.tagInput:focus { border-color: var(--accent2); }
 
 .modalFooter {
   display: flex;
@@ -441,6 +454,70 @@
 .bodyContent strong {
   color: var(--text);
   font-weight: 500;
+}
+
+.bodyContent table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.9rem;
+  font-size: 13px;
+}
+
+.bodyContent th {
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border2);
+  color: var(--accent2);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bodyContent td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+}
+
+.bodyContent tr:last-child td {
+  border-bottom: none;
+}
+
+.bodyContent hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1rem 0;
+}
+
+.bodyContent h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.02em;
+}
+
+.bodyContent ol {
+  list-style: none;
+  padding: 0;
+  counter-reset: ol-counter;
+  margin-bottom: 0.9rem;
+}
+
+.bodyContent ol li {
+  counter-increment: ol-counter;
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 0.3rem;
+  color: var(--text2);
+}
+
+.bodyContent ol li::before {
+  content: counter(ol-counter) '.';
+  position: absolute;
+  left: 0;
+  color: var(--accent2);
 }
 
 /* Language switcher */
