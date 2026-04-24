@@ -1,0 +1,49 @@
+---
+title: Wie wirksam ist es, einem Agenten eine Rolle zuzuweisen
+date: 2026-04-20
+tags: [ai-agents, role-prompting, context-engineering, prompt-engineering, llms, autoregressive-models, multi-agent-systems, context-rot]
+what: >
+  Analyse der tatsächlichen Wirkung von Rollenzuweisungen an KI-Agenten: wann sie hilft, wann sie weniger zählt als Kontext, und warum Kontextklarheit Ergebnisse besser bestimmt als ein Expertise-Etikett.
+---
+
+# Wie wirksam ist es, einem Agenten eine Rolle zuzuweisen...
+
+Einem Agenten eine Rolle zuzuweisen ("du bist Experte für X") hat einen realen Effekt, aber einen bescheideneren als gemeinhin angenommen. Es entsperrt kein verborgenes Wissen im Modell und aktiviert keine speziellen Modi oder Fähigkeiten. Was es tut, ist die Wahrscheinlichkeitsverteilung in Richtung jener Region des Raums zu verschieben, wo sich diese Gewichte verbinden — ein Einstiegspunkt in den Informationsbaum innerhalb der Repräsentationen des Modells.
+
+Die Textgenerierung im Modell ist autoregresiv. Dieser frühe prior (Rollenzuweisung) hat einen Multiplikatoreffekt, weil er jedes folgende Token konditioniert — dort, wo letztlich das Netzwerk neuronaler Lösungen zusammenläuft.
+
+Die Präzision dieses Einstiegspunkts hängt von der Granularität ab. "Ingenieur" — erste Sprachposition. "Softwareingenieur spezialisiert auf verteilte Systeme" — gemessene Spezifität. Jedes zusätzliche Wort ist eine sprachliche Spezifikation der Antworterwartung.
+
+Jetzt die zentrale Beobachtung: Der Wert der Rolle ist umgekehrt proportional zur Klarheit des Kontexts.
+
+- Wenn der Kontext begrenzt und/oder mehrdeutig ist, nimmt die Rolle den Platz des Kontexts in der Erwartung ein und gibt dem Modell eine vernünftige Richtungsbreite.
+- Wenn der Kontext umfangreich und strukturell gerahmt ist — mit seiner Architektur, Designentscheidungen, deklarierten Einschränkungen — wird die Rolle eher zu einer initialen Perspektive für die idiomatische Antwortformulierung. Das heißt, das Modell spricht auf Basis seiner vordefinierten Kategorie. Da der Agent über ausreichend Kontext verfügt, erschließt er selbständig die Fähigkeiten und menschlichen Eigenschaften, die von ihm erwartet werden, ohne das Berufsetikett zu benötigen.
+
+```
+Rollenwert ∝ 1 / Kontextklarheit
+```
+
+Das zeigt sich klar in der Praxis. Einem Modell zu sagen "du bist Experte für React" hat wenig Gewicht. Ihm den Code, die Module und die Architekturentscheidungen des Projekts zu geben, lässt es selbständig das richtige Abstraktionsniveau, die Konventionen und den Stil ableiten. Der Unterschied ist derselbe wie jemandem zu sagen, er sei Tischler, versus ihn in die Werkstatt zu stellen mit den Werkzeugen und dem Bauplan vor sich. Echter Kontext überwiegt jede Etikette, weil das Modell gut im Schlussfolgern ist, wenn es Material hat, über das es nachdenken kann.
+
+Das führt zu einer wichtigen Unterscheidung, die role prompting-Studien häufig verwechseln. Es gibt semantische Rolle — das Expertise-Etikett — und es gibt architektonische Rolle — einen scope, der durch die Systemstruktur definiert ist. In Multi-Agenten-Systemen, wenn ein Planer Aufgaben an einen Ausführenden delegiert, ist die Rolle eine funktionale Grenze. Dort besteht der Sinn darin, dem Agenten eine Einschränkung zu geben, damit er sich nur auf diesen Bereich konzentriert und nicht zu anderen Lösungen abschweift — obwohl dies in der Praxis davon abhängt, wie viel Reasoning verfügbar ist, d.h. wie viele loops er durchläuft, um die Aufgabe zu verstehen, und welches Modell verwendet wird.
+
+Es spielt keine Rolle, ob der Agent Planer, Ausführender oder Prüfer ist. Was die Qualität der Lösung bestimmt, ist, wie gut er den für seinen scope relevanten Kontext verarbeitet hat. Die Gewichte sind die Fähigkeit zu denken; der Kontext ist das Material, über das nachgedacht wird. Expertise zu deklarieren ist daher ein rein menschliches Konstrukt zur Steuerung — durch Sprache — der Antwortform; es generiert kein neues Material, denn das Modell kennt es bereits, und was es leitet, ist erneut die Erwartung der zu erledigenden Aufgabe.
+
+Es lässt sich nicht ignorieren, dass mehr Kontext nicht immer besser ist. Es gibt das, was Anthropic _context rot_ nennt — die Degradation der Fähigkeit des Modells, Informationen abzurufen, wenn der Kontext wächst. Die eigentliche Arbeit besteht nicht darin, alles Mögliche zu injizieren, sondern zu kuratieren, was wann eingeht. Dies verbessert sich durch Dokumentation der Entscheidungen, der route map und der Designerwartungen des Vorhabens. Es hängt alles von der Nische ab, aber klare Erwartungen verbessern die Verständnisklarheit sowohl beim Menschen als auch bei Maschinen.
+
+Kontext ist nichts Statisches, das am Anfang gesetzt wird. Er wird iterativ aufgebaut. Jeder Austausch bereichert das Material, über das das Modell im nächsten Schritt nachdenkt — weshalb die Kunst darin liegt, das Gelernte mit möglichst wenigen Worten und Redundanzen zu dokumentieren, damit das Modell beim Iterieren weniger tokens verwendet. Was ein Gespräch dicht macht, ist nicht, am Anfang "du bist Experte" gesagt zu haben, sondern die N Runden danach, die eine gemeinsame Idee aufgebaut haben.
+
+Am Ende ist das, was wir bewerten, das Ergebnisniveau gemessen an unseren Erwartungen. Die deklarierten Eigenschaften des Agenten bestimmen nicht das Erfolgskriterium — es ist extern zur Rollenerwartung, die nur ein Punkt im Verbindungsdiagramm ist.
+
+---
+
+## Referenzen
+
+- Vaswani et al. (2017). [_Attention Is All You Need._](https://arxiv.org/abs/1706.03762) — Grundlage des Aufmerksamkeitsmechanismus und der autoregressiven Generierung, die das beschriebene kontextuelle Konditionieren ermöglicht.
+- Brown et al. (2020). [_Language Models are Few-Shot Learners._](https://arxiv.org/abs/2005.14165) — Belegt, dass In-Context-Kontext ausreicht, um das Modellverhalten zu ändern, ohne Gewichte zu modifizieren.
+- Wei et al. (2022). [_Chain-of-Thought Prompting Elicits Reasoning in Large Language Models._](https://arxiv.org/abs/2201.11903) — Belegt, dass die Prompt-Struktur die Reasoning-Qualität stärker beeinflusst als die deklarierte Identität.
+- Kong et al. (2023). [_Better Zero-Shot Reasoning with Role-Play Prompting._](https://arxiv.org/pdf/2308.07702) — Fall, in dem role prompting die Leistung verbessert, aber unter Bedingungen iterativ angereicherten Kontexts, nicht durch ein einfaches Etikett.
+- Zheng et al. (2023). [_When "A Helpful Assistant" Is Not Really Helpful: Personas in System Prompts Do Not Improve Performances of Large Language Models._](https://arxiv.org/pdf/2311.10054) — Belegt, dass das Hinzufügen von Personas die Leistung bei faktischen Aufgaben nicht verbessert; in einigen Fällen verschlechtert sie sich.
+- Anthropic (2025). [_Effective Context Engineering for AI Agents._](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) — Führt das Konzept des context rot und des context engineering als Weiterentwicklung des prompt engineering in realen agentischen Systemen ein.
+- Anthropic (2024). [_Claude 3 Model Card._](https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf) — In Produktionssystemen beobachtetes Verhalten.
+- Anthropic (2025). [_Claude Opus 4.6 System Card._](https://www.anthropic.com/claude-opus-4-6-system-card) — Evaluierungen und agentische Fähigkeiten in Produktionskontexten.
