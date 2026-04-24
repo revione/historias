@@ -14,9 +14,13 @@ Abre http://localhost:3000 en el navegador.
 
 ## Cómo funciona
 
-- Las historias se guardan en `data/stories.json` en tu máquina
+- Las historias se guardan como archivos MDX en `content/historias/{es,en,de}`
 - No necesitas base de datos ni internet
-- Puedes hacer backup del archivo JSON cuando quieras
+- Puedes hacer backup del directorio `content/historias` cuando quieras
+
+## Documentación
+
+- [Flujo de historias](docs/historias.md)
 
 ## Campos por historia
 
@@ -27,7 +31,6 @@ Abre http://localhost:3000 en el navegador.
 
 ## Etiquetas
 
-- `Señal recibida` — ella dio señales
-- `Patrón propio` — algo que se repite en ti
-- `Insight` — aprendizaje claro
-- `Lugar` — contexto de lugar relevante
+- Las etiquetas son libres y se guardan en el frontmatter de cada MDX
+- Se recomienda usar `kebab-case` en inglés para mantenerlas estables entre idiomas
+- La UI sigue destacando tags base como `signal`, `pattern`, `insight` y `place`
