@@ -5,6 +5,8 @@ import styles from './page.module.css'
 import { createStory, updateStory, deleteStory, getStories } from './actions'
 import { useLanguage } from '@/lib/language-context'
 import type { Story, Tag, Lang } from '@/lib/stories'
+import { CATEGORY_TAGS, getStoryCategories } from '@/lib/categories'
+import type { CategoryName } from '@/lib/categories'
 
 // ─── Translations ─────────────────────────────────────────────────────────────
 
@@ -12,6 +14,7 @@ type Translations = {
   newStory: string
   storiesLabel: string
   allStories: string
+  recentLabel: string
   whatHappened: string
   titleLabel: string
   dateLabel: string
@@ -36,6 +39,7 @@ const T: Record<Lang, Translations> = {
     newStory: 'nueva historia',
     storiesLabel: 'historias',
     allStories: 'todas las historias',
+    recentLabel: 'últimas',
     whatHappened: 'qué pasó',
     titleLabel: 'título',
     dateLabel: 'fecha',
@@ -58,6 +62,7 @@ const T: Record<Lang, Translations> = {
     newStory: 'neue Geschichte',
     storiesLabel: 'Geschichten',
     allStories: 'alle Geschichten',
+    recentLabel: 'zuletzt',
     whatHappened: 'was passierte',
     titleLabel: 'Titel',
     dateLabel: 'Datum',
@@ -80,6 +85,7 @@ const T: Record<Lang, Translations> = {
     newStory: 'new story',
     storiesLabel: 'stories',
     allStories: 'all stories',
+    recentLabel: 'recent',
     whatHappened: 'what happened',
     titleLabel: 'title',
     dateLabel: 'date',
@@ -115,6 +121,8 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
   const [showModal, setShowModal] = useState(false)
   const [form, setForm] = useState(EMPTY_FORM)
   const [filterTag, setFilterTag] = useState<Tag | null>(null)
+  const [filterCategory, setFilterCategory] = useState<CategoryName | null>(null)
+  const [hoveredCat, setHoveredCat] = useState<CategoryName | null>(null)
   const [tagInput, setTagInput] = useState('')
   const [saving, setSaving] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
@@ -124,14 +132,24 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
   useEffect(() => {
     getStories(lang).then(setStories)
     setFilterTag(null)
+    setFilterCategory(null)
     setExpanded(null)
   }, [lang])
 
-  const filtered = filterTag ? stories.filter(s => s.tags.includes(filterTag)) : stories
+  const filtered = filterTag
+    ? stories.filter(s => s.tags.includes(filterTag))
+    : filterCategory
+    ? stories.filter(s => getStoryCategories(s.tags).includes(filterCategory))
+    : stories
   const allTags = Array.from(new Set([...stories.flatMap(s => s.tags), ...form.tags]))
   const visibleTags = allTags.filter(tag => stories.some(s => s.tags.includes(tag)) || form.tags.includes(tag))
   const tagCounts = new Map<Tag, number>()
   stories.forEach(story => story.tags.forEach(tag => tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)))
+
+  function clearFilter() {
+    setFilterTag(null)
+    setFilterCategory(null)
+  }
 
   function openNew() {
     setForm(EMPTY_FORM)
@@ -209,19 +227,68 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
           ))}
         </div>
 
-        <div className={styles.statsBlock}>
-          {[{ label: t.storiesLabel, count: stories.length, tag: null as Tag | null }]
-            .concat(visibleTags.map(tag => ({ label: tagLabel(tag), count: tagCounts.get(tag) || 0, tag })))
-            .map(({ label, count, tag }) => (
-            <div
-              key={label}
-              className={`${styles.statItem} ${filterTag === tag ? styles.statItemActive : ''}`}
-              onClick={() => setFilterTag(filterTag === tag ? null : tag)}
-            >
-              <span className={styles.statNum}>{count}</span>
-              <span className={styles.statLabel}>{label}</span>
-            </div>
-          ))}
+        <div className={styles.navBlock}>
+          {/* All stories */}
+          <div
+            className={`${styles.navAllRow} ${!filterTag && !filterCategory ? styles.navAllActive : ''}`}
+            onClick={clearFilter}
+          >
+            <span className={styles.navCount}>{stories.length}</span>
+            <span className={styles.navLabel}>{t.storiesLabel}</span>
+          </div>
+
+          {/* Recent */}
+          <div className={styles.recentBlock}>
+            <span className={styles.recentHeader}>{t.recentLabel}</span>
+            {stories.slice(0, 5).map(s => (
+              <div
+                key={s.id}
+                className={styles.recentItem}
+                onClick={() => { clearFilter(); setExpanded(s.id) }}
+              >
+                {s.title}
+              </div>
+            ))}
+          </div>
+
+          {/* Categories */}
+          <div className={styles.catsBlock}>
+            {(Object.keys(CATEGORY_TAGS) as CategoryName[]).map(cat => {
+              const catCount = stories.filter(s => getStoryCategories(s.tags).includes(cat)).length
+              if (catCount === 0) return null
+              const subTags = CATEGORY_TAGS[cat].filter(tag => tagCounts.has(tag))
+              return (
+                <div
+                  key={cat}
+                  className={styles.catItem}
+                  onMouseEnter={() => setHoveredCat(cat)}
+                  onMouseLeave={() => setHoveredCat(null)}
+                >
+                  <div
+                    className={`${styles.catRow} ${filterCategory === cat && !filterTag ? styles.catRowActive : ''}`}
+                    onClick={() => { setFilterCategory(cat); setFilterTag(null) }}
+                  >
+                    <span className={styles.catCount}>{catCount}</span>
+                    <span className={styles.catName}>{cat}</span>
+                  </div>
+                  {hoveredCat === cat && subTags.length > 0 && (
+                    <div className={styles.subCats}>
+                      {subTags.map(tag => (
+                        <div
+                          key={tag}
+                          className={`${styles.subCatItem} ${filterTag === tag ? styles.subCatActive : ''}`}
+                          onClick={() => { setFilterTag(tag); setFilterCategory(null) }}
+                        >
+                          <span className={styles.subCatCount}>{tagCounts.get(tag)}</span>
+                          <span className={styles.subCatLabel}>{tagLabel(tag)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
         </div>
 
         <button className={styles.addBtn} onClick={openNew}>+ {t.newStory}</button>
@@ -230,7 +297,7 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
       <div className={styles.content}>
         <div className={styles.contentHeader}>
           <h1 className={styles.pageTitle}>
-            {filterTag ? tagLabel(filterTag) : t.allStories}
+            {filterTag ? tagLabel(filterTag) : filterCategory ? filterCategory : t.allStories}
           </h1>
           <span className={styles.pageCount}>{filtered.length}</span>
         </div>

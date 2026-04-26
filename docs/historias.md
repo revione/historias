@@ -128,6 +128,12 @@ head -15 content/historias/es/2026-04-20-llm-agentes.mdx
 
 Si falta el bloque `---` al inicio, el parser lo ignora y la historia aparece sin metadata.
 
+## Categorías del sidebar
+
+El sidebar agrupa historias por categorías derivadas de sus tags. Al agregar una historia nueva, verificar que sus tags estén mapeados en `src/lib/categories.ts`. Si el tag es nuevo, agregarlo a la categoría correspondiente o crear una nueva.
+
+Ver [docs/categorias-de-acceso.md](categorias-de-acceso.md) para el detalle completo.
+
 ## Validación
 
 ```bash
