@@ -9,9 +9,6 @@ export interface Story {
   title: string
   date: string
   what: string
-  signals: string
-  response: string
-  insight: string
   tags: Tag[]
   body?: string
 }
@@ -61,7 +58,7 @@ function splitMdx(source: string): { fm: string; body: string } {
 }
 
 function serialiseFrontmatter(fields: Fields): string {
-  const SCALAR = ['title', 'date', 'what', 'signals', 'response', 'insight']
+  const SCALAR = ['title', 'date', 'what']
   const ARRAY = ['tags']
   const keys = [
     ...SCALAR.filter(k => k in fields),

@@ -11,22 +11,12 @@ import type { Story, Tag, Lang } from '@/lib/stories'
 type Translations = {
   newStory: string
   storiesLabel: string
-  signalsLabel: string
-  patternsLabel: string
-  insightsLabel: string
   allStories: string
   whatHappened: string
-  signalsNoticed: string
-  howIResponded: string
-  insightPattern: string
   titleLabel: string
   dateLabel: string
   tagsLabel: string
   addTagPlaceholder: string
-  tagSignal: string
-  tagPattern: string
-  tagInsight: string
-  tagPlace: string
   edit: string
   delete: string
   cancel: string
@@ -39,31 +29,18 @@ type Translations = {
   deleteConfirm: string
   titlePlaceholder: string
   whatPlaceholder: string
-  signalsPlaceholder: string
-  responsePlaceholder: string
-  insightPlaceholder: string
 }
 
 const T: Record<Lang, Translations> = {
   es: {
     newStory: 'nueva historia',
     storiesLabel: 'historias',
-    signalsLabel: 'señales',
-    patternsLabel: 'patrones',
-    insightsLabel: 'insights',
     allStories: 'todas las historias',
     whatHappened: 'qué pasó',
-    signalsNoticed: 'señales que noté',
-    howIResponded: 'cómo respondí',
-    insightPattern: 'insight / patrón',
     titleLabel: 'título',
     dateLabel: 'fecha',
     tagsLabel: 'etiquetas',
     addTagPlaceholder: 'nuevo tag',
-    tagSignal: 'Señal recibida',
-    tagPattern: 'Patrón propio',
-    tagInsight: 'Insight',
-    tagPlace: 'Lugar',
     edit: 'editar',
     delete: 'borrar',
     cancel: 'cancelar',
@@ -76,29 +53,16 @@ const T: Record<Lang, Translations> = {
     deleteConfirm: '¿Borrar esta historia?',
     titlePlaceholder: 'Ej: Fiesta en el club, abril',
     whatPlaceholder: 'La situación, las personas, el contexto...',
-    signalsPlaceholder: 'Lo que ella hizo, dijo, cómo se movió...',
-    responsePlaceholder: 'Lo que hice, lo que no hice...',
-    insightPlaceholder: 'Qué aprendí, qué se repite...',
   },
   de: {
     newStory: 'neue Geschichte',
     storiesLabel: 'Geschichten',
-    signalsLabel: 'Signale',
-    patternsLabel: 'Muster',
-    insightsLabel: 'Erkenntnisse',
     allStories: 'alle Geschichten',
     whatHappened: 'was passierte',
-    signalsNoticed: 'Signale bemerkt',
-    howIResponded: 'wie ich reagierte',
-    insightPattern: 'Erkenntnis / Muster',
     titleLabel: 'Titel',
     dateLabel: 'Datum',
     tagsLabel: 'Tags',
     addTagPlaceholder: 'neuer Tag',
-    tagSignal: 'Signal empfangen',
-    tagPattern: 'Eigenes Muster',
-    tagInsight: 'Erkenntnis',
-    tagPlace: 'Ort',
     edit: 'bearbeiten',
     delete: 'löschen',
     cancel: 'abbrechen',
@@ -111,29 +75,16 @@ const T: Record<Lang, Translations> = {
     deleteConfirm: 'Diese Geschichte löschen?',
     titlePlaceholder: 'z.B. Party im Club, April',
     whatPlaceholder: 'Die Situation, die Personen, der Kontext...',
-    signalsPlaceholder: 'Was sie tat, sagte, wie sie sich bewegte...',
-    responsePlaceholder: 'Was ich tat, was ich nicht tat...',
-    insightPlaceholder: 'Was ich gelernt habe, was sich wiederholt...',
   },
   en: {
     newStory: 'new story',
     storiesLabel: 'stories',
-    signalsLabel: 'signals',
-    patternsLabel: 'patterns',
-    insightsLabel: 'insights',
     allStories: 'all stories',
     whatHappened: 'what happened',
-    signalsNoticed: 'signals I noticed',
-    howIResponded: 'how I responded',
-    insightPattern: 'insight / pattern',
     titleLabel: 'title',
     dateLabel: 'date',
     tagsLabel: 'tags',
     addTagPlaceholder: 'new tag',
-    tagSignal: 'Signal received',
-    tagPattern: 'Own pattern',
-    tagInsight: 'Insight',
-    tagPlace: 'Place',
     edit: 'edit',
     delete: 'delete',
     cancel: 'cancel',
@@ -146,20 +97,16 @@ const T: Record<Lang, Translations> = {
     deleteConfirm: 'Delete this story?',
     titlePlaceholder: 'e.g. Party at the club, April',
     whatPlaceholder: 'The situation, the people, the context...',
-    signalsPlaceholder: 'What she did, said, how she moved...',
-    responsePlaceholder: 'What I did, what I didn\'t do...',
-    insightPlaceholder: 'What I learned, what repeats...',
   },
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const EMPTY_FORM = {
-  title: '', date: '', what: '', signals: '', response: '', insight: '', tags: [] as Tag[]
+  title: '', date: '', what: '', tags: [] as Tag[]
 }
 
 const LANGS: Lang[] = ['es', 'de', 'en']
-const CORE_TAGS: Tag[] = ['signal', 'pattern', 'insight', 'place']
 
 export default function StoriesClient({ initialStories }: { initialStories: Story[] }) {
   const { lang, setLang } = useLanguage()
@@ -174,13 +121,6 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
 
   const t = T[lang]
 
-  const TAG_LABELS: Record<string, string> = {
-    signal: t.tagSignal,
-    pattern: t.tagPattern,
-    insight: t.tagInsight,
-    place: t.tagPlace,
-  }
-
   useEffect(() => {
     getStories(lang).then(setStories)
     setFilterTag(null)
@@ -188,7 +128,7 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
   }, [lang])
 
   const filtered = filterTag ? stories.filter(s => s.tags.includes(filterTag)) : stories
-  const allTags = Array.from(new Set([...CORE_TAGS, ...stories.flatMap(s => s.tags), ...form.tags]))
+  const allTags = Array.from(new Set([...stories.flatMap(s => s.tags), ...form.tags]))
   const visibleTags = allTags.filter(tag => stories.some(s => s.tags.includes(tag)) || form.tags.includes(tag))
   const tagCounts = new Map<Tag, number>()
   stories.forEach(story => story.tags.forEach(tag => tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1)))
@@ -201,7 +141,7 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
   }
 
   function openEdit(s: Story) {
-    setForm({ title: s.title, date: s.date, what: s.what, signals: s.signals, response: s.response, insight: s.insight, tags: [...s.tags] })
+    setForm({ title: s.title, date: s.date, what: s.what, tags: [...s.tags] })
     setTagInput('')
     setEditId(s.id)
     setShowModal(true)
@@ -271,7 +211,7 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
 
         <div className={styles.statsBlock}>
           {[{ label: t.storiesLabel, count: stories.length, tag: null as Tag | null }]
-            .concat(visibleTags.map(tag => ({ label: tagLabel(tag, TAG_LABELS), count: tagCounts.get(tag) || 0, tag })))
+            .concat(visibleTags.map(tag => ({ label: tagLabel(tag), count: tagCounts.get(tag) || 0, tag })))
             .map(({ label, count, tag }) => (
             <div
               key={label}
@@ -290,7 +230,7 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
       <div className={styles.content}>
         <div className={styles.contentHeader}>
           <h1 className={styles.pageTitle}>
-            {filterTag ? tagLabel(filterTag, TAG_LABELS) : t.allStories}
+            {filterTag ? tagLabel(filterTag) : t.allStories}
           </h1>
           <span className={styles.pageCount}>{filtered.length}</span>
         </div>
@@ -308,7 +248,7 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
                   <h2 className={styles.cardTitle}>{s.title}</h2>
                   <div className={styles.tags}>
                     {s.tags.map(tag => (
-                      <span key={tag} className={`${styles.tag} ${styles['tag_' + tag] || styles.tagExtra}`}>{tagLabel(tag, TAG_LABELS)}</span>
+                      <span key={tag} className={`${styles.tag} ${styles['tag_' + tag] || styles.tagExtra}`}>{tagLabel(tag)}</span>
                     ))}
                   </div>
                 </div>
@@ -328,10 +268,7 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
                     <div className={styles.bodyContent} dangerouslySetInnerHTML={{ __html: mdToHtml(s.body) }} />
                   ) : (
                     <>
-                      {s.what     && <Section label={t.whatHappened}   text={s.what} />}
-                      {s.signals  && <Section label={t.signalsNoticed} text={s.signals} />}
-                      {s.response && <Section label={t.howIResponded}  text={s.response} />}
-                      {s.insight  && <Section label={t.insightPattern} text={s.insight} />}
+                      {s.what && <Section label={t.whatHappened} text={s.what} />}
                     </>
                   )}
                   <div className={styles.cardActions}>
@@ -363,15 +300,7 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
             <FormField label={t.whatHappened}>
               <textarea value={form.what} onChange={e => setForm(f => ({ ...f, what: e.target.value }))} rows={3} placeholder={t.whatPlaceholder} />
             </FormField>
-            <FormField label={t.signalsNoticed}>
-              <textarea value={form.signals} onChange={e => setForm(f => ({ ...f, signals: e.target.value }))} rows={2} placeholder={t.signalsPlaceholder} />
-            </FormField>
-            <FormField label={t.howIResponded}>
-              <textarea value={form.response} onChange={e => setForm(f => ({ ...f, response: e.target.value }))} rows={2} placeholder={t.responsePlaceholder} />
-            </FormField>
-            <FormField label={t.insightPattern}>
-              <textarea value={form.insight} onChange={e => setForm(f => ({ ...f, insight: e.target.value }))} rows={2} placeholder={t.insightPlaceholder} />
-            </FormField>
+
             <FormField label={t.tagsLabel}>
               <div className={styles.tagSelector}>
                 {visibleTags.map(tag => (
@@ -380,7 +309,7 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
                     className={`${styles.tagOpt} ${form.tags.includes(tag) ? styles['tagOpt_' + tag] || styles.tagOptSelected : ''}`}
                     onClick={() => toggleTag(tag)}
                   >
-                    {tagLabel(tag, TAG_LABELS)}
+                    {tagLabel(tag)}
                   </button>
                 ))}
                 <input
@@ -429,8 +358,8 @@ function FormField({ label, children }: { label: string; children: React.ReactNo
   )
 }
 
-function tagLabel(tag: Tag, labels: Record<string, string>) {
-  return labels[tag] || tag.replace(/-/g, ' ')
+function tagLabel(tag: Tag) {
+  return tag.replace(/-/g, ' ')
 }
 
 function inlineMd(text: string): string {

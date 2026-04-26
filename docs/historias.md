@@ -12,88 +12,100 @@ Cada historia debe existir con el mismo nombre de archivo en los idiomas disponi
 
 ## Nombre de archivo
 
-Formato recomendado:
+Formato:
 
 ```text
-YYYY-MM-DD-HHMM-slug.mdx
+YYYY-MM-DD-slug.mdx
+YYYY-MM-DD-HHMM-slug.mdx   ← usar cuando hay varias historias el mismo día
 ```
 
 Ejemplos:
 
 ```text
-2026-04-19-2130-israel-estado.mdx
 2026-04-20-llm-agentes.mdx
+2026-04-19-2130-la-vida.mdx
 ```
 
-La app usa el nombre del archivo sin `.mdx` como `id`. El orden de lectura se basa en el nombre del archivo, por eso conviene incluir hora (`HHMM`) cuando hay varias historias el mismo dia.
+El nombre del archivo sin `.mdx` es el `id` de la historia. El orden de lectura se basa en el nombre del archivo de mayor a menor.
 
-## Frontmatter obligatorio
+## Frontmatter
 
-Cada archivo debe comenzar con frontmatter:
+Cada archivo empieza con frontmatter entre `---`:
 
 ```md
 ---
-title: Titulo visible de la historia
+title: Título visible de la historia
 date: 2026-04-20
-tags: [ai-agents, context-engineering, llms]
+tags: [signal, place, ai-agents]
 what: >
-  Resumen breve de la historia, usado por la tarjeta y la vista previa.
+  Resumen breve. Se muestra en la tarjeta y como preview.
 ---
 
-# Titulo visible de la historia
-
-Contenido en MDX.
+Cuerpo en markdown. Se muestra al expandir la historia.
 ```
 
-Campos usados por la app:
+### Campos
 
-- `title`: titulo mostrado en la UI.
-- `date`: fecha en formato `YYYY-MM-DD`.
-- `tags`: lista libre de tags en formato `kebab-case`.
-- `what`: resumen corto de la entrada.
-- `signals`, `response`, `insight`: campos opcionales para historias creadas desde la UI antigua.
+| Campo   | Obligatorio | Descripción                                                                  |
+| ------- | ----------- | ---------------------------------------------------------------------------- |
+| `title` | sí          | Título en la UI                                                              |
+| `date`  | sí          | Fecha `YYYY-MM-DD`                                                           |
+| `tags`  | sí          | Lista de tags (ver sección Tags)                                             |
+| `what`  | sí          | Resumen corto, máximo 140 caracteres. Si está vacío, la tarjeta usa los primeros 120 chars del body |
+
+El cuerpo (todo lo que sigue después del `---` de cierre) se renderiza como markdown al expandir la historia.
 
 ## Tags
 
-Los tags ya no estan limitados a una lista fija. Se pueden crear tags nuevos, pero conviene mantenerlos en ingles y en `kebab-case` para que sean estables entre idiomas.
+Los tags son las palabras relevantes del texto: conceptos, temas, personas, lugares, ideas — todo lo que pueda servir de puente hacia otras historias o entradas. No son categorías, son puntos de conexión.
 
-Buenos ejemplos:
+Al leer una historia, la pregunta es: ¿qué palabras de este texto podrían aparecer en otro texto y conectarlos? Esas son los tags.
 
-```text
-ai-agents
-context-engineering
-role-prompting
-biophotons
-neuroscience
-```
-
-Evitar:
+Ejemplos de tags bien elegidos:
 
 ```text
-AI Agents
-context engineering
-agentes
+estado-alterado       ← concepto que aparece en varias historias
+iniciativa            ← patrón de comportamiento
+apertura              ← señal/dinámica
+retorica              ← tema de estudio
+tono                  ← concepto específico dentro de retórica
+parafraseo            ← técnica concreta
+kabbalah              ← área de conocimiento
+biophotons            ← concepto científico
+Antartica             ← lugar/tema geopolítico
 ```
+
+Formato: inglés o español, siempre `kebab-case`, sin espacios ni mayúsculas.
+
+```text
+estado-alterado  ✓
+Estado Alterado  ✗  ← mayúsculas
+estado alterado  ✗  ← espacios
+```
+
+Todos los tags aparecen tal cual en la UI (guiones reemplazados por espacios).
+
+## Markdown en el body
+
+El body no es MDX completo. Se renderiza con un parser interno (`mdToHtml`) que soporta:
+
+- Títulos: `#`, `##`, `###`
+- Listas: `- item` y `1. item`
+- Tablas en formato pipe
+- Inline: `**bold**`, `*italic*`, `` `code` ``, `[link](url)`
+
+No soporta: componentes React, JSX, bloques de código con sintaxis highlight, HTML arbitrario.
 
 ## Idiomas
 
-Idiomas soportados:
-
-```text
-es
-en
-de
-```
+Soportados: `es`, `en`, `de`. La app carga `es` por defecto; el cambio de idioma es client-side.
 
 Para una historia nueva:
 
-1. Crear primero la version en `content/historias/es`.
-2. Traducir el mismo archivo a `content/historias/en`.
-3. Traducir el mismo archivo a `content/historias/de`.
-4. Mantener el mismo slug de archivo en los tres idiomas. El slug no se traduce.
-5. Traducir `title` y `what`; mantener `date` y `tags`.
-
-Ejemplo:
+1. Crear la versión en `content/historias/es`.
+2. Copiar el archivo a `content/historias/en` y `content/historias/de`.
+3. Mantener el mismo nombre de archivo en los tres idiomas. El slug no se traduce.
+4. Traducir `title` y `what`; mantener `date`, `tags`, y el mismo slug.
 
 ```text
 content/historias/es/2026-04-20-llm-agentes.mdx
@@ -101,28 +113,24 @@ content/historias/en/2026-04-20-llm-agentes.mdx
 content/historias/de/2026-04-20-llm-agentes.mdx
 ```
 
-## Historias staged
+## Antes de commitear
 
-Antes de cerrar una tanda de contenido, revisar que las historias nuevas staged tengan metadata:
+Verificar que cada archivo nuevo tiene frontmatter completo:
 
 ```bash
+# ver qué archivos están en stage
 git diff --cached --name-status
+
+# leer el frontmatter de uno
+head -15 content/historias/es/2026-04-20-llm-agentes.mdx
 ```
 
-Para inspeccionar el inicio de un archivo:
+Si falta el bloque `---` al inicio, el parser lo ignora y la historia aparece sin metadata.
 
-```bash
-sed -n '1,12p' content/historias/es/2026-04-20-llm-agentes.mdx
-```
-
-Si falta frontmatter, agregarlo antes del primer titulo Markdown.
-
-## Validacion
-
-Despues de agregar o modificar historias:
+## Validación
 
 ```bash
 npm run build
 ```
 
-El build valida que Next pueda leer las historias y que no haya errores de tipos o parsing.
+Valida que Next pueda leer las historias y que no haya errores de tipos o parsing.

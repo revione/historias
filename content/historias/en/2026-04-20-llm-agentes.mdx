@@ -1,49 +1,114 @@
 ---
-title: How effective is it to assign a role to an agent
+title: "Inference by Abstraction in Agents"
 date: 2026-04-20
-tags: [ai-agents, role-prompting, context-engineering, prompt-engineering, llms, autoregressive-models, multi-agent-systems, context-rot]
+tags:
+  - role-prompting
+  - context-engineering
+  - llms
+  - ai-agents
+  - inference
+  - tokens
+  - context-rot
 what: >
-  Analysis of the real effect of assigning roles to AI agents: when it helps, when it matters less than context, and why context clarity defines outcomes better than an expertise label.
+  Analysis of what role prompting actually does in an LLM. The semantic role shapes style; concrete context determines quality.
 ---
 
-# How effective is it to assign a role to an agent...
+# Inference by Abstraction in Agents
 
-Assigning a role to an agent ("you are an expert in X") has a real effect, but a more modest one than commonly believed. It does not unlock hidden knowledge in the model or activate special modes and powers. What it does is shift the probability distribution toward the region of space where those weights connect — an entry point into the information tree within the model's representations.
+Tell the agent — "you are an expert in X" — and we believe its hidden super-agent knowledge has been unlocked. What it actually does is shift the response expectation toward the assigned linguistic zone, inclining the initial trajectory of the response — its entry point into the space of associations, styles, criteria, and patterns closest to what the model learned during training.
 
-Text generation in the model is autoregressive. That early prior (role assignment) has a multiplying effect because it conditions every subsequent token, which is ultimately where the network of neural solutions will converge.
+Since text generation in the model is autoregressive, that early _prior_ — "you are an expert in X" — conditions the first generated tokens, and those in turn condition the ones that follow.
 
-The precision of that entry point depends on granularity. "Engineer" — first position in language. "Software engineer specialized in distributed systems" — measured specificity. Each additional word is a linguistic specification of response expectation.
+The precision of that entry point depends on granularity. "Engineer" is a broad linguistic position. "Software engineer specializing in distributed systems" is already a more measured specialty. Each additional word specifies a response expectation and reduces the space of interpretation.
 
-Now the core observation: the value of the role is inversely proportional to the clarity of the context.
+When context is limited or ambiguous, the role partially takes the place that context should occupy. It gives the model a reasonable direction: what tone to use, what knowledge to prioritize, from what level of abstraction to respond, and what kind of solution seems expected.
 
-- When context is limited and/or ambiguous, the role takes the place of context in the expectation and gives the model a reasonable range of direction.
-- When context is broad and structurally framed — with its architecture, design decisions, declared constraints — the role becomes more of an initial perspective for idiomatic response. That is, it will speak based on its predefined category. Since the agent has sufficient context, it infers on its own the skills and humanized characteristics expected of it without needing the professional label.
+When context is extensive and structured — architecture, design decisions, declared constraints, expectations, success criteria — the role loses relative weight. There is no longer as much need to tell it "what characteristics to adopt," because the context itself allows it to infer what skills, style, and level of response are expected.
 
+This is clear in practice. Telling a model "you are a React expert" carries little weight. Giving it the code, the modules, the architectural decisions, the project conventions, and the concrete problem makes it infer on its own the right level of abstraction, style, and constraints. The difference is like telling someone they are a carpenter versus putting them in the workshop with the tools, the wood, and the blueprint in front of them.
+
+Real context surpasses the label because the model reasons better when it has concrete material to work with.
+
+That leads to an important distinction that many studies on _role prompting_ conflate. There is semantic role and there is architectural role.
+
+The semantic role is the expertise label:
+
+```text
+You are an expert in React.
+You are a software architect.
+You are a financial analyst.
 ```
-role value ∝ 1 / context clarity
+
+That role affects mainly the form of the response: vocabulary, tone, focus, style, and general expectations.
+
+The architectural role is different. It does not just say "who you are," but what function you serve within the system:
+
+```text
+Your task is to review security.
+Your task is to generate tests.
+Your task is to plan, not execute.
+Your task is to detect inconsistencies.
 ```
 
-This is clear in practice. Telling a model "you are an expert in React" carries little weight. Giving it the code, the modules, the architectural decisions of the project makes it infer on its own the right level of abstraction, the conventions, the style. The difference is the same as telling someone they are a carpenter versus putting them in the workshop with the tools and the blueprint in front of them. Real context outweighs any label because the model is good at inferring when it has material to reason from.
+There the role operates as a functional boundary. It marks for the agent which part of the problem to address and which parts to ignore.
 
-This leads to an important distinction that role prompting studies tend to conflate. There is semantic role — the expertise label — and there is architectural role — a scope defined by the system's structure. In multi-agent systems, when a planner assigns tasks to an executor, the role is a functional boundary. There, the point is to give the agent a restriction so it focuses only on that domain and avoids drifting to other solutions — although in practice this depends on how much reasoning is available, meaning how many loops it runs to understand the task and which model is used.
+There is even a third level: the evaluative role. It defines what counts as a good response against a success criterion.
 
-It does not matter whether the agent is a planner, executor, or reviewer. What determines the quality of the solution is how well it processed the context relevant to its scope. The weights are the capacity to reason; the context is the material it reasons from. Declaring expertise is therefore a purely human construct for managing, through language, the form of the response — it does not generate new material, since the model already knows it, and once again what will guide it is the expectation of the task at hand.
+```text
+Prioritize minimal changes.
+Prioritize security over speed.
+Optimize for maintainability.
+Detect risks before proposing solutions.
+Order findings by severity.
+```
 
-It cannot be ignored that more context is not always better. There is what Anthropic calls _context rot_ — the degradation of the model's ability to recall information as context grows. The real work is not injecting everything possible but curating what goes in and when. This improves by documenting decisions, the route map, and the design expectations of the plan to follow. It all depends on the niche, but clear expectations improve clarity of understanding in both humans and machines.
+What determines the quality of the solution is how well it processed the relevant context for its _scope_, what constraints it received, and what evaluation criterion it has.
 
-Context is not something static placed at the start. It is built iteratively. Each exchange enriches the material the model reasons from in the next turn — which is why the craft lies in how to document what has been learned using the fewest words and redundancies possible, so the model uses fewer tokens when iterating. What makes a conversation dense is not having said "you are an expert" at the beginning, but the N turns that came after, building a shared idea.
+The model's weights contain learned capabilities. Context selects, organizes, and conditions how those capabilities are applied. Declaring expertise is a useful human signal to manage, through language, the form of the response; but it generates no new material. The model does not know more because you told it it is an expert. It simply orients differently what it can already do.
 
-In the end, what we evaluate is the level of result against our expectations. The declared characteristics of the agent do not determine the success criterion — it is external to the role expectation, which is just one point in the connection diagram.
+Nor can we ignore that more context is not always better. There is the problem of _context rot_: as context grows, the model's ability to retrieve and use relevant information can degrade. The real work is not injecting as much as possible, but curating what enters, when it enters, and in what form.
+
+There context stops being accumulation and becomes engineering. Documenting decisions, constraints, the plan's route, and design expectations is worth more than filling the token window with redundant information. The goal is not to have a lot of context, but to have dense context: low redundancy, high signal, low noise.
+
+Context is also not static. It is built iteratively. Each exchange enriches the material on which the model reasons in the next turn. That is why the density of a conversation does not come from having said "you are an expert" at the start, but from the N subsequent turns building a shared understanding of the problem.
+
+The real skill is being able to document what was learned with the fewest possible words and redundancies. That way, when the model iterates, it does not spend tokens reconstructing what should already be clear.
+
+In the end, what we evaluate is not whether the agent "seems expert," but whether the result meets our expectations. And those expectations do not depend only on the declared role. They depend on the context, the constraints, the success criterion, and the quality of the material on which the model reasons.
 
 ---
 
 ## References
 
-- Vaswani et al. (2017). [_Attention Is All You Need._](https://arxiv.org/abs/1706.03762) — Foundation of the attention mechanism and autoregressive generation that enables the contextual conditioning described.
-- Brown et al. (2020). [_Language Models are Few-Shot Learners._](https://arxiv.org/abs/2005.14165) — Evidence that in-context context is sufficient to change model behavior without modifying weights.
-- Wei et al. (2022). [_Chain-of-Thought Prompting Elicits Reasoning in Large Language Models._](https://arxiv.org/abs/2201.11903) — Evidence that prompt structure affects reasoning quality more than declared identity.
-- Kong et al. (2023). [_Better Zero-Shot Reasoning with Role-Play Prompting._](https://arxiv.org/pdf/2308.07702) — Case where role prompting improves performance, but under conditions of iteratively enriched context, not from a simple label.
-- Zheng et al. (2023). [_When "A Helpful Assistant" Is Not Really Helpful: Personas in System Prompts Do Not Improve Performances of Large Language Models._](https://arxiv.org/pdf/2311.10054) — Evidence that adding personas does not improve performance on factual tasks; in some cases it degrades it.
-- Anthropic (2025). [_Effective Context Engineering for AI Agents._](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) — Introduces the concept of context rot and context engineering as the evolution of prompt engineering in real agentic systems.
-- Anthropic (2024). [_Claude 3 Model Card._](https://www-cdn.anthropic.com/de8ba9b01c9ab7cbabf5c33b80b7bbc618857627/Model_Card_Claude_3.pdf) — Behavior observed in production systems.
-- Anthropic (2025). [_Claude Opus 4.6 System Card._](https://www.anthropic.com/claude-opus-4-6-system-card) — Evaluations and agentic capabilities in production contexts.
+- Vaswani et al. (2017). [_Attention Is All You Need._](https://arxiv.org/abs/1706.03762)  
+  Foundation of the Transformer and the attention mechanism that makes contextual conditioning possible.
+
+- Brown et al. (2020). [_Language Models are Few-Shot Learners._](https://arxiv.org/abs/2005.14165)  
+  Basis for understanding in-context learning without weight updates.
+
+- Wei et al. (2022). [_Chain-of-Thought Prompting Elicits Reasoning in Large Language Models._](https://arxiv.org/abs/2201.11903)  
+  Evidence that prompt structure can change the quality of reasoning produced.
+
+- Min et al. (2022). [_Rethinking the Role of Demonstrations: What Makes In-Context Learning Work?_](https://arxiv.org/abs/2202.12837)  
+  Useful for reinforcing that format, distribution, and context structure can matter as much as the literal content of examples.
+
+- Liu et al. (2024). [_Lost in the Middle: How Language Models Use Long Contexts._](https://arxiv.org/abs/2307.03172)  
+  Key academic reference for the claim that models do not use long context uniformly.
+
+- Kong et al. (2024). [_Better Zero-Shot Reasoning with Role-Play Prompting._](https://arxiv.org/abs/2308.07702)  
+  Case in favor of _role prompting_, but as a designed methodology, not a simple expertise label.
+
+- Zheng et al. (2023). [_When "A Helpful Assistant" Is Not Really Helpful: Personas in System Prompts Do Not Improve Performances of Large Language Models._](https://arxiv.org/abs/2311.10054)  
+  Direct evidence that personas or roles in system prompts do not generally improve factual performance and may even degrade it.
+
+- Chroma (2025). [_Context Rot: How Increasing Input Tokens Impacts LLM Performance._](https://www.trychroma.com/research/context-rot)  
+  Direct reference to the concept of _context rot_ and how increasing tokens can degrade performance.
+
+- Anthropic (2025). [_Effective Context Engineering for AI Agents._](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)  
+  Applied reference on context management in agents and the shift from _prompt engineering_ to _context engineering_.
+
+- Anthropic (2026). [_Context Engineering: Memory, Compaction, and Tool Clearing._](https://platform.claude.com/cookbook/tool-use-context-engineering-context-engineering-tools)  
+  Practical reference on memory, compaction, and tool clearing in long-running agents.
+
+- Anthropic (2026). [_Model System Cards._](https://www.anthropic.com/system-cards)  
+  Optional reference for recent production-model evaluations; not essential to the central thesis.
