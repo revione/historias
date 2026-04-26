@@ -46,11 +46,11 @@ Cuerpo en markdown. Se muestra al expandir la historia.
 
 ### Campos
 
-| Campo   | Obligatorio | Descripción                                                                  |
-| ------- | ----------- | ---------------------------------------------------------------------------- |
-| `title` | sí          | Título en la UI                                                              |
-| `date`  | sí          | Fecha `YYYY-MM-DD`                                                           |
-| `tags`  | sí          | Lista de tags (ver sección Tags)                                             |
+| Campo   | Obligatorio | Descripción                                                                                         |
+| ------- | ----------- | --------------------------------------------------------------------------------------------------- |
+| `title` | sí          | Título en la UI                                                                                     |
+| `date`  | sí          | Fecha `YYYY-MM-DD`                                                                                  |
+| `tags`  | sí          | Lista de tags (ver sección Tags)                                                                    |
 | `what`  | sí          | Resumen corto, máximo 140 caracteres. Si está vacío, la tarjeta usa los primeros 120 chars del body |
 
 El cuerpo (todo lo que sigue después del `---` de cierre) se renderiza como markdown al expandir la historia.
@@ -106,6 +106,7 @@ Para una historia nueva:
 2. Copiar el archivo a `content/historias/en` y `content/historias/de`.
 3. Mantener el mismo nombre de archivo en los tres idiomas. El slug no se traduce.
 4. Traducir `title` y `what`; mantener `date`, `tags`, y el mismo slug.
+5. Traducir el post manteniéndose lo más fiel posible al idioma original con el que se escribió el post. No resumir, reinterpretar ni cambiar el orden para que la traducción sea natural.
 
 ```text
 content/historias/es/2026-04-20-llm-agentes.mdx
