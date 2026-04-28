@@ -10,22 +10,22 @@ tags:
   - tokens
   - context-rot
 what: >
-  Analyse dessen, was Role Prompting in einem LLM tatsächlich bewirkt. Die semantische Rolle formt den Stil; konkreter Kontext bestimmt die Qualität. Unterscheidung zwischen semantischer, architektonischer und evaluativer Rolle. Context Rot und warum mehr Kontext nicht immer besser ist.
+  Analyse dessen, was Role Prompting in einem LLM tatsächlich bewirkt. Die semantische Rolle prägt den Stil; konkreter Kontext bestimmt die Qualität.
 ---
 
 # Inferenz durch Abstraktion in Agenten
 
-Sagen wir dem Agenten — „du bist Experte in X" — dann glauben wir, sein verborgenes Super-Agenten-Wissen sei freigeschaltet worden. Was es tatsächlich bewirkt: wir verschieben die Erwartung an die Antwort in die zugewiesene sprachliche Zone und neigen damit die anfängliche Trajektorie der Antwort — ihren Einstiegspunkt in den Raum der Assoziationen, Stile, Kriterien und Muster — dem Bereich zu, den das Modell während des Trainings am nächsten gelernt hat.
+Was passiert, wenn wir einem Agenten sagen: „Du bist ein Experte für X"? Was intern tatsächlich geschieht, ist eine Verschiebung der Antworterwartung in eine spezifische sprachliche Zone — eine Ausrichtung der anfänglichen Antwortrichtung, ihres Einstiegspunkts in den Raum von Assoziationen, Stilen, Kriterien und Mustern, die dem am nächsten liegen, was das Modell während des Trainings gelernt hat.
 
-Da die Textgenerierung im Modell autoregressiv ist, konditioniert dieses frühe _Prior_ — „du bist Experte in X" — die ersten generierten Tokens, und diese wiederum konditionieren die folgenden.
+Da die Textgenerierung im Modell autoregressiv erfolgt, konditioniert dieser frühe _Prior_ — „Du bist ein Experte für X" — die ersten generierten Token, und diese wiederum konditionieren die folgenden.
 
-Die Präzision dieses Einstiegspunkts hängt von der Granularität ab. „Ingenieur" ist eine breite sprachliche Position. „Softwareingenieur mit Spezialisierung auf verteilte Systeme" ist bereits eine gemessenere Fachrichtung. Jedes zusätzliche Wort spezifiziert eine Erwartung und reduziert den Interpretationsraum.
+Die Präzision dieses Einstiegspunkts hängt von der Granularität ab. „Ingenieur" ist eine breite sprachliche Position. „Softwareingenieur mit Spezialisierung auf verteilte Systeme" ist bereits eine differenziertere Fachrichtung. Jedes zusätzliche Wort konkretisiert eine Antworterwartung und reduziert den Interpretationsspielraum.
 
-Wenn der Kontext begrenzt oder mehrdeutig ist, übernimmt die Rolle teilweise den Platz, den der Kontext einnehmen sollte. Sie gibt dem Modell eine vernünftige Richtung: welchen Ton es verwenden soll, welches Wissen es priorisieren soll, von welchem Abstraktionsniveau aus es antworten soll und welche Art von Lösung erwartet scheint.
+Wenn der Kontext begrenzt oder mehrdeutig ist, übernimmt die Rolle teilweise den Platz, den der Kontext eigentlich einnehmen sollte. Sie gibt dem Modell eine sinnvolle Richtung: welchen Ton es verwenden soll, welches Wissen priorisiert werden soll, von welchem Abstraktionsniveau aus geantwortet werden soll und welche Art von Lösung erwartet wird.
 
-Wenn der Kontext umfangreich und strukturiert ist — Architektur, Designentscheidungen, deklarierte Einschränkungen, Erwartungen, Erfolgskriterien — verliert die Rolle an relativem Gewicht. Es ist nicht mehr so notwendig, dem Modell zu sagen, „welche Eigenschaften es annehmen soll", weil der Kontext selbst es ermöglicht, zu inferieren, welche Fähigkeiten, welcher Stil und welches Antwortniveau erwartet werden.
+Wenn der Kontext umfangreich und strukturiert ist — Architektur, Designentscheidungen, deklarierte Einschränkungen, Erwartungen, Erfolgskriterien — verliert die Rolle an relativem Gewicht. Es ist nicht mehr so notwendig, ihr zu sagen, „welche Eigenschaften sie annehmen soll", weil der Kontext selbst es ermöglicht, die erwarteten Fähigkeiten, den Stil und das Antwortniveau abzuleiten.
 
-Das zeigt sich in der Praxis deutlich. Einem Modell zu sagen „du bist React-Experte" hat wenig Gewicht. Ihm den Code, die Module, die Architekturentscheidungen, die Projektkonventionen und das konkrete Problem zu geben, lässt es selbst das Abstraktionsniveau, den Stil und die Einschränkungen inferieren. Der Unterschied ähnelt dem, jemandem zu sagen, er sei Zimmermann, gegenüber ihm die Werkstatt mit den Werkzeugen, dem Holz und dem Plan vor Augen zu stellen.
+Das zeigt sich in der Praxis deutlich. Einem Modell zu sagen „Du bist ein React-Experte" hat wenig Wirkung. Ihm den Code, die Module, die Architekturentscheidungen, die Projektkonventionen und das konkrete Problem zu geben, lässt es selbst das richtige Abstraktionsniveau, den richtigen Stil und die richtigen Einschränkungen ableiten. Der Unterschied ist wie jemandem zu sagen, er sei ein Tischler, gegenüber dem Aufstellen in der Werkstatt mit den Werkzeugen, dem Holz und dem Bauplan vor ihm.
 
 Echter Kontext übertrifft das Label, weil das Modell besser schlussfolgert, wenn es konkretes Material hat, mit dem es arbeiten kann.
 
@@ -34,47 +34,47 @@ Das führt zu einer wichtigen Unterscheidung, die viele Studien zum _Role Prompt
 Die semantische Rolle ist das Expertise-Label:
 
 ```text
-Du bist Experte in React.
-Du bist Softwarearchitekt.
-Du bist Finanzanalyst.
+Du bist ein Experte für React.
+Du bist ein Softwarearchitekt.
+Du bist ein Finanzanalyst.
 ```
 
 Diese Rolle beeinflusst hauptsächlich die Form der Antwort: Vokabular, Ton, Fokus, Stil und allgemeine Erwartungen.
 
-Die architektonische Rolle ist anders. Sie sagt nicht nur „wer du bist", sondern welche Funktion du im System erfüllst:
+Die architektonische Rolle ist anders. Sie sagt nicht nur „wer du bist", sondern welche Funktion du innerhalb des Systems erfüllst:
 
 ```text
-Deine Aufgabe ist es, Sicherheit zu überprüfen.
+Deine Aufgabe ist es, die Sicherheit zu überprüfen.
 Deine Aufgabe ist es, Tests zu generieren.
 Deine Aufgabe ist es, zu planen, nicht auszuführen.
 Deine Aufgabe ist es, Inkonsistenzen zu erkennen.
 ```
 
-Dort wirkt die Rolle als funktionale Grenze. Sie markiert für den Agenten, welchem Teil des Problems er sich widmen soll und welche Teile er ignorieren soll.
+Dort wirkt die Rolle als funktionale Grenze. Sie markiert für den Agenten, welchen Teil des Problems er ansprechen soll und welche Teile er ignorieren soll.
 
-Es gibt sogar eine dritte Ebene: die evaluative Rolle. Sie definiert, was angesichts des Erfolgskriteriums als gute Antwort gilt.
+Es gibt sogar eine dritte Ebene: die evaluative Rolle. Sie definiert, was gegen ein Erfolgskriterium als gute Antwort gilt.
 
 ```text
-Priorisiere minimale Änderungen.
-Priorisiere Sicherheit über Geschwindigkeit.
-Optimiere für Wartbarkeit.
-Erkenne Risiken, bevor du Lösungen vorschlägst.
-Ordne die Erkenntnisse nach Schweregrad.
+Minimale Änderungen priorisieren.
+Sicherheit vor Geschwindigkeit priorisieren.
+Auf Wartbarkeit optimieren.
+Risiken erkennen, bevor Lösungen vorgeschlagen werden.
+Befunde nach Schweregrad ordnen.
 ```
 
-Was die Qualität der Lösung bestimmt, ist, wie gut das Modell den relevanten Kontext für seinen _Scope_ verarbeitet hat, welche Einschränkungen es erhalten hat und welches Bewertungskriterium es besitzt.
+Was die Qualität der Lösung bestimmt, ist, wie gut sie den relevanten Kontext für ihren _Scope_ verarbeitet hat, welche Einschränkungen sie erhalten hat und welches Bewertungskriterium sie hat.
 
-Die Gewichte des Modells enthalten erlernte Fähigkeiten. Der Kontext wählt aus, organisiert und konditioniert, wie diese Fähigkeiten angewendet werden. Expertise zu deklarieren ist ein nützliches menschliches Signal, um über Sprache die Form der Antwort zu steuern; es erzeugt aber kein neues Material. Das Modell weiß nicht mehr, weil man ihm sagt, es sei Experte. Es orientiert lediglich anders, was es bereits kann.
+Die Gewichte des Modells enthalten gelernte Fähigkeiten. Kontext wählt aus, organisiert und konditioniert, wie diese Fähigkeiten angewendet werden. Expertise zu deklarieren ist ein nützliches menschliches Signal, um durch Sprache die Form der Antwort zu steuern; aber es erzeugt kein neues Material. Das Modell weiß nicht mehr, weil man ihm gesagt hat, es sei ein Experte. Es orientiert lediglich anders, was es bereits kann.
 
-Auch lässt sich nicht ignorieren, dass mehr Kontext nicht immer besser ist. Es gibt das Problem des _Context Rot_: Wenn der Kontext wächst, kann die Fähigkeit des Modells, relevante Informationen abzurufen und zu verwenden, abnehmen. Die eigentliche Arbeit besteht nicht darin, so viel wie möglich einzuspeisen, sondern zu kuratieren, was einfließt, wann es einfließt und in welcher Form.
+Wir können auch nicht ignorieren, dass mehr Kontext nicht immer besser ist. Es gibt das Problem des _Context Rot_: Wenn der Kontext wächst, kann die Fähigkeit des Modells, relevante Informationen abzurufen und zu nutzen, abnehmen. Die eigentliche Arbeit besteht nicht darin, so viel wie möglich einzuspeisen, sondern zu kuratieren, was einfließt, wann es einfließt und in welcher Form.
 
-Dort hört Kontext auf, Anhäufung zu sein, und wird zu Engineering. Entscheidungen, Einschränkungen, den Weg des Plans und Designerwartungen zu dokumentieren ist wertvoller, als das Token-Fenster mit redundanten Informationen zu füllen. Das Ziel ist nicht, viel Kontext zu haben, sondern dichten Kontext: geringe Redundanz, hohes Signal, geringes Rauschen.
+Dort hört Kontext auf, Akkumulation zu sein, und wird Engineering. Entscheidungen, Einschränkungen, den Routenverlauf des Plans und Designerwartungen zu dokumentieren ist mehr wert, als das Token-Fenster mit redundanten Informationen zu füllen. Das Ziel ist nicht, viel Kontext zu haben, sondern dichten Kontext: geringe Redundanz, hohes Signal, geringes Rauschen.
 
-Kontext ist auch nicht statisch. Er wird iterativ aufgebaut. Jeder Austausch bereichert das Material, über das das Modell im nächsten Durchgang schlussfolgert. Deshalb kommt die Dichte eines Gesprächs nicht davon, am Anfang „du bist Experte" gesagt zu haben, sondern aus den N nachfolgenden Durchgängen, in denen ein gemeinsames Verständnis des Problems aufgebaut wird.
+Kontext ist auch nicht statisch. Er wird iterativ aufgebaut. Jeder Austausch bereichert das Material, auf dem das Modell in der nächsten Runde schlussfolgert. Deshalb kommt die Dichte eines Gesprächs nicht davon, am Anfang „Du bist ein Experte" gesagt zu haben, sondern von den N nachfolgenden Runden, die ein gemeinsames Verständnis des Problems aufbauen.
 
-Die eigentliche Kompetenz liegt darin, das Gelernte mit möglichst wenigen Worten und Redundanzen dokumentieren zu können. So verschwendet das Modell beim Iterieren keine Tokens damit, das zu rekonstruieren, was bereits klar sein sollte.
+Die eigentliche Fähigkeit besteht darin, was gelernt wurde mit möglichst wenigen Worten und Redundanzen dokumentieren zu können. Auf diese Weise verbringt das Modell beim Iterieren keine Token damit, das zu rekonstruieren, was bereits klar sein sollte.
 
-Am Ende bewerten wir nicht, ob der Agent „wie ein Experte wirkt", sondern ob das Ergebnis unseren Erwartungen entspricht. Und diese Erwartungen hängen nicht nur von der deklarierten Rolle ab. Sie hängen vom Kontext, den Einschränkungen, dem Erfolgskriterium und der Qualität des Materials ab, über das das Modell schlussfolgert.
+Am Ende bewerten wir nicht, ob der Agent „wie ein Experte wirkt", sondern ob das Ergebnis unseren Erwartungen entspricht. Und diese Erwartungen hängen nicht nur von der deklarierten Rolle ab. Sie hängen vom Kontext, den Einschränkungen, dem Erfolgskriterium und der Qualität des Materials ab, auf dem das Modell schlussfolgert.
 
 ---
 
@@ -84,31 +84,31 @@ Am Ende bewerten wir nicht, ob der Agent „wie ein Experte wirkt", sondern ob d
   Grundlage des Transformers und des Aufmerksamkeitsmechanismus, der kontextuelle Konditionierung ermöglicht.
 
 - Brown et al. (2020). [_Language Models are Few-Shot Learners._](https://arxiv.org/abs/2005.14165)  
-  Basis zum Verständnis von In-Context-Learning ohne Gewichtsaktualisierung.
+  Grundlage zum Verständnis von In-Context-Learning ohne Gewichtsaktualisierungen.
 
 - Wei et al. (2022). [_Chain-of-Thought Prompting Elicits Reasoning in Large Language Models._](https://arxiv.org/abs/2201.11903)  
-  Evidenz dafür, dass die Prompt-Struktur die Qualität des erzeugten Denkens verändern kann.
+  Beleg dafür, dass die Prompt-Struktur die Qualität des erzeugten Denkens verändern kann.
 
 - Min et al. (2022). [_Rethinking the Role of Demonstrations: What Makes In-Context Learning Work?_](https://arxiv.org/abs/2202.12837)  
-  Nützlich, um zu untermauern, dass Format, Verteilung und Kontextstruktur genauso wichtig sein können wie der wörtliche Inhalt der Beispiele.
+  Nützlich zur Untermauerung, dass Format, Verteilung und Kontextstruktur genauso wichtig sein können wie der wörtliche Inhalt von Beispielen.
 
 - Liu et al. (2024). [_Lost in the Middle: How Language Models Use Long Contexts._](https://arxiv.org/abs/2307.03172)  
   Wichtige akademische Referenz für die Behauptung, dass Modelle langen Kontext nicht gleichmäßig nutzen.
 
 - Kong et al. (2024). [_Better Zero-Shot Reasoning with Role-Play Prompting._](https://arxiv.org/abs/2308.07702)  
-  Argument für _Role Prompting_, aber als gestaltete Methodik, nicht als einfaches Expertise-Label.
+  Argument zugunsten von _Role Prompting_, aber als gestaltete Methodik, nicht als einfaches Expertise-Label.
 
 - Zheng et al. (2023). [_When "A Helpful Assistant" Is Not Really Helpful: Personas in System Prompts Do Not Improve Performances of Large Language Models._](https://arxiv.org/abs/2311.10054)  
-  Direkter Beweis, dass Personas oder Rollen in System-Prompts die sachliche Leistung nicht generell verbessern und sie sogar verschlechtern können.
+  Direkter Beleg dafür, dass Personas oder Rollen in System-Prompts die faktische Leistung nicht generell verbessern und sie sogar verschlechtern können.
 
 - Chroma (2025). [_Context Rot: How Increasing Input Tokens Impacts LLM Performance._](https://www.trychroma.com/research/context-rot)  
-  Direkte Referenz zum Konzept des _Context Rot_ und dazu, wie zunehmende Tokens die Leistung degradieren können.
+  Direkter Verweis auf das Konzept des _Context Rot_ und wie zunehmende Token die Leistung beeinträchtigen können.
 
 - Anthropic (2025). [_Effective Context Engineering for AI Agents._](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)  
-  Angewandte Referenz zur Kontextverwaltung in Agenten und zum Übergang von _Prompt Engineering_ zu _Context Engineering_.
+  Angewandte Referenz zum Kontextmanagement in Agenten und dem Wandel von _Prompt Engineering_ zu _Context Engineering_.
 
 - Anthropic (2026). [_Context Engineering: Memory, Compaction, and Tool Clearing._](https://platform.claude.com/cookbook/tool-use-context-engineering-context-engineering-tools)  
-  Praktische Referenz zu Speicher, Kompaktierung und Tool-Bereinigung in langlebigen Agenten.
+  Praktische Referenz zu Speicher, Komprimierung und Tool Clearing in lang laufenden Agenten.
 
 - Anthropic (2026). [_Model System Cards._](https://www.anthropic.com/system-cards)  
-  Optionale Referenz für aktuelle Bewertungen von Produktionsmodellen; für die zentrale These nicht essenziell.
+  Optionale Referenz für aktuelle Evaluierungen von Produktionsmodellen; nicht wesentlich für die zentrale These.

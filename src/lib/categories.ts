@@ -11,6 +11,7 @@ export const CATEGORY_TAGS: Record<CategoryName, string[]> = {
     'tantra', 'dzogchen', 'tummo', 'geometry', 'judaism', 'halacha', 'jewish-law',
     'torah', 'talmud', 'kashrut', 'shechita', 'food', 'ritual', 'ethics',
     'shabbat', 'melachot', 'marriage', 'conversion', 'goyim', 'rabbinic-law', 'religion',
+    'christianity', 'islam', 'comparative-theology', 'jesus', 'beni-israel',
   ],
   geopolitica: [
     'israel', 'palestine', 'zionism', 'geopolitics', 'hamas', 'iran',

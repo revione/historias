@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import styles from './page.module.css'
 import { createStory, updateStory, deleteStory, getStories } from './actions'
 import { useLanguage } from '@/lib/language-context'
+import { useSpeech, type SpeechLang } from '@/lib/speech-context'
 import type { Story, Tag, Lang } from '@/lib/stories'
 import { CATEGORY_TAGS, getStoryCategories } from '@/lib/categories'
 import type { CategoryName } from '@/lib/categories'
@@ -32,6 +34,8 @@ type Translations = {
   deleteConfirm: string
   titlePlaceholder: string
   whatPlaceholder: string
+  playAudio: string
+  stopAudio: string
 }
 
 const T: Record<Lang, Translations> = {
@@ -57,6 +61,8 @@ const T: Record<Lang, Translations> = {
     deleteConfirm: '¿Borrar esta historia?',
     titlePlaceholder: 'Ej: Fiesta en el club, abril',
     whatPlaceholder: 'La situación, las personas, el contexto...',
+    playAudio: 'escuchar',
+    stopAudio: 'detener',
   },
   de: {
     newStory: 'neue Geschichte',
@@ -80,6 +86,8 @@ const T: Record<Lang, Translations> = {
     deleteConfirm: 'Diese Geschichte löschen?',
     titlePlaceholder: 'z.B. Party im Club, April',
     whatPlaceholder: 'Die Situation, die Personen, der Kontext...',
+    playAudio: 'anhören',
+    stopAudio: 'stoppen',
   },
   en: {
     newStory: 'new story',
@@ -103,6 +111,8 @@ const T: Record<Lang, Translations> = {
     deleteConfirm: 'Delete this story?',
     titlePlaceholder: 'e.g. Party at the club, April',
     whatPlaceholder: 'The situation, the people, the context...',
+    playAudio: 'listen',
+    stopAudio: 'stop',
   },
 }
 
@@ -116,6 +126,7 @@ const LANGS: Lang[] = ['es', 'de', 'en']
 
 export default function StoriesClient({ initialStories }: { initialStories: Story[] }) {
   const { lang, setLang } = useLanguage()
+  const { speak, stop, state: speechState } = useSpeech()
   const [stories, setStories] = useState<Story[]>(initialStories)
   const [expanded, setExpanded] = useState<string | null>(null)
   const [showModal, setShowModal] = useState(false)
@@ -312,11 +323,23 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
               <div className={styles.cardHeader} onClick={() => setExpanded(expanded === s.id ? null : s.id)}>
                 <div className={styles.cardMeta}>
                   <span className={styles.cardDate}>{formatDate(s.date)}</span>
-                  <h2 className={styles.cardTitle}>{s.title}</h2>
+                  <Link
+                    href={`/historia/${s.id}`}
+                    className={styles.cardTitleLink}
+                    onClick={e => e.stopPropagation()}
+                  >
+                    <h2 className={styles.cardTitle}>{s.title}</h2>
+                  </Link>
                   <div className={styles.tags}>
                     {s.tags.map(tag => (
                       <span key={tag} className={`${styles.tag} ${styles['tag_' + tag] || styles.tagExtra}`}>{tagLabel(tag)}</span>
                     ))}
+                  </div>
+                  <div className={styles.cardInlineActions} onClick={e => e.stopPropagation()}>
+                    {speechState.playing && speechState.title === s.title
+                      ? <button className={styles.playBtn} onClick={stop}>◼ {t.stopAudio}</button>
+                      : <button className={styles.playBtn} onClick={() => speak(storyToText(s), lang as SpeechLang, s.title)}>▶ {t.playAudio}</button>
+                    }
                   </div>
                 </div>
                 <span className={`${styles.chevron} ${expanded === s.id ? styles.chevronOpen : ''}`}>↓</span>
@@ -338,10 +361,6 @@ export default function StoriesClient({ initialStories }: { initialStories: Stor
                       {s.what && <Section label={t.whatHappened} text={s.what} />}
                     </>
                   )}
-                  <div className={styles.cardActions}>
-                    <button className={styles.editBtn}   onClick={() => openEdit(s)}>{t.edit}</button>
-                    <button className={styles.deleteBtn} onClick={() => handleDelete(s.id)}>{t.delete}</button>
-                  </div>
                 </div>
               )}
             </div>
@@ -427,6 +446,26 @@ function FormField({ label, children }: { label: string; children: React.ReactNo
 
 function tagLabel(tag: Tag) {
   return tag.replace(/-/g, ' ')
+}
+
+function mdToPlainText(md: string): string {
+  return md
+    .replace(/#{1,6}\s+/g, '')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/^\s*[-*]\s+/gm, '')
+    .replace(/^\s*\d+\.\s+/gm, '')
+    .replace(/\|[^\n]+/g, '')
+    .replace(/---+/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+}
+
+function storyToText(s: Story): string {
+  const parts: string[] = []
+  if (s.title) parts.push(s.title + '.')
+  if (s.what) parts.push(s.what)
+  if (s.body) parts.push(mdToPlainText(s.body))
+  return parts.join('\n\n')
 }
 
 function inlineMd(text: string): string {

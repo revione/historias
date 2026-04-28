@@ -1,0 +1,199 @@
+.panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border2);
+  display: flex;
+  flex-direction: column;
+  padding: 10px 24px 8px;
+  z-index: 200;
+  font-size: 11px;
+  color: var(--text2);
+  gap: 6px;
+}
+
+.mainRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dotPlaying {
+  background: var(--accent);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.dotPaused {
+  background: var(--text3);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.title {
+  color: var(--text3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.04em;
+}
+
+.controls {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--text2);
+  transition: all 0.15s;
+  line-height: 1;
+}
+
+.btn:hover {
+  border-color: var(--border2);
+  color: var(--text);
+}
+
+.settings {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.rateLabel {
+  color: var(--text3);
+  min-width: 28px;
+  text-align: right;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 2px;
+  background: var(--border2);
+  border-radius: 1px;
+  outline: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+}
+
+.voiceSelect {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 3px 6px;
+  font-size: 10px;
+  color: var(--text2);
+  outline: none;
+  max-width: 140px;
+}
+
+.voiceSelect:focus {
+  border-color: var(--accent2);
+}
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.timeLabel {
+  font-size: 9px;
+  color: var(--text3);
+  min-width: 28px;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.progressBar {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 2px;
+  background: var(--border2);
+  border-radius: 1px;
+  outline: none;
+  cursor: pointer;
+}
+
+.progressBar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.progressBar:hover::-webkit-slider-thumb {
+  transform: scale(1.3);
+}
+
+.progressBar::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+}
+
+.progressBar::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    to right,
+    var(--accent2) calc(var(--progress, 0) * 100%),
+    var(--border2) calc(var(--progress, 0) * 100%)
+  );
+  height: 2px;
+  border-radius: 1px;
+}
