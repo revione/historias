@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useLanguage } from '@/lib/language-context'
 import { useSpeech, type SpeechLang } from '@/lib/speech-context'
 import { getStories } from '@/app/actions'
-import type { Story, Lang } from '@/lib/stories'
+import type { Story, Lang, Section } from '@/lib/stories'
 import styles from './story-page.module.css'
 
 const LANGS: Lang[] = ['es', 'de', 'en']
@@ -75,17 +75,17 @@ function formatDate(d: string, lang: Lang) {
   catch { return d }
 }
 
-export function StoryPageClient({ id, initialStory }: { id: string; initialStory: Story }) {
+export function StoryPageClient({ id, initialStory, initialSection }: { id: string; initialStory: Story; initialSection: Section }) {
   const { lang, setLang } = useLanguage()
   const { speak, stop, state: speechState } = useSpeech()
   const [story, setStory] = useState<Story>(initialStory)
 
   useEffect(() => {
-    getStories(lang).then(stories => {
+    getStories(lang, initialSection).then(stories => {
       const found = stories.find(s => s.id === id)
       if (found) setStory(found)
     })
-  }, [lang, id])
+  }, [lang, id, initialSection])
 
   const isPlaying = speechState.playing && speechState.title === story.title
 

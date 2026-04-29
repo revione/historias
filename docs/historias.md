@@ -1,14 +1,14 @@
 # Flujo de historias
 
-Las historias viven como archivos MDX dentro de `content/historias`, separadas por idioma:
+Las historias viven como archivos MDX dentro de `content/<sección>/<idioma>`. Las secciones son grupos independientes que aparecen como entradas separadas en el sidebar (ver [secciones.md](secciones.md)):
 
 ```text
-content/historias/es
-content/historias/en
-content/historias/de
+content/historias/{es,en,de}            ← personales
+content/ai/{es,en,de}                   ← LLMs, transformers, agentes
+content/contexto-complicado/{es,en,de}  ← geopolítica, religión organizada, etc.
 ```
 
-Cada historia debe existir con el mismo nombre de archivo en los idiomas disponibles cuando se quiera mostrar como la misma entrada traducida.
+Cada historia debe existir con el mismo nombre de archivo en los idiomas disponibles cuando se quiera mostrar como la misma entrada traducida. El nombre del archivo (sin `.mdx`) es único en todo `content/`, no sólo dentro de su sección.
 
 ## Nombre de archivo
 
@@ -102,16 +102,17 @@ Soportados: `es`, `en`, `de`. La app carga `es` por defecto; el cambio de idioma
 
 Para una historia nueva:
 
-1. Crear la versión en `content/historias/es`.
-2. Copiar el archivo a `content/historias/en` y `content/historias/de`.
-3. Mantener el mismo nombre de archivo en los tres idiomas. El slug no se traduce.
-4. Traducir `title` y `what`; mantener `date`, `tags`, y el mismo slug.
-5. Traducir el post manteniéndose lo más fiel posible al idioma original con el que se escribió el post. No resumir, reinterpretar ni cambiar el orden para que la traducción sea natural.
+1. Decidir la sección — `historias`, `ai`, `contexto-complicado`, etc. (ver [secciones.md](secciones.md)).
+2. Crear la versión en `content/<sección>/es`.
+3. Copiar el archivo a `content/<sección>/en` y `content/<sección>/de`.
+4. Mantener el mismo nombre de archivo en los tres idiomas. El slug no se traduce.
+5. Traducir `title` y `what`; mantener `date`, `tags`, y el mismo slug.
+6. Traducir el post manteniéndose lo más fiel posible al idioma original con el que se escribió el post. No resumir, reinterpretar ni cambiar el orden para que la traducción sea natural.
 
 ```text
-content/historias/es/2026-04-20-llm-agentes.mdx
-content/historias/en/2026-04-20-llm-agentes.mdx
-content/historias/de/2026-04-20-llm-agentes.mdx
+content/ai/es/2026-04-20-llm-agentes.mdx
+content/ai/en/2026-04-20-llm-agentes.mdx
+content/ai/de/2026-04-20-llm-agentes.mdx
 ```
 
 ## Antes de commitear
@@ -123,7 +124,7 @@ Verificar que cada archivo nuevo tiene frontmatter completo:
 git diff --cached --name-status
 
 # leer el frontmatter de uno
-head -15 content/historias/es/2026-04-20-llm-agentes.mdx
+head -15 content/ai/es/2026-04-20-llm-agentes.mdx
 ```
 
 Si falta el bloque `---` al inicio, el parser lo ignora y la historia aparece sin metadata.

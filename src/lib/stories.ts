@@ -1,7 +1,9 @@
 import fs from 'fs'
 import path from 'path'
+import { getSection, DEFAULT_SECTION, type SectionId } from './sections'
 
 export type Lang = 'es' | 'de' | 'en'
+export type Section = SectionId
 export type Tag = string
 
 export interface Story {
@@ -11,12 +13,13 @@ export interface Story {
   what: string
   tags: Tag[]
   body?: string
+  section: Section
 }
 
 type Fields = Record<string, string | string[]>
 
-function getContentDir(lang: Lang): string {
-  return path.join(process.cwd(), 'content', 'historias', lang)
+function getContentDir(lang: Lang, section: Section): string {
+  return path.join(process.cwd(), 'content', getSection(section).dir, lang)
 }
 
 function parseFrontmatter(raw: string): Fields {
@@ -40,6 +43,14 @@ function parseFrontmatter(raw: string): Fields {
     } else if (rest.startsWith('[') && rest.endsWith(']')) {
       fields[key] = rest.slice(1, -1).split(',').map(s => s.trim()).filter(Boolean)
       i++
+    } else if (rest === '' && i + 1 < lines.length && /^\s+-\s/.test(lines[i + 1])) {
+      const list: string[] = []
+      i++
+      while (i < lines.length && /^\s+-\s/.test(lines[i])) {
+        list.push(lines[i].replace(/^\s+-\s+/, '').trim())
+        i++
+      }
+      fields[key] = list.filter(Boolean)
     } else {
       fields[key] = rest
       i++
@@ -57,35 +68,8 @@ function splitMdx(source: string): { fm: string; body: string } {
   return { fm: afterOpen.slice(0, closeIdx), body: afterOpen.slice(closeIdx + 4) }
 }
 
-function serialiseFrontmatter(fields: Fields): string {
-  const SCALAR = ['title', 'date', 'what']
-  const ARRAY = ['tags']
-  const keys = [
-    ...SCALAR.filter(k => k in fields),
-    ...ARRAY.filter(k => k in fields),
-    ...Object.keys(fields).filter(k => !SCALAR.includes(k) && !ARRAY.includes(k)),
-  ]
-  return keys.map(key => {
-    const val = fields[key]
-    if (Array.isArray(val)) return `${key}: [${val.join(', ')}]`
-    if (typeof val === 'string' && (val.length > 80 || val.includes('\n'))) {
-      return `${key}: >\n  ${val.replace(/\n/g, '\n  ')}`
-    }
-    return `${key}: ${val}`
-  }).join('\n')
-}
-
-export function slugify(text: string): string {
-  return text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-}
-
-export function readStories(lang: Lang): Story[] {
-  const dir = getContentDir(lang)
+export function readStories(lang: Lang, section: Section = DEFAULT_SECTION): Story[] {
+  const dir = getContentDir(lang, section)
   if (!fs.existsSync(dir)) return []
   return fs.readdirSync(dir)
     .filter(f => f.endsWith('.mdx'))
@@ -98,32 +82,6 @@ export function readStories(lang: Lang): Story[] {
       const fields = parseFrontmatter(fm)
       if (!Array.isArray(fields.tags)) fields.tags = []
       const bodyTrimmed = body.trim()
-      return { id, ...fields, ...(bodyTrimmed ? { body: bodyTrimmed } : {}) } as Story
+      return { id, section, ...fields, ...(bodyTrimmed ? { body: bodyTrimmed } : {}) } as Story
     })
-}
-
-export function writeStory(lang: Lang, filename: string, fields: Fields, body = '') {
-  const dir = getContentDir(lang)
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
-  fs.writeFileSync(
-    path.join(dir, filename),
-    `---\n${serialiseFrontmatter(fields)}\n---\n${body}`,
-    'utf-8'
-  )
-}
-
-export function updateStoryFile(lang: Lang, id: string, updates: Fields) {
-  const dir = getContentDir(lang)
-  const filepath = path.join(dir, `${id}.mdx`)
-  if (!fs.existsSync(filepath)) throw new Error(`Story not found: ${id}`)
-  const source = fs.readFileSync(filepath, 'utf-8')
-  const { fm, body } = splitMdx(source)
-  const merged = { ...parseFrontmatter(fm), ...updates }
-  fs.writeFileSync(filepath, `---\n${serialiseFrontmatter(merged)}\n---\n${body}`, 'utf-8')
-}
-
-export function deleteStoryFile(lang: Lang, id: string) {
-  const dir = getContentDir(lang)
-  const filepath = path.join(dir, `${id}.mdx`)
-  if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
 }

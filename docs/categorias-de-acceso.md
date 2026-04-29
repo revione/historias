@@ -1,20 +1,19 @@
 # Categorías de acceso
 
-El sidebar agrupa las historias en categorías derivadas de sus tags. Una historia puede aparecer en varias categorías simultáneamente si sus tags cruzan grupos.
+El sidebar agrupa las historias en categorías derivadas de sus tags. Una historia puede aparecer en varias categorías simultáneamente si sus tags cruzan grupos. Las categorías se calculan **dentro de la sección activa** (ver [secciones.md](secciones.md)) — cambiar de sección recalcula los conteos.
 
 ## Estructura del sidebar
 
 ```
-N  historias          ← click = mostrar todas, limpiar filtro
+N  historias              ← sección, click = ver lista de esa sección
+N  ai                     ← sección
+N  contexto complicado    ← sección
 ──────────────────
-últimas               ← sección informativa
+últimas                   ← últimas 5 de la sección activa
   título 1
-  título 2
-  título 3
-  título 4
-  título 5
+  ...
 ──────────────────
-N  ia                 ← click = filtrar por categoría
+N  ia                     ← categoría (filtra por tags dentro de la sección activa)
    (hover revela subcategorías con conteo)
    n  role-prompting
    n  context-engineering
@@ -23,9 +22,9 @@ N  espiritualidad
 N  geopolitica
 N  neurociencia
 N  social
-──────────────────
-+ nueva historia
 ```
+
+Una categoría con cero historias en la sección activa se oculta automáticamente.
 
 ## Categorías actuales
 
