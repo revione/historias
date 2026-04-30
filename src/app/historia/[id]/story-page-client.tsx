@@ -13,7 +13,7 @@ const LANGS: Lang[] = ['es', 'de', 'en']
 const BACK: Record<Lang, string> = { es: '← volver', de: '← zurück', en: '← back' }
 const PLAY: Record<Lang, string> = { es: 'escuchar', de: 'anhören', en: 'listen' }
 const STOP_LABEL: Record<Lang, string> = { es: 'detener', de: 'stoppen', en: 'stop' }
-const WHAT: Record<Lang, string> = { es: 'qué pasó', de: 'was passierte', en: 'what happened' }
+const DESC: Record<Lang, string> = { es: 'descripción', de: 'Beschreibung', en: 'description' }
 
 function tagLabel(tag: string) { return tag.replace(/-/g, ' ') }
 
@@ -32,7 +32,7 @@ function mdToPlainText(md: string): string {
 function storyToText(s: Story): string {
   const parts: string[] = []
   if (s.title) parts.push(s.title + '.')
-  if (s.what) parts.push(s.what)
+  if (s.description) parts.push(s.description)
   if (s.body) parts.push(mdToPlainText(s.body))
   return parts.join('\n\n')
 }
@@ -126,10 +126,10 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
         <div className={styles.body}>
           {story.body ? (
             <div className={styles.bodyContent} dangerouslySetInnerHTML={{ __html: mdToHtml(story.body) }} />
-          ) : story.what ? (
+          ) : story.description ? (
             <div className={styles.section}>
-              <span className={styles.sectionLabel}>{WHAT[lang]}</span>
-              <p className={styles.sectionText}>{story.what}</p>
+              <span className={styles.sectionLabel}>{DESC[lang]}</span>
+              <p className={styles.sectionText}>{story.description}</p>
             </div>
           ) : null}
         </div>

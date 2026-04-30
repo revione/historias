@@ -1,6 +1,6 @@
 import type { Lang } from './stories'
 
-export type SectionId = 'historias' | 'ai' | 'contexto-complicado'
+export type SectionId = 'historias' | 'ai' | 'investigaciones' | 'contexto-complicado'
 
 export interface SectionConfig {
   id: SectionId
@@ -18,6 +18,11 @@ export const SECTIONS: SectionConfig[] = [
     id: 'ai',
     dir: 'ai',
     labels: { es: 'ia', de: 'KI', en: 'ai' },
+  },
+  {
+    id: 'investigaciones',
+    dir: 'investigaciones',
+    labels: { es: 'investigaciones', de: 'Untersuchungen', en: 'investigations' },
   },
   {
     id: 'contexto-complicado',

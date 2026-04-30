@@ -10,7 +10,7 @@ export interface Story {
   id: string
   title: string
   date: string
-  what: string
+  description: string
   tags: Tag[]
   body?: string
   section: Section

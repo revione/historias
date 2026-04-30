@@ -13,7 +13,7 @@ import type { CategoryName } from '@/lib/categories'
 
 type Translations = {
   recentLabel: string
-  whatHappened: string
+  descriptionLabel: string
   noStories: string
   playAudio: string
   stopAudio: string
@@ -22,21 +22,21 @@ type Translations = {
 const T: Record<Lang, Translations> = {
   es: {
     recentLabel: 'últimas',
-    whatHappened: 'qué pasó',
+    descriptionLabel: 'descripción',
     noStories: 'no hay historias aquí todavía.',
     playAudio: 'escuchar',
     stopAudio: 'detener',
   },
   de: {
     recentLabel: 'zuletzt',
-    whatHappened: 'was passierte',
+    descriptionLabel: 'Beschreibung',
     noStories: 'noch keine Geschichten hier.',
     playAudio: 'anhören',
     stopAudio: 'stoppen',
   },
   en: {
     recentLabel: 'recent',
-    whatHappened: 'what happened',
+    descriptionLabel: 'description',
     noStories: 'no stories here yet.',
     playAudio: 'listen',
     stopAudio: 'stop',
@@ -229,8 +229,8 @@ export default function StoriesClient({ initialBySection }: Props) {
 
               {expanded !== s.id && (
                 <p className={styles.preview}>
-                  {(s.what || s.body || '').substring(0, 120)}
-                  {(s.what || s.body || '').length > 120 ? '...' : ''}
+                  {(s.description || s.body || '').substring(0, 120)}
+                  {(s.description || s.body || '').length > 120 ? '...' : ''}
                 </p>
               )}
 
@@ -240,7 +240,7 @@ export default function StoriesClient({ initialBySection }: Props) {
                     <div className={styles.bodyContent} dangerouslySetInnerHTML={{ __html: mdToHtml(s.body) }} />
                   ) : (
                     <>
-                      {s.what && <SectionView label={t.whatHappened} text={s.what} />}
+                      {s.description && <SectionView label={t.descriptionLabel} text={s.description} />}
                     </>
                   )}
                 </div>
@@ -281,7 +281,7 @@ function mdToPlainText(md: string): string {
 function storyToText(s: Story): string {
   const parts: string[] = []
   if (s.title) parts.push(s.title + '.')
-  if (s.what) parts.push(s.what)
+  if (s.description) parts.push(s.description)
   if (s.body) parts.push(mdToPlainText(s.body))
   return parts.join('\n\n')
 }

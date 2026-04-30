@@ -1,4 +1,4 @@
-export type CategoryName = 'ia' | 'espiritualidad' | 'geopolitica' | 'neurociencia' | 'social'
+export type CategoryName = 'ia' | 'espiritualidad' | 'geopolitica' | 'neurociencia' | 'social' | 'investigaciones'
 
 export const CATEGORY_TAGS: Record<CategoryName, string[]> = {
   ia: [
@@ -25,6 +25,14 @@ export const CATEGORY_TAGS: Record<CategoryName, string[]> = {
     'acercamiento', 'retorica', 'tono', 'parafraseo', 'estado-alterado',
     'iniciativa', 'comunicacion', 'weed', 'señales', 'inaccion', 'fiesta',
     'presencia', 'clima', 'picardía', 'estudio',
+  ],
+  investigaciones: [
+    'nasa', 'jpl', 'los-alamos', 'afrl', 'fbi', 'científicos-desaparecidos',
+    'perfiles-científicos', 'hallazgos-científicos', 'descubrimientos', 'patentes',
+    'publicaciones', 'legado', 'amy-eskridge', 'institute-for-exotic-science',
+    'proyectos-activos', 'investigación-de-defensa', 'mit', 'modificación-gravitacional',
+    'superconductores', 'antigravedad', 'propulsión-electrostática', 'dart',
+    'defensa-planetaria', 'propulsión-exótica', 'bpp', 'grasp',
   ],
 }
 
