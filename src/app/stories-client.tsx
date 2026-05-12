@@ -305,8 +305,8 @@ function mdToPlainText(md: string): string {
 function storyToText(s: Story): string {
   const parts: string[] = []
   if (s.title) parts.push(s.title + '.')
-  if (s.description) parts.push(s.description)
   if (s.body) parts.push(mdToPlainText(s.body))
+  else if (s.description) parts.push(s.description)
   return parts.join('\n\n')
 }
 
