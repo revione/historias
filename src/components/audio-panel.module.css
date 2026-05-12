@@ -163,16 +163,31 @@
   border-radius: 1px;
   outline: none;
   cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.progressBar::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--accent2) calc(var(--progress, 0) * 100%),
+    var(--border2) calc(var(--progress, 0) * 100%)
+  );
+  border-radius: 1px;
 }
 
 .progressBar::-webkit-slider-thumb {
   -webkit-appearance: none;
+  appearance: none;
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background: var(--accent);
   cursor: pointer;
   transition: transform 0.1s;
+  margin-top: -4px;
 }
 
 .progressBar:hover::-webkit-slider-thumb {
@@ -188,12 +203,8 @@
   cursor: pointer;
 }
 
-.progressBar::-webkit-slider-runnable-track {
-  background: linear-gradient(
-    to right,
-    var(--accent2) calc(var(--progress, 0) * 100%),
-    var(--border2) calc(var(--progress, 0) * 100%)
-  );
+.progressBar::-moz-range-track {
   height: 2px;
+  background: var(--border2);
   border-radius: 1px;
 }
