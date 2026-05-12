@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/lib/language-context'
 import { useSpeech, type SpeechLang } from '@/lib/speech-context'
 import { getStories } from '@/app/actions'
@@ -76,6 +76,7 @@ function formatDate(d: string, lang: Lang) {
 }
 
 export function StoryPageClient({ id, initialStory, initialSection }: { id: string; initialStory: Story; initialSection: Section }) {
+  const router = useRouter()
   const { lang, setLang } = useLanguage()
   const { speak, stop, state: speechState } = useSpeech()
   const [story, setStory] = useState<Story>(initialStory)
@@ -92,7 +93,7 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
   return (
     <main className={styles.main}>
       <div className={styles.topBar}>
-        <Link href="/" className={styles.back}>{BACK[lang]}</Link>
+        <button onClick={() => router.back()} className={styles.back}>{BACK[lang]}</button>
         <div className={styles.langSwitcher}>
           {LANGS.map(l => (
             <button

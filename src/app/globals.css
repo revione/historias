@@ -28,7 +28,7 @@ html { background: var(--bg); color: var(--text); font-family: 'DM Mono', monosp
 
 body { min-height: 100vh; }
 
-button { font-family: 'DM Mono', monospace; cursor: pointer; }
+button { font-family: 'DM Mono', monospace; cursor: pointer; background: transparent; border: none; color: inherit; }
 input, textarea, select { font-family: 'DM Mono', monospace; }
 
 ::-webkit-scrollbar { width: 4px; }

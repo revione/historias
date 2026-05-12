@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import styles from './page.module.css'
 import { getStories } from './actions'
@@ -47,19 +47,34 @@ const LANGS: Lang[] = ['es', 'de', 'en']
 
 interface Props {
   initialBySection: Record<Section, Story[]>
+  initialSection?: Section
+  initialCategory?: CategoryName | null
+  initialTag?: string | null
 }
 
-export default function StoriesClient({ initialBySection }: Props) {
+export default function StoriesClient({ initialBySection, initialSection, initialCategory, initialTag }: Props) {
   const { lang, setLang } = useLanguage()
   const { speak, stop, state: speechState } = useSpeech()
   const [bySection, setBySection] = useState<Record<Section, Story[]>>(initialBySection)
-  const [section, setSection] = useState<Section>(DEFAULT_SECTION)
+  const [section, setSection] = useState<Section>(initialSection ?? DEFAULT_SECTION)
   const [expanded, setExpanded] = useState<string | null>(null)
-  const [filterTag, setFilterTag] = useState<Tag | null>(null)
-  const [filterCategory, setFilterCategory] = useState<CategoryName | null>(null)
+  const [filterTag, setFilterTag] = useState<Tag | null>(initialTag ?? null)
+  const [filterCategory, setFilterCategory] = useState<CategoryName | null>(initialCategory ?? null)
   const [hoveredCat, setHoveredCat] = useState<CategoryName | null>(null)
 
   const t = T[lang]
+
+  function sectionUrl(s: Section, c: CategoryName | null, t: string | null): string {
+    const parts: string[] = [s]
+    if (c) parts.push(c)
+    if (t) parts.push(t)
+    return '/' + parts.join('/')
+  }
+
+  const syncUrl = useCallback((s: Section, c: CategoryName | null, t: string | null) => {
+    const url = sectionUrl(s, c, t)
+    window.history.replaceState(null, '', url)
+  }, [])
 
   useEffect(() => {
     Promise.all(SECTIONS.map(s => getStories(lang, s.id).then(stories => [s.id, stories] as const)))
@@ -70,6 +85,9 @@ export default function StoriesClient({ initialBySection }: Props) {
     setFilterCategory(null)
     setExpanded(null)
   }, [lang])
+
+  // Sync state to URL whenever filters change
+  useEffect(() => { syncUrl(section, filterCategory, filterTag) }, [section, filterCategory, filterTag, syncUrl])
 
   const stories = bySection[section] ?? []
 
@@ -88,9 +106,15 @@ export default function StoriesClient({ initialBySection }: Props) {
   }
 
   function switchSection(s: Section) {
+    const url = sectionUrl(s, null, null)
     setSection(s)
     clearFilter()
     setExpanded(null)
+    window.history.pushState(null, '', url)
+  }
+
+  function storyLink(_id: string): string {
+    return `/historia/${_id}`
   }
 
   function formatDate(d: string) {
@@ -206,7 +230,7 @@ export default function StoriesClient({ initialBySection }: Props) {
                 <div className={styles.cardMeta}>
                   <span className={styles.cardDate}>{formatDate(s.date)}</span>
                   <Link
-                    href={`/historia/${s.id}`}
+                    href={storyLink(s.id)}
                     className={styles.cardTitleLink}
                     onClick={e => e.stopPropagation()}
                   >
