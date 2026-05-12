@@ -12,6 +12,7 @@ export const CATEGORY_TAGS: Record<CategoryName, string[]> = {
     'torah', 'talmud', 'kashrut', 'shechita', 'food', 'ritual', 'ethics',
     'shabbat', 'melachot', 'marriage', 'conversion', 'goyim', 'rabbinic-law', 'religion',
     'christianity', 'islam', 'comparative-theology', 'jesus', 'beni-israel',
+    'geometria-sagrada',
   ],
   geopolitica: [
     'israel', 'palestine', 'zionism', 'geopolitics', 'hamas', 'iran',
@@ -33,6 +34,11 @@ export const CATEGORY_TAGS: Record<CategoryName, string[]> = {
     'proyectos-activos', 'investigación-de-defensa', 'mit', 'modificación-gravitacional',
     'superconductores', 'antigravedad', 'propulsión-electrostática', 'dart',
     'defensa-planetaria', 'propulsión-exótica', 'bpp', 'grasp',
+    'flujo-universal', 'modelo-unificado', 'parametro-orden', 'masa-como-flujo',
+    'electron-toroidal', 'ether', 'keely', 'sympathetic-vibratory-physics',
+    'davidson', 'shape-power', 'resonancia', 'energia-punto-cero', 'toroide',
+    'fuerza-universal', 'dynasphere', 'atomoles', 'tono-atomico',
+    'acorde-de-masa', 'dale-pond', 'musica-esferas',
   ],
 }
 
