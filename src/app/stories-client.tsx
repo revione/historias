@@ -111,6 +111,7 @@ export default function StoriesClient({ initialBySection, initialSection, initia
     clearFilter()
     setExpanded(null)
     window.history.pushState(null, '', url)
+    sessionStorage.setItem('lastSection', s)
   }
 
   function storyLink(_id: string): string {

@@ -81,6 +81,11 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
   const { speak, stop, seekTo, state: speechState } = useSpeech()
   const [story, setStory] = useState<Story>(initialStory)
 
+  // Use the section that was saved when user clicked the story, fallback to initialSection
+  const section = typeof window !== 'undefined'
+    ? (sessionStorage.getItem('lastSection') as Section) || initialSection
+    : initialSection
+
   useEffect(() => {
     getStories(lang, initialSection).then(stories => {
       const found = stories.find(s => s.id === id)
@@ -88,12 +93,18 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
     })
   }, [lang, id, initialSection])
 
+  // Fix browser back: push section into history so back goes to the right section
+  useEffect(() => {
+    window.history.replaceState({ section }, '', `/${section}`)
+    window.history.pushState(null, '', window.location.href)
+  }, [section])
+
   const isPlaying = speechState.playing && speechState.title === story.title
 
   return (
     <main className={styles.main}>
       <div className={styles.topBar}>
-        <button onClick={() => router.back()} className={styles.back}>{BACK[lang]}</button>
+        <button onClick={() => router.push(`/${section}`)} className={styles.back}>{BACK[lang]}</button>
         <div className={styles.langSwitcher}>
           {LANGS.map(l => (
             <button
