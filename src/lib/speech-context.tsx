@@ -14,7 +14,10 @@ type SpeechState = {
   paused: boolean
   title: string
   progress: number
-  duration: number  // estimated seconds
+  duration: number
+  currentSentenceIndex: number
+  charIndex: number
+  fullText: string
 }
 
 type SpeechCtx = {
@@ -26,8 +29,13 @@ type SpeechCtx = {
   resume: () => void
   stop: () => void
   seekTo: (progress: number) => void
+  seekToSentence: (index: number) => void
   setConfig: (c: Partial<SpeechConfig>) => void
   langVoices: (lang: SpeechLang) => SpeechSynthesisVoice[]
+  // Refs for components that need live progress without re-rendering
+  liveProgressRef: React.MutableRefObject<number>
+  liveCharIndexRef: React.MutableRefObject<number>
+  liveFullTextRef: React.MutableRefObject<string>
 }
 
 const Ctx = createContext<SpeechCtx | null>(null)
@@ -57,7 +65,7 @@ function estimateDuration(chars: number, rate: number): number {
 }
 
 export function SpeechProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<SpeechState>({ playing: false, paused: false, title: '', progress: 0, duration: 0 })
+  const [state, setState] = useState<SpeechState>({ playing: false, paused: false, title: '', progress: 0, duration: 0, currentSentenceIndex: -1, charIndex: 0, fullText: '' })
   const [config, setConfigState] = useState<SpeechConfig>(loadConfig)
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([])
 
@@ -70,6 +78,10 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
   const totalChars      = useRef(0)
   const spokenChars     = useRef(0)
   const activeUtterance = useRef<SpeechSynthesisUtterance | null>(null)
+  const sentenceIdxRef  = useRef(0)
+  const liveProgressRef = useRef(0)
+  const liveCharIndexRef = useRef(0)
+  const liveFullTextRef = useRef('')
 
   useEffect(() => { configRef.current = config }, [config])
   useEffect(() => { voicesRef.current = voices }, [voices])
@@ -114,21 +126,27 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
 
     u.addEventListener('boundary', (e: SpeechSynthesisEvent) => {
       if (activeUtterance.current !== u || !total) return
-      const p = Math.min((charsBeforeChunk + e.charIndex) / total, 1)
+      const globalChar = charsBeforeChunk + e.charIndex
+      const p = Math.min(globalChar / total, 1)
+      liveCharIndexRef.current = globalChar
+      liveProgressRef.current = p
       setState(s => ({
         ...s,
         progress: p,
         duration: estimateDuration(total, rate),
+        charIndex: globalChar,
       }))
     })
 
     u.onend = () => {
-      // guard: if this utterance was canceled and a new one took over, ignore
       if (activeUtterance.current !== u) return
       spokenChars.current = charsBeforeChunk + chunk.length
-      if (total > 0) {
-        setState(s => ({ ...s, progress: spokenChars.current / total }))
-      }
+      sentenceIdxRef.current++
+      setState(s => ({
+        ...s,
+        progress: total > 0 ? spokenChars.current / total : 0,
+        currentSentenceIndex: sentenceIdxRef.current,
+      }))
       playNext()
     }
 
@@ -154,12 +172,19 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
     spokenChars.current = 0
     queueRef.current = [...chunks]
     activeRef.current = true
+    sentenceIdxRef.current = 0
+    liveCharIndexRef.current = 0
+    liveProgressRef.current = 0
+    liveFullTextRef.current = text
     setState({
       playing: true,
       paused: false,
       title,
       progress: 0,
       duration: estimateDuration(chars, configRef.current.rate),
+      currentSentenceIndex: 0,
+      charIndex: 0,
+      fullText: text,
     })
     playNext()
   }, [playNext])
@@ -179,7 +204,10 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
     activeUtterance.current = null
     queueRef.current = []
     speechSynthesis.cancel()
-    setState({ playing: false, paused: false, title: '', progress: 0, duration: 0 })
+    liveCharIndexRef.current = 0
+    liveProgressRef.current = 0
+    liveFullTextRef.current = ''
+    setState({ playing: false, paused: false, title: '', progress: 0, duration: 0, currentSentenceIndex: -1, charIndex: 0, fullText: '' })
   }, [])
 
   const seekTo = useCallback((targetProgress: number) => {
@@ -202,13 +230,18 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
     speechSynthesis.cancel()
 
     spokenChars.current = offset
+    sentenceIdxRef.current = idx
     queueRef.current = chunks.slice(idx)
     activeRef.current = true
+    liveCharIndexRef.current = offset
+    liveProgressRef.current = total > 0 ? offset / total : 0
     setState(s => ({
       ...s,
       playing: true,
       paused: false,
       progress: total > 0 ? offset / total : 0,
+      currentSentenceIndex: idx,
+      charIndex: offset,
     }))
 
     // Tiny delay: some browsers need a tick after cancel before accepting new speak()
@@ -216,6 +249,15 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
       if (activeRef.current) playNext()
     }, 50)
   }, [playNext])
+
+  const seekToSentence = useCallback((index: number) => {
+    const chunks = allChunks.current
+    if (chunks.length === 0 || index < 0 || index >= chunks.length) return
+    const total = totalChars.current
+    let offset = 0
+    for (let i = 0; i < index; i++) offset += chunks[i].length
+    seekTo(total > 0 ? offset / total : 0)
+  }, [seekTo])
 
   const setConfig = useCallback((c: Partial<SpeechConfig>) => {
     setConfigState(prev => {
@@ -233,8 +275,17 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
     return voicesRef.current.filter(v => v.lang.startsWith(LOCALE[lang]))
   }, [])
 
+  useEffect(() => {
+    function handler(e: Event) {
+      const detail = (e as CustomEvent).detail
+      if (typeof detail === 'number') seekTo(detail)
+    }
+    window.addEventListener('seek-to', handler)
+    return () => window.removeEventListener('seek-to', handler)
+  }, [seekTo])
+
   return (
-    <Ctx.Provider value={{ state, config, voices, speak, pause, resume, stop, seekTo, setConfig, langVoices }}>
+    <Ctx.Provider value={{ state, config, voices, speak, pause, resume, stop, seekTo, seekToSentence, setConfig, langVoices, liveProgressRef, liveCharIndexRef, liveFullTextRef }}>
       {children}
     </Ctx.Provider>
   )

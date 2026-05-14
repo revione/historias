@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, memo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/lib/language-context'
 import { useSpeech, type SpeechLang } from '@/lib/speech-context'
@@ -78,7 +78,7 @@ function formatDate(d: string, lang: Lang) {
 export function StoryPageClient({ id, initialStory, initialSection }: { id: string; initialStory: Story; initialSection: Section }) {
   const router = useRouter()
   const { lang, setLang } = useLanguage()
-  const { speak, stop, state: speechState } = useSpeech()
+  const { speak, stop, seekTo, state: speechState } = useSpeech()
   const [story, setStory] = useState<Story>(initialStory)
 
   useEffect(() => {
@@ -126,7 +126,7 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
 
         <div className={styles.body}>
           {story.body ? (
-            <div className={styles.bodyContent} dangerouslySetInnerHTML={{ __html: mdToHtml(story.body) }} />
+            <BodyContent body={story.body} />
           ) : story.description ? (
             <div className={styles.section}>
               <span className={styles.sectionLabel}>{DESC[lang]}</span>
@@ -138,3 +138,33 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
     </main>
   )
 }
+
+// Memoized body: renders markdown, never re-renders on speech changes
+const BodyContent = memo(function BodyContent({ body }: { body: string }) {
+  const bodyRef = useRef<HTMLDivElement>(null)
+
+  // Click on paragraph → seek via word match in fullText
+  const { liveFullTextRef } = useSpeech()
+  useEffect(() => {
+    const el = bodyRef.current
+    if (!el) return
+    function onClick(e: MouseEvent) {
+      const p = (e.target as HTMLElement).closest('p') as HTMLElement | null
+      if (!p) return
+      const pText = p.textContent || ''
+      if (!pText.trim()) return
+      const fullText = liveFullTextRef.current
+      if (!fullText) return
+      // Find first content word of this paragraph in fullText
+      const firstWord = pText.trim().split(/\s+/)[0]
+      if (!firstWord) return
+      const pos = fullText.indexOf(firstWord)
+      if (pos < 0) return
+      window.dispatchEvent(new CustomEvent('seek-to', { detail: pos / fullText.length }))
+    }
+    el.addEventListener('click', onClick)
+    return () => el.removeEventListener('click', onClick)
+  }, [])
+
+  return <div ref={bodyRef} className={styles.bodyContent} dangerouslySetInnerHTML={{ __html: mdToHtml(body) }} />
+})
