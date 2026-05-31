@@ -17,6 +17,15 @@ export const CATEGORY_TAGS: Record<CategoryName, string[]> = {
   geopolitica: [
     'israel', 'palestine', 'zionism', 'geopolitics', 'hamas', 'iran',
     'settlements', 'security', 'water', 'peace-process', 'gaza', 'united-states',
+    'krupp', 'von-bohlen-halbach', 'alemania', 'acero', 'armamento',
+    'industrializacion', 'essen', 'nazismo', 'nuremberg', 'trabajo-forzado',
+    'segunda-guerra-mundial', 'primera-guerra-mundial', 'holocausto',
+    'friedrich-krupp', 'alfred-krupp', 'bertha-krupp', 'gustav-krupp',
+    'alfried-krupp', 'friedrich-alfred-krupp', 'kaiser-guillermo',
+    'industria-belica', 'ruhr', 'dinastia-industrial', 'fundacion',
+    'franco-prusiana', 'sedan', 'bismarck', 'von-moltke',
+    'gran-exposicion', 'gründerzeit', 'villa-hugel', 'generalregulativ',
+    'paternalismo', 'spd', 'antisindical', 'bismarck-sozialgesetze', 'führerprinzip',
   ],
   neurociencia: [
     'nervous-system', 'biophotons', 'neuroscience', 'bioelectricity',

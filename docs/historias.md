@@ -15,14 +15,13 @@ Cada historia debe existir con el mismo nombre de archivo en los idiomas disponi
 Formato:
 
 ```text
-YYYY-MM-DD-slug.mdx
-YYYY-MM-DD-HHMM-slug.mdx   ← usar cuando hay varias historias el mismo día
+YYYY-MM-DD-HHMM-slug.mdx
 ```
 
 Ejemplos:
 
 ```text
-2026-04-20-llm-agentes.mdx
+2026-04-20-0900-llm-agentes.mdx
 2026-04-19-2130-la-vida.mdx
 ```
 
