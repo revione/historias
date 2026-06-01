@@ -114,8 +114,8 @@ export default function StoriesClient({ initialBySection, initialSection, initia
     sessionStorage.setItem('lastSection', s)
   }
 
-  function storyLink(_id: string): string {
-    return `/historia/${_id}`
+  function storyLink(slug: string): string {
+    return `/historia/${slug}`
   }
 
   function formatDate(d: string) {
@@ -231,7 +231,7 @@ export default function StoriesClient({ initialBySection, initialSection, initia
                 <div className={styles.cardMeta}>
                   <span className={styles.cardDate}>{formatDate(s.date)}</span>
                   <Link
-                    href={storyLink(s.id)}
+                    href={storyLink(s.slug)}
                     className={styles.cardTitleLink}
                     onClick={e => e.stopPropagation()}
                   >

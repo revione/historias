@@ -8,6 +8,7 @@ export type Tag = string
 
 export interface Story {
   id: string
+  slug: string
   title: string
   date: string
   description: string
@@ -82,6 +83,9 @@ export function readStories(lang: Lang, section: Section = DEFAULT_SECTION): Sto
       const fields = parseFrontmatter(fm)
       if (!Array.isArray(fields.tags)) fields.tags = []
       const bodyTrimmed = body.trim()
-      return { id, section, ...fields, ...(bodyTrimmed ? { body: bodyTrimmed } : {}) } as Story
+      const slug = typeof fields.slug === 'string'
+        ? fields.slug
+        : id.replace(/^\d{4}-\d{2}-\d{2}(?:-\d{1,4})*-/, '')
+      return { id, slug, section, ...fields, ...(bodyTrimmed ? { body: bodyTrimmed } : {}) } as Story
     })
 }

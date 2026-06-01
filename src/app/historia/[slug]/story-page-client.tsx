@@ -81,10 +81,8 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
   const { speak, stop, seekTo, state: speechState } = useSpeech()
   const [story, setStory] = useState<Story>(initialStory)
 
-  // Use the section that was saved when user clicked the story, fallback to initialSection
-  const section = typeof window !== 'undefined'
-    ? (sessionStorage.getItem('lastSection') as Section) || initialSection
-    : initialSection
+  // Use the section that was passed from the server — always correct for this story
+  const section = initialSection
 
   useEffect(() => {
     getStories(lang, initialSection).then(stories => {
@@ -93,10 +91,9 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
     })
   }, [lang, id, initialSection])
 
-  // Fix browser back: push section into history so back goes to the right section
+  // Fix browser back: store section so back button returns to it
   useEffect(() => {
-    window.history.replaceState({ section }, '', `/${section}`)
-    window.history.pushState(null, '', window.location.href)
+    window.history.replaceState({ section, url: window.location.pathname }, '')
   }, [section])
 
   const isPlaying = speechState.playing && speechState.title === story.title
