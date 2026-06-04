@@ -1,14 +1,20 @@
 'use client'
 
-import { useState, useEffect, useRef, memo } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/lib/language-context'
 import { useSpeech, type SpeechLang } from '@/lib/speech-context'
+import { HighlightedBody } from '@/lib/body-render'
 import { getStories } from '@/app/actions'
 import type { Story, Lang, Section } from '@/lib/stories'
 import styles from './story-page.module.css'
 
 const LANGS: Lang[] = ['es', 'de', 'en']
+
+const MIN_W = 560
+const MAX_W = 1200
+const DEFAULT_W = 720
+const STORAGE_KEY = 'story-width'
 
 const BACK: Record<Lang, string> = { es: '← volver', de: '← zurück', en: '← back' }
 const PLAY: Record<Lang, string> = { es: 'escuchar', de: 'anhören', en: 'listen' }
@@ -16,64 +22,6 @@ const STOP_LABEL: Record<Lang, string> = { es: 'detener', de: 'stoppen', en: 'st
 const DESC: Record<Lang, string> = { es: 'descripción', de: 'Beschreibung', en: 'description' }
 
 function tagLabel(tag: string) { return tag.replace(/-/g, ' ') }
-
-function mdToPlainText(md: string): string {
-  return md
-    .replace(/#{1,6}\s+/g, '')
-    .replace(/\*\*(.+?)\*\*/g, '$1')
-    .replace(/^\s*[-*]\s+/gm, '')
-    .replace(/^\s*\d+\.\s+/gm, '')
-    .replace(/\|[^\n]+/g, '')
-    .replace(/---+/g, '')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim()
-}
-
-function storyToText(s: Story): string {
-  const parts: string[] = []
-  if (s.title) parts.push(s.title + '.')
-  if (s.body) parts.push(mdToPlainText(s.body))
-  else if (s.description) parts.push(s.description)
-  return parts.join('\n\n')
-}
-
-function inlineMd(text: string): string {
-  // Process in order: most specific first
-  return text
-    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    .replace(/\b_(.+?)_\b/g, '<em>$1</em>')
-    .replace(/`(.+?)`/g, '<code>$1</code>')
-    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>')
-}
-
-function mdToHtml(md: string): string {
-  const blocks = md.split(/\n\n+/)
-  return blocks.map(block => {
-    const trimmed = block.trim()
-    if (!trimmed) return ''
-    if (trimmed.startsWith('# '))  return `<h1>${inlineMd(trimmed.slice(2))}</h1>`
-    if (trimmed.startsWith('## ')) return `<h2>${inlineMd(trimmed.slice(3))}</h2>`
-    if (trimmed.startsWith('### ')) return `<h3>${inlineMd(trimmed.slice(4))}</h3>`
-    if (trimmed.startsWith('---')) return '<hr />'
-    const lines = trimmed.split('\n')
-    if (lines.length >= 2 && lines[0].includes('|') && lines[1].match(/^\|?[\s\-|]+\|?$/)) {
-      const headers = lines[0].split('|').map(c => c.trim()).filter(Boolean)
-      const rows = lines.slice(2).map(l => l.split('|').map(c => c.trim()).filter(Boolean))
-      const thead = '<thead><tr>' + headers.map(h => `<th>${inlineMd(h)}</th>`).join('') + '</tr></thead>'
-      const tbody = '<tbody>' + rows.map(r => '<tr>' + r.map(c => `<td>${inlineMd(c)}</td>`).join('') + '</tr>').join('') + '</tbody>'
-      return `<table>${thead}${tbody}</table>`
-    }
-    if (lines.every(l => /^\d+\.\s/.test(l.trimStart()))) {
-      return '<ol>' + lines.map(l => `<li>${inlineMd(l.replace(/^\s*\d+\.\s*/, ''))}</li>`).join('') + '</ol>'
-    }
-    if (lines.every(l => l.trimStart().startsWith('- '))) {
-      return '<ul>' + lines.map(l => `<li>${inlineMd(l.replace(/^\s*-\s*/, ''))}</li>`).join('') + '</ul>'
-    }
-    return `<p>${inlineMd(trimmed.replace(/\n/g, ' '))}</p>`
-  }).filter(Boolean).join('\n')
-}
 
 function formatDate(d: string, lang: Lang) {
   const locale = lang === 'es' ? 'es-ES' : lang === 'de' ? 'de-DE' : 'en-US'
@@ -85,8 +33,44 @@ function formatDate(d: string, lang: Lang) {
 export function StoryPageClient({ id, initialStory, initialSection }: { id: string; initialStory: Story; initialSection: Section }) {
   const router = useRouter()
   const { lang, setLang } = useLanguage()
-  const { speak, stop, seekTo, state: speechState } = useSpeech()
+  const { speak, stop, state: speechState } = useSpeech()
   const [story, setStory] = useState<Story>(initialStory)
+  const bodyPlainRef = useRef('')
+  const [width, setWidth] = useState<number>(DEFAULT_W)
+  const [resizing, setResizing] = useState(false)
+  const dragRef = useRef<{ startX: number; startW: number; side: 1 | -1 } | null>(null)
+
+  useEffect(() => {
+    const saved = Number(localStorage.getItem(STORAGE_KEY))
+    if (saved >= MIN_W && saved <= MAX_W) setWidth(saved)
+  }, [])
+
+  const updateWidth = useCallback((w: number) => {
+    const clamped = Math.min(MAX_W, Math.max(MIN_W, Math.round(w)))
+    setWidth(clamped)
+    localStorage.setItem(STORAGE_KEY, String(clamped))
+  }, [])
+
+  const startResize = useCallback((side: 1 | -1) => (e: React.PointerEvent) => {
+    e.preventDefault()
+    dragRef.current = { startX: e.clientX, startW: width, side }
+    setResizing(true)
+    ;(e.target as Element).setPointerCapture(e.pointerId)
+  }, [width])
+
+  const onResizeMove = useCallback((e: React.PointerEvent) => {
+    const d = dragRef.current
+    if (!d) return
+    const delta = (e.clientX - d.startX) * d.side * 2
+    updateWidth(d.startW + delta)
+  }, [updateWidth])
+
+  const endResize = useCallback((e: React.PointerEvent) => {
+    if (!dragRef.current) return
+    dragRef.current = null
+    setResizing(false)
+    try { (e.target as Element).releasePointerCapture(e.pointerId) } catch {}
+  }, [])
 
   // Use the section that was passed from the server — always correct for this story
   const section = initialSection
@@ -98,6 +82,12 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
     })
   }, [lang, id, initialSection])
 
+  // Stop speech on unmount or navigation to avoid stale audio across stories.
+  useEffect(() => {
+    return () => stop()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   // Fix browser back: store section so back button returns to it
   useEffect(() => {
     window.history.replaceState({ section, url: window.location.pathname }, '')
@@ -105,10 +95,36 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
 
   const isPlaying = speechState.playing && speechState.title === story.title
 
+  const handlePlainText = useCallback((p: string) => { bodyPlainRef.current = p }, [])
+
+  const startSpeak = useCallback(() => {
+    const parts: string[] = []
+    if (story.title) parts.push(story.title + '.')
+    if (story.body) parts.push(bodyPlainRef.current)
+    else if (story.description) parts.push(story.description)
+    speak(parts.join('\n\n'), lang as SpeechLang, story.title)
+  }, [speak, story, lang])
+
   return (
-    <main className={styles.main}>
+    <main
+      className={`${styles.main} ${resizing ? styles.resizing : ''}`}
+      style={{ ['--story-width' as string]: `${width}px` }}
+    >
       <div className={styles.topBar}>
         <button onClick={() => router.push(`/${section}`)} className={styles.back}>{BACK[lang]}</button>
+        <div className={styles.widthControl}>
+          <input
+            type="range"
+            min={MIN_W}
+            max={MAX_W}
+            step={10}
+            value={width}
+            onChange={(e) => updateWidth(Number(e.target.value))}
+            className={styles.widthSlider}
+            aria-label="ancho"
+          />
+          <span className={styles.widthLabel}>{width}px</span>
+        </div>
         <div className={styles.langSwitcher}>
           {LANGS.map(l => (
             <button
@@ -123,6 +139,24 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
       </div>
 
       <article className={styles.article}>
+        <div
+          className={`${styles.resizeHandle} ${styles.resizeHandleLeft} ${resizing ? styles.resizeHandleActive : ''}`}
+          onPointerDown={startResize(-1)}
+          onPointerMove={onResizeMove}
+          onPointerUp={endResize}
+          onPointerCancel={endResize}
+          aria-label="ajustar ancho"
+          role="separator"
+        />
+        <div
+          className={`${styles.resizeHandle} ${styles.resizeHandleRight} ${resizing ? styles.resizeHandleActive : ''}`}
+          onPointerDown={startResize(1)}
+          onPointerMove={onResizeMove}
+          onPointerUp={endResize}
+          onPointerCancel={endResize}
+          aria-label="ajustar ancho"
+          role="separator"
+        />
         <header className={styles.header}>
           <span className={styles.date}>{formatDate(story.date, lang)}</span>
           <h1 className={styles.title}>{story.title}</h1>
@@ -133,7 +167,7 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
           </div>
           <button
             className={styles.playBtn}
-            onClick={isPlaying ? stop : () => speak(storyToText(story), lang as SpeechLang, story.title)}
+            onClick={isPlaying ? stop : startSpeak}
           >
             {isPlaying ? `◼ ${STOP_LABEL[lang]}` : `▶ ${PLAY[lang]}`}
           </button>
@@ -141,7 +175,17 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
 
         <div className={styles.body}>
           {story.body ? (
-            <BodyContent body={story.body} />
+            <HighlightedBody
+              body={story.body}
+              title={story.title}
+              className={styles.bodyContent}
+              wordClass={styles.word}
+              wordActiveClass={styles.wordActive}
+              sentActiveClass={styles.sentActive}
+              scrollBtnClass={styles.scrollBtn}
+              scrollBtnLabel="↓"
+              onPlainText={handlePlainText}
+            />
           ) : story.description ? (
             <div className={styles.section}>
               <span className={styles.sectionLabel}>{DESC[lang]}</span>
@@ -153,33 +197,3 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
     </main>
   )
 }
-
-// Memoized body: renders markdown, never re-renders on speech changes
-const BodyContent = memo(function BodyContent({ body }: { body: string }) {
-  const bodyRef = useRef<HTMLDivElement>(null)
-
-  // Click on paragraph → seek via word match in fullText
-  const { liveFullTextRef } = useSpeech()
-  useEffect(() => {
-    const el = bodyRef.current
-    if (!el) return
-    function onClick(e: MouseEvent) {
-      const p = (e.target as HTMLElement).closest('p') as HTMLElement | null
-      if (!p) return
-      const pText = p.textContent || ''
-      if (!pText.trim()) return
-      const fullText = liveFullTextRef.current
-      if (!fullText) return
-      // Find first content word of this paragraph in fullText
-      const firstWord = pText.trim().split(/\s+/)[0]
-      if (!firstWord) return
-      const pos = fullText.indexOf(firstWord)
-      if (pos < 0) return
-      window.dispatchEvent(new CustomEvent('seek-to', { detail: pos / fullText.length }))
-    }
-    el.addEventListener('click', onClick)
-    return () => el.removeEventListener('click', onClick)
-  }, [])
-
-  return <div ref={bodyRef} className={styles.bodyContent} dangerouslySetInnerHTML={{ __html: mdToHtml(body) }} />
-})

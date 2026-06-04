@@ -1,6 +1,6 @@
 import type { Lang } from './stories'
 
-export type SectionId = 'historias' | 'ai' | 'investigaciones' | 'contexto-complicado' | 'colombia' | 'alemania'
+export type SectionId = 'historias' | 'ai' | 'investigaciones' | 'contexto-complicado' | 'colombia' | 'alemania' | 'iglesia' | 'italia'
 
 export interface SectionConfig {
   id: SectionId
@@ -38,6 +38,16 @@ export const SECTIONS: SectionConfig[] = [
     id: 'alemania',
     dir: 'alemania',
     labels: { es: 'alemania', de: 'Deutschland', en: 'germany' },
+  },
+  {
+    id: 'iglesia',
+    dir: 'iglesia',
+    labels: { es: 'iglesia', de: 'Kirche', en: 'church' },
+  },
+  {
+    id: 'italia',
+    dir: 'italia',
+    labels: { es: 'italia', de: 'Italien', en: 'italy' },
   },
 ]
 

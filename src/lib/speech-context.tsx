@@ -36,6 +36,7 @@ type SpeechCtx = {
   liveProgressRef: React.MutableRefObject<number>
   liveCharIndexRef: React.MutableRefObject<number>
   liveFullTextRef: React.MutableRefObject<string>
+  liveSentenceIndexRef: React.MutableRefObject<number>
 }
 
 const Ctx = createContext<SpeechCtx | null>(null)
@@ -50,6 +51,23 @@ function splitSentences(text: string): string[] {
     .split(/(?<=[.!?¿¡])\s+/)
     .map(s => s.trim())
     .filter(s => s.length > 0)
+}
+
+// Compute absolute offset in fullText where each sentence chunk begins.
+// Mirrors splitSentences but tracks positions instead of strings.
+function computeSentenceStarts(text: string): number[] {
+  const re = /(?<=[.!?¿¡])\s+/g
+  const starts: number[] = []
+  let pos = 0
+  let m: RegExpExecArray | null
+  // First sentence: skip leading whitespace to mirror trim()
+  while (pos < text.length && /\s/.test(text[pos])) pos++
+  if (pos < text.length) starts.push(pos)
+  while ((m = re.exec(text)) !== null) {
+    const next = m.index + m[0].length
+    if (next < text.length) starts.push(next)
+  }
+  return starts
 }
 
 function loadConfig(): SpeechConfig {
@@ -79,9 +97,11 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
   const spokenChars     = useRef(0)
   const activeUtterance = useRef<SpeechSynthesisUtterance | null>(null)
   const sentenceIdxRef  = useRef(0)
+  const sentenceStartsRef = useRef<number[]>([])
   const liveProgressRef = useRef(0)
   const liveCharIndexRef = useRef(0)
   const liveFullTextRef = useRef('')
+  const liveSentenceIndexRef = useRef(-1)
 
   useEffect(() => { configRef.current = config }, [config])
   useEffect(() => { voicesRef.current = voices }, [voices])
@@ -124,10 +144,17 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
 
     activeUtterance.current = u
 
+    const sentIdx = sentenceIdxRef.current
+    const sentStart = sentenceStartsRef.current[sentIdx] ?? charsBeforeChunk
+    liveSentenceIndexRef.current = sentIdx
+
     u.addEventListener('boundary', (e: SpeechSynthesisEvent) => {
       if (activeUtterance.current !== u || !total) return
-      const globalChar = charsBeforeChunk + e.charIndex
-      const p = Math.min(globalChar / total, 1)
+      // Absolute char offset in fullText (not in concatenated chunks)
+      const globalChar = sentStart + e.charIndex
+      // Progress still tracked via spoken chunk chars for monotonic playhead
+      const progressChar = charsBeforeChunk + e.charIndex
+      const p = Math.min(progressChar / total, 1)
       liveCharIndexRef.current = globalChar
       liveProgressRef.current = p
       setState(s => ({
@@ -168,14 +195,16 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
     const chars = chunks.reduce((s, c) => s + c.length, 0)
     langRef.current = lang
     allChunks.current = chunks
+    sentenceStartsRef.current = computeSentenceStarts(text)
     totalChars.current = chars
     spokenChars.current = 0
     queueRef.current = [...chunks]
     activeRef.current = true
     sentenceIdxRef.current = 0
-    liveCharIndexRef.current = 0
+    liveCharIndexRef.current = sentenceStartsRef.current[0] ?? 0
     liveProgressRef.current = 0
     liveFullTextRef.current = text
+    liveSentenceIndexRef.current = 0
     setState({
       playing: true,
       paused: false,
@@ -207,6 +236,8 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
     liveCharIndexRef.current = 0
     liveProgressRef.current = 0
     liveFullTextRef.current = ''
+    liveSentenceIndexRef.current = -1
+    sentenceStartsRef.current = []
     setState({ playing: false, paused: false, title: '', progress: 0, duration: 0, currentSentenceIndex: -1, charIndex: 0, fullText: '' })
   }, [])
 
@@ -233,7 +264,8 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
     sentenceIdxRef.current = idx
     queueRef.current = chunks.slice(idx)
     activeRef.current = true
-    liveCharIndexRef.current = offset
+    liveCharIndexRef.current = sentenceStartsRef.current[idx] ?? offset
+    liveSentenceIndexRef.current = idx
     liveProgressRef.current = total > 0 ? offset / total : 0
     setState(s => ({
       ...s,
@@ -285,7 +317,7 @@ export function SpeechProvider({ children }: { children: React.ReactNode }) {
   }, [seekTo])
 
   return (
-    <Ctx.Provider value={{ state, config, voices, speak, pause, resume, stop, seekTo, seekToSentence, setConfig, langVoices, liveProgressRef, liveCharIndexRef, liveFullTextRef }}>
+    <Ctx.Provider value={{ state, config, voices, speak, pause, resume, stop, seekTo, seekToSentence, setConfig, langVoices, liveProgressRef, liveCharIndexRef, liveFullTextRef, liveSentenceIndexRef }}>
       {children}
     </Ctx.Provider>
   )

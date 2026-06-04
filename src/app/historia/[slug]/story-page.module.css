@@ -7,13 +7,45 @@
   padding: 0 1rem 6rem;
 }
 
+.main {
+  --story-width: 720px;
+}
+
 .topBar {
   width: 100%;
-  max-width: 720px;
+  max-width: var(--story-width);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   padding: 1.5rem 0 2rem;
+}
+
+.widthControl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  max-width: 200px;
+}
+
+.widthSlider {
+  flex: 1;
+  height: 2px;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+.widthLabel {
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  min-width: 36px;
+}
+
+@media (max-width: 640px) {
+  .widthControl { display: none; }
 }
 
 .back {
@@ -57,7 +89,48 @@
 
 .article {
   width: 100%;
-  max-width: 720px;
+  max-width: var(--story-width);
+  position: relative;
+}
+
+.resizeHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  cursor: ew-resize;
+  background: transparent;
+  z-index: 10;
+  touch-action: none;
+  user-select: none;
+}
+
+.resizeHandle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: transparent;
+  transition: background 0.15s;
+}
+
+.resizeHandle:hover::before,
+.resizeHandleActive::before {
+  background: var(--accent2);
+}
+
+.resizeHandleLeft { left: -14px; }
+.resizeHandleRight { right: -14px; }
+
+.resizing {
+  user-select: none;
+  cursor: ew-resize;
+}
+
+@media (max-width: 640px) {
+  .resizeHandle { display: none; }
 }
 
 .header {
@@ -248,4 +321,46 @@
   border: none;
   border-top: 1px solid var(--border);
   margin: 1.5rem 0;
+}
+
+.word {
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 0 1px;
+  transition: background-color 0.08s ease, color 0.08s ease;
+}
+
+.sentActive {
+  background-color: rgba(201, 169, 110, 0.10);
+}
+
+.wordActive {
+  background-color: rgba(201, 169, 110, 0.45);
+  color: var(--text);
+}
+
+.scrollBtn {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 5.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--accent2);
+  color: var(--accent);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 50;
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+.scrollBtn:hover {
+  background: rgba(201, 169, 110, 0.18);
+  transform: translateY(-1px);
 }
