@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model PostStats {
+  slug         String   @id
+  section      String
+  views        Int      @default(0)
+  uniqueViews  Int      @default(0)
+  lastViewedAt DateTime @updatedAt
+
+  @@index([section])
+  @@index([views])
+}
+
+model SiteStats {
+  id          String   @id @default("site")
+  totalViews  Int      @default(0)
+  uniqueViews Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteSession {
+  sessionId String   @id
+  firstAt   DateTime @default(now())
+  lastAt    DateTime @updatedAt
+  hits      Int      @default(1)
+}
+
+model SessionView {
+  sessionId String
+  slug      String
+  firstAt   DateTime @default(now())
+  lastAt    DateTime @updatedAt
+  views     Int      @default(1)
+
+  @@id([sessionId, slug])
+  @@index([slug])
+  @@index([sessionId])
+}
+
+model ViewEvent {
+  id          BigInt   @id @default(autoincrement())
+  slug        String
+  sessionHash String
+  ts          DateTime @default(now())
+  source      String?
+  country     String?
+
+  @@index([slug, ts])
+  @@index([ts])
+}
+
+model ViewBucket {
+  id      String  @id
+  scope   String
+  slug    String?
+  period  String
+  bucket  String
+  views   Int
+  uniques Int
+
+  @@index([scope, slug, period])
+}
+
+model ActiveReader {
+  sessionId String
+  slug      String
+  lastPing  DateTime @default(now())
+
+  @@id([sessionId, slug])
+  @@index([slug, lastPing])
+}

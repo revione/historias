@@ -6,6 +6,7 @@ import { useLanguage } from '@/lib/language-context'
 import { useSpeech, type SpeechLang } from '@/lib/speech-context'
 import { HighlightedBody } from '@/lib/body-render'
 import { getStories } from '@/app/actions'
+import { recordView, pingActive, getActiveReaders, getPostStats } from '@/lib/analytics/actions'
 import type { Story, Lang, Section } from '@/lib/stories'
 import styles from './story-page.module.css'
 
@@ -74,6 +75,41 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
 
   // Use the section that was passed from the server — always correct for this story
   const section = initialSection
+
+  const [readCount, setReadCount] = useState<number | null>(null)
+  const [activeNow, setActiveNow] = useState<number>(0)
+
+  useEffect(() => {
+    console.log('[client] recordView call', id, section)
+    recordView(id, section)
+      .then(() => {
+        console.log('[client] recordView resolved')
+        try {
+          const k = 'historias-read'
+          const set = new Set<string>(JSON.parse(localStorage.getItem(k) ?? '[]'))
+          set.add(id)
+          localStorage.setItem(k, JSON.stringify(Array.from(set)))
+        } catch (e) { console.warn('[client] localStorage fail', e) }
+        return getPostStats(id)
+      })
+      .then((s) => { console.log('[client] postStats', s); setReadCount(s.unique) })
+      .catch((e) => console.error('[client] recordView chain fail', e))
+  }, [id, section])
+
+  useEffect(() => {
+    let cancelled = false
+    const tick = async () => {
+      try {
+        await pingActive(id)
+        const n = await getActiveReaders(id)
+        console.log('[client] activeNow', n)
+        if (!cancelled) setActiveNow(n)
+      } catch (e) { console.error('[client] presence tick fail', e) }
+    }
+    tick()
+    const t = setInterval(tick, 15_000)
+    return () => { cancelled = true; clearInterval(t) }
+  }, [id])
 
   useEffect(() => {
     getStories(lang, initialSection).then(stories => {
@@ -158,7 +194,18 @@ export function StoryPageClient({ id, initialStory, initialSection }: { id: stri
           role="separator"
         />
         <header className={styles.header}>
-          <span className={styles.date}>{formatDate(story.date, lang)}</span>
+          <div className={styles.metaRow}>
+            <span className={styles.date}>{formatDate(story.date, lang)}</span>
+            <span className={styles.stats}>
+              {readCount !== null && <span className={styles.statItem}>leída {readCount}×</span>}
+              {activeNow > 0 && (
+                <span className={styles.activeNow}>
+                  <span className={styles.activeDot} />
+                  {activeNow} {activeNow === 1 ? 'leyendo ahora' : 'leyendo ahora'}
+                </span>
+              )}
+            </span>
+          </div>
           <h1 className={styles.title}>{story.title}</h1>
           <div className={styles.tags}>
             {story.tags.map(tag => (

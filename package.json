@@ -5,9 +5,16 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db:diff": "prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script -o /tmp/migration.sql",
+    "db:apply": "node scripts/apply-migration.mjs /tmp/migration.sql",
+    "db:push": "pnpm db:diff && pnpm db:apply"
   },
   "dependencies": {
+    "@libsql/client": "^0.17.3",
+    "@prisma/adapter-libsql": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "@vercel/analytics": "^2.0.1",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18"
@@ -15,6 +22,14 @@
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.8.0",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/engines",
+      "prisma"
+    ]
   }
 }

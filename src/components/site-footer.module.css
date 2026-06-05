@@ -1,0 +1,89 @@
+.footer {
+  border-top: 1px solid var(--border);
+  margin-top: 4rem;
+  padding: 2rem 1rem 3rem;
+  background: var(--bg);
+}
+
+.inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 160px;
+}
+
+.label {
+  font-size: 10px;
+  color: var(--accent2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.bigNum {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.subNum {
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.04em;
+}
+
+.empty {
+  font-size: 12px;
+  color: var(--text3);
+  font-style: italic;
+}
+
+.topList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: top;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.topList li {
+  counter-increment: top;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.topList li::before {
+  content: counter(top) '.';
+  color: var(--accent2);
+  margin-right: 6px;
+}
+
+.topLink {
+  color: var(--text2);
+  text-decoration: none;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topLink:hover { color: var(--accent); }
+
+.topCount {
+  color: var(--text3);
+  font-variant-numeric: tabular-nums;
+}

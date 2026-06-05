@@ -12,7 +12,10 @@
       "Bash(sed -n '8,11p' /Users/rev/dev/historias/content/historias/es/2026-04-19-2130-israel-estado.mdx)",
       "Bash(sed -n '8,11p' /Users/rev/dev/historias/content/historias/en/2026-04-19-2130-israel-estado.mdx)",
       "Bash(grep -n \"^El resultado\\\\|^Post-entrenamiento\\\\|^In-context\\\\|^Atención no\\\\|^El logit\\\\|^El modelo no\\\\|^Del modelo al sistema$\\\\|^Context rot\\\\|^Del modelo al sistema de\\\\|^Estado vs\\\\|^Una nota\\\\|^Cuántos\\\\|^El bucle\\\\|^Precisiones\\\\|^Speculative\" /Users/rev/dev/historias/content/historias/es/2026-04-21-llm.mdx)",
-      "Bash(echo \"exit=$?\")"
+      "Bash(echo \"exit=$?\")",
+      "Bash(pnpm add *)",
+      "Bash(npx prisma *)",
+      "Bash(pnpm build *)"
     ]
   }
 }
