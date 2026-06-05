@@ -8,7 +8,7 @@ import { useLanguage } from '@/lib/language-context'
 import { useSpeech, type SpeechLang } from '@/lib/speech-context'
 import type { Story, Tag, Lang, Section } from '@/lib/stories'
 import { SECTIONS, DEFAULT_SECTION } from '@/lib/sections'
-import { CATEGORY_TAGS, getStoryCategories } from '@/lib/categories'
+import { CATEGORY_TAGS, CATEGORY_LABELS, getStoryCategories } from '@/lib/categories'
 import type { CategoryName } from '@/lib/categories'
 
 type Translations = {
@@ -189,7 +189,7 @@ export default function StoriesClient({ initialBySection, initialSection, initia
                     onClick={() => { setFilterCategory(cat); setFilterTag(null) }}
                   >
                     <span className={styles.catCount}>{catCount}</span>
-                    <span className={styles.catName}>{cat}</span>
+                    <span className={styles.catName}>{CATEGORY_LABELS[cat][lang]}</span>
                   </div>
                   {hoveredCat === cat && subTags.length > 0 && (
                     <div className={styles.subCats}>
@@ -215,7 +215,7 @@ export default function StoriesClient({ initialBySection, initialSection, initia
       <div className={styles.content}>
         <div className={styles.contentHeader}>
           <h1 className={styles.pageTitle}>
-            {filterTag ? tagLabel(filterTag) : filterCategory ? filterCategory : sectionLabel}
+            {filterTag ? tagLabel(filterTag) : filterCategory ? CATEGORY_LABELS[filterCategory][lang] : sectionLabel}
           </h1>
           <span className={styles.pageCount}>{filtered.length}</span>
         </div>

@@ -1,4 +1,15 @@
+import type { Lang } from './stories'
+
 export type CategoryName = 'ia' | 'espiritualidad' | 'geopolitica' | 'neurociencia' | 'social' | 'investigaciones'
+
+export const CATEGORY_LABELS: Record<CategoryName, Record<Lang, string>> = {
+  ia:               { es: 'ia',              de: 'KI',                en: 'ai' },
+  espiritualidad:   { es: 'espiritualidad',  de: 'Spiritualität',     en: 'spirituality' },
+  geopolitica:      { es: 'geopolítica',     de: 'Geopolitik',        en: 'geopolitics' },
+  neurociencia:     { es: 'neurociencia',    de: 'Neurowissenschaft', en: 'neuroscience' },
+  social:           { es: 'social',          de: 'sozial',            en: 'social' },
+  investigaciones:  { es: 'investigaciones', de: 'Untersuchungen',    en: 'investigations' },
+}
 
 export const CATEGORY_TAGS: Record<CategoryName, string[]> = {
   ia: [
