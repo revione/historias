@@ -3,7 +3,10 @@
 import { cookies, headers } from 'next/headers'
 import { createHash } from 'crypto'
 import { unstable_cache, revalidateTag } from 'next/cache'
+import { Prisma } from '@prisma/client'
 import { prisma } from './db'
+
+type Tx = Prisma.TransactionClient
 import { isBot } from './bots'
 
 const SID_COOKIE = 'sid'
@@ -71,7 +74,7 @@ export async function recordView(slug: string, section: string): Promise<void> {
   let isUniqueForPost = false
 
   try {
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: Tx) => {
       const existing = await tx.sessionView.findUnique({
         where: { sessionId_slug: { sessionId: sid, slug } },
       })
@@ -143,7 +146,7 @@ export async function recordHit(path: string): Promise<void> {
   let isFirstEverForSession = false
 
   try {
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: Tx) => {
       const existing = await tx.siteSession.findUnique({ where: { sessionId: sid } })
       if (!existing) {
         isFirstEverForSession = true
