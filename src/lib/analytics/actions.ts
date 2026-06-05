@@ -216,8 +216,10 @@ export const getSiteStats = unstable_cache(
   { revalidate: 60, tags: ['site-stats'] },
 )
 
+export type TopPost = { slug: string; section: string; views: number; unique: number }
+
 export const getTopPosts = unstable_cache(
-  async (limit = 3) => {
+  async (limit = 3): Promise<TopPost[]> => {
     const rows = await prisma.postStats.findMany({
       orderBy: { views: 'desc' },
       take: limit,
