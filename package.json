@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "db:diff": "prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script -o /tmp/migration.sql",
     "db:apply": "node scripts/apply-migration.mjs /tmp/migration.sql",
