@@ -24,6 +24,8 @@ export const CATEGORY_TAGS: Record<CategoryName, string[]> = {
     'shabbat', 'melachot', 'marriage', 'conversion', 'goyim', 'rabbinic-law', 'religion',
     'christianity', 'islam', 'comparative-theology', 'jesus', 'beni-israel',
     'geometria-sagrada',
+    'neville-goddard', 'conciencia', 'imaginacion', 'manifestacion', 'oracion',
+    'suposicion', 'meditacion', 'biblia',
   ],
   geopolitica: [
     'israel', 'palestine', 'zionism', 'geopolitics', 'hamas', 'iran',
