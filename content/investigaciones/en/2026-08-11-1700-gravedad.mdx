@@ -1,0 +1,619 @@
+---
+title: We know how to calculate gravity, but we do not know why it has the strength it has
+date: 2026-08-11
+slug: gravedad
+tags: [gravedad, constante-gravitacional, masa-de-planck, relatividad-general, espacio-tiempo, jerarquia, constante-cosmologica, swampland, naturalidad, reduccionismo, seguridad-asintotica, holografia, dimensiones-extra, grandes-numeros]
+description: >
+  General relativity describes gravity as the geometry of spacetime without explaining its strength. Asking what G is worth is not even a well-posed question: what no theory explains is why α_G(p) ≈ 5.9 × 10⁻³⁹, why v/Mₚ ≈ 10⁻¹⁷ and why Λℓₚ² ≈ 10⁻¹²².
+---
+
+# We know how to calculate gravity, but we do not know why it has the strength it has
+
+General relativity describes gravity as the dynamical geometry of spacetime. With it one calculates orbits, eclipses and the trajectories of space probes. It works.
+
+The theory does not answer one question: why does gravity have exactly the strength it has?
+
+As will be seen, the question as formulated is not well posed. Correcting it is half the work; the other half is understanding why, once corrected, it still has no answer.
+
+---
+
+## What we know
+
+Galileo studied the fall of bodies using inclined planes: the acceleration does not depend on the mass of the object.
+
+That observation has become one of the best verified statements in physics. The MICROSCOPE mission (final results, 2022) compared the free fall of two masses of titanium and platinum in Earth orbit and obtained an Eötvös parameter η(Ti,Pt) = [−1.5 ± 2.3 (stat.) ± 1.5 (syst.)] × 10⁻¹⁵. Adding both uncertainties in quadrature, σ_tot ≈ 2.7 × 10⁻¹⁵ at 1σ; the result is also quoted as η = (−1.5 ± 5.5) × 10⁻¹⁵ at 2σ. No violation at the level of 10⁻¹⁵. That is: the universality of free fall, for that pair of materials, is bounded to a few parts in 10¹⁵.
+
+Newton proposed that the same force that makes an apple fall keeps the Moon in orbit:
+
+F = G · m₁ m₂ / r²
+
+With that one calculates orbits, tides, ballistic trajectories. It works within its domain.
+
+In general relativity, gravity is described by means of the dynamical geometry of spacetime, whose curvature is related to the energy and momentum content. Einstein's equations describe everything from the orbit of Mercury to the workings of GPS.
+
+---
+
+## G: the constant we measure worst
+
+The gravitational constant G:
+
+G = 6.67430(15) × 10⁻¹¹ m³ kg⁻¹ s⁻²
+
+The (15) is the uncertainty in the last two digits: a relative uncertainty of 22 parts per million. It is the value recommended by CODATA 2022, unchanged with respect to CODATA 2018.
+
+The fine-structure constant is known with a relative uncertainty of 1.6 × 10⁻¹⁰. G is known to 2.2 × 10⁻⁵: **five orders of magnitude worse**. It is, in CODATA's formulation, the least well known of the principal fundamental constants.
+
+And the problem is not only one of precision, but of consistency. The individual high-precision experiments declare uncertainties of 10 to 50 ppm, but their results **disagree with each other by some 500 ppm**: between ten and fifty times their own error bars. The most telling case is that of Li et al. (*Nature*, 2018), who measured G with two independent methods in the same laboratory —time of oscillation and angular-acceleration feedback— obtaining 6.674184 × 10⁻¹¹ and 6.674484 × 10⁻¹¹, both with an uncertainty of 11.6 ppm. They differ from each other by some 45 ppm. CODATA deliberately inflates the recommended uncertainty up to 22 ppm to cover that dispersion.
+
+The most recent episode aggravates it rather than resolving it. In April 2026, a NIST team published the first high-precision replica of the torsion balance that the BIPM built some three decades ago: same apparatus, same geometry, with several modifications. They obtained
+
+G = (6.67387 ± 0.00038) × 10⁻¹¹ m³ kg⁻¹ s⁻²
+
+with a relative uncertainty of 5.7 × 10⁻⁵. The result lies 2.5 × 10⁻⁴ below the original BIPM determination with that same instrument. The replica did not close the discrepancy: it turned it into a sharper problem of reproducibility, because now the difference appears between two uses of the same experimental design.
+
+Either something unknown affects most measurements of G, or —more probably— there are unidentified systematic errors. It is an open experimental problem, today.
+
+By contrast, c and h have exact numerical values in the SI because they are defining constants of the system; therefore ℏ = h/2π is too, even though its decimal expansion does not terminate. G cannot be fixed by definition without dragging that uncertainty to another place in the system.
+
+Einstein's equation contains the factor 8π G / c⁴. Schematically, G sets the strength of the coupling between the energy-momentum content and the geometry of spacetime.
+
+The theory does not say why that number is that number. It is measured. It is not derived from anything more fundamental.
+
+**Measuring G badly is a problem of metrology. Not knowing how to derive G is a problem of fundamental physics.** They are independent: if tomorrow an experiment resolved the dispersion and fixed G to one part in 10⁹, we would not have advanced a single step towards understanding why it is worth what it is worth. The precision of the measurement and the absence of an explanation are two distinct shortcomings, and the rest of this document deals only with the second.
+
+---
+
+## Can G be built out of other constants?
+
+Take c and ℏ:
+
+Suppose G = cᵃ ℏᵇ.
+
+[cᵃ ℏᵇ] = Mᵇ Lᵃ⁺²ᵇ T⁻ᵃ⁻ᵇ
+
+To reproduce [G] = M⁻¹ L³ T⁻² one would need simultaneously:
+
+b = −1
+a + 2b = 3
+−a − b = −2
+
+The first two equations give a = 5. But then the third produces −5 + 1 = −4, not −2.
+
+The system is inconsistent. The correct reason: it is **not** that two parameters cannot cover three dimensions: two vectors generate a plane, and any vector that falls in that plane is indeed reproduced. What happens here is more specific. In the space of dimensions with basis (M, L, T), the vectors are
+
+c → (0, 1, −1)   ℏ → (1, 2, −1)   G → (−1, 3, −2)
+
+and the vector of G simply **does not belong to the subspace generated by those of c and ℏ**. That is why there is no solution. A third independent physical scale has to be introduced.
+
+If there existed a fundamental mass scale M in nature:
+
+G = α · ℏ c / M²
+
+The units fit. α is dimensionless.
+
+With α = 1 and solving for M:
+
+Mₚ = √(ℏ c / G)
+
+That is the Planck mass: Mₚ = 2.176434(24) × 10⁻⁸ kg, equivalent to 1.2209 × 10¹⁹ GeV. It is enormous compared with any known particle: the mass of the proton is mₚ ≈ 1.67 × 10⁻²⁷ kg.
+
+The choice α = 1 is conventional. The other usual convention absorbs the 8π that accompanies G in Einstein's equation, defining the **reduced Planck mass**
+
+M̄ₚ² = ℏ c / (8π G)
+
+so that in natural units Einstein's equation reads simply G_μν = T_μν / M̄ₚ². Numerically M̄ₚ = Mₚ/√(8π) ≈ 2.435 × 10¹⁸ GeV, and it is the scale that in fact appears in cosmology and in most formulas of quantum gravity. The "fundamental" scale moves by a factor of 5 depending on which one is adopted. That already suggests that the physical object is neither of the two, but the ratio between scales.
+
+The same construction gives a distance scale, the **Planck length**:
+
+ℓₚ = 1.616255(18) × 10⁻³⁵ m
+
+It is the distance at which dimensional analysis suggests that quantum effects of gravity could cease to be negligible. What happens to the continuity of spacetime at that scale depends on the theory of quantum gravity; dimensional analysis does not decide it.
+
+To calibrate how far away we are: ℓₚ is some 10⁻²⁰ times the radius of the proton, and the LHC explores energies of the order of 10⁻¹⁵ of the Planck energy.
+
+---
+
+## Circularity
+
+It was written:
+
+G = ℏ c / Mₚ²
+
+but Mₚ was defined as √(ℏ c / G). It is circular: G → Mₚ → G. Changing the way of writing it does not explain G.
+
+The change of form has one consequence. In natural units where c = 1 and ℏ = 1:
+
+G = 1 / Mₚ²
+
+G ceases to be a number that looks like a historical accident. It becomes a direct statement: the strength of gravity is determined by a mass scale.
+
+**The original question was not merely badly focused: it was not well posed.** The isolated numerical value of a dimensional constant **is not an invariant quantity**: it changes with the choice of units. Asking "why is G worth 6.674 × 10⁻¹¹?" is asking about something that depends on having chosen the metre, the kilogram and the second. In other units it is worth something else, and nothing in the world has changed. What is independent of the units are the observable dimensionless relations. The ontological status of dimensional constants, by contrast, is genuinely in dispute, as the disagreement between Duff, Okun and Veneziano in the *Trialogue on the number of fundamental constants* (2002) shows: Okun defends three fundamental dimensional constants, Veneziano at most two, Duff none. The article exists precisely because they did not reach agreement.
+
+The question is transformed.
+
+It is not "why is G = 6.67 × 10⁻¹¹?"
+But "why is the gravitational scale Mₚ so far separated from the scales of the particles we know?"
+
+---
+
+## The dimensionless hierarchy
+
+For any particle of mass m, there exists a dimensionless number:
+
+α_G = G m² / (ℏ c)
+
+This defines a dimensionless measure of the gravitational strength associated with a mass scale m. The notation α_G is traditional and suggests a parallel with the fine-structure constant α, but that parallel is misleading and is dismantled further on: α_G is not a coupling in the technical sense.
+
+For the proton:
+
+α_G(p) = G mₚ² / (ℏ c) ≈ 5.9 × 10⁻³⁹
+
+That extraordinarily small number measures how weak gravity is between two objects of proton mass. In comparative terms: between two protons, the gravitational attraction is some 8 × 10⁻³⁷ times the electrical repulsion.
+
+But α_G(p) admits a second reading. Since Mₚ² = ℏ c / G:
+
+α_G(p) = G mₚ² / (ℏ c) = (mₚ / Mₚ)² ≈ (1 / 1.30 × 10¹⁹)² ≈ 5.9 × 10⁻³⁹
+
+where 1.30 × 10¹⁹ is the ratio Mₚ/mₚ.
+
+Choosing the proton as a reference is a pedagogical device. Most of its mass emerges from the non-perturbative dynamics of QCD, whose characteristic scale Λ_QCD appears by dimensional transmutation. For that reason, the enormous separation between mₚ and Mₚ has a partial explanation within QCD once the strong coupling is specified at a reference scale: the renormalization group flow generates an exponentially small scale out of a **dimensionless** coupling fixed at an ultraviolet scale, with no need to introduce any small bare mass. What does the work is that the dependence is exponential:
+
+Λ_QCD ∼ M_UV · exp[ −1 / (2 b₀ g²(M_UV)) ]
+
+A moderately small ultraviolet coupling —not tuned— suffices to generate an exponentially large ratio. There is no small number put in by hand. It is what is called a *technically natural* hierarchy.
+
+The canonical hierarchy problem in particle physics is a different one, and it is more serious precisely because it does not enjoy that protection: it refers to the stability of the electroweak scale (v ≈ 246 GeV, so that v/Mₚ ≈ 2 × 10⁻¹⁷) against much larger scales.
+
+The traditional formulation —"the Higgs mass, being a scalar, is quadratically sensitive to the ultraviolet scale"— is useful as an image but is not precise enough: a quadratic divergence depends on the regulator and is not an observable. The defensible statement is one of **threshold sensitivity**: if there exist heavy states of mass M_heavy coupled to the Higgs, they generate a correction
+
+δm_H² ∼ (λ / 16π²) · M_heavy²
+
+which is indeed physical and calculable, and which has to be cancelled against the bare parameter in order to leave m_H at the electroweak scale. The problem is not the divergence; it is the *matching* with whatever heavy sector exists. There the smallness does not explain itself.
+
+This hierarchy is the real physical question: a ratio between two scales of nature, which changing the system of units does not alter.
+
+---
+
+## Why α_G is not a coupling constant like α
+
+Here there is a structural difference that explains why gravity is not simply "one more interaction, but weak".
+
+The fine-structure constant α ≈ 1/137 is a genuine coupling: dimensionless within the theory itself.
+
+With gravity three things have to be separated that are usually fused into one, and that are not the same statement.
+
+**First: α_G(p) is not a coupling evaluated at a scale. It is a mass ratio.**
+
+α_G(p) = G mₚ² / (ℏ c) = (mₚ / Mₚ)²
+
+What that expression does is to insert a concrete mass —that of the proton, a datum of the spectrum— inside a dimensional constant. There is no flow, no renormalization scale, no scheme, no anomalous dimension. It is a statement about the spectrum of matter, not about the dynamics of the gravitational field. Describing it as "a running coupling evaluated at mₚ" is incorrect.
+
+**Second: the growth with E² is power counting, not running.**
+
+In natural units [G] = M⁻². The dimensionless parameter that organizes the perturbative expansion of a gravitational process of characteristic energy E is
+
+G E² = (E / Mₚ)²
+
+This is dimensional analysis, and it already operates at tree level: no loops, no vacuum polarization, no anomalous dimensions are involved. The coupling is dimensional and power counting does the rest.
+
+That negative canonical dimension is the power-counting signal that makes Einstein gravity **perturbatively non-renormalizable**: from a certain loop order onwards —two in pure gravity, already one with coupled matter— counterterms of increasing dimension are needed, R² and then R³, and a fixed set of operators does not suffice to absorb them all. (Pure Einstein gravity is finite on-shell at one loop, a result of 't Hooft and Veltman; the first genuine counterterm is the R³ at two loops, due to Goroff and Sagnotti.)
+
+As an effective theory, that **does not destroy predictivity**: at each order in E/Mₚ only a finite number of operators is needed, and their coefficients are fixed with a finite number of measurements. The quantum corrections to the Newtonian potential are calculated without ambiguity, because they come from the non-analytic part of the loops and not from the counterterms. What fails on approaching the cutoff scale is not each order, but the complete expansion. That is Donoghue's reading, and it is the reason why "non-renormalizable" does not mean "useless".
+
+**Third: that G "runs" in the renormalization group sense is an additional and framework-dependent statement.**
+
+One can define a scale-dependent G(k) and its dimensionless version g(k) = G(k) k², and study its flow. That is exactly what the asymptotic safety programme does. But it is a substantive and separate statement: it depends on the scheme, on the truncation and on the definition of k, and it is not directly observable. The growth of G E² with energy occurs just the same even if G does not run at all.
+
+With the three things separated, the comparison with α is clean and ceases to be misleading:
+
+α ≈ 1/137 is a dimensionless coupling of the theory itself, and its scale dependence is genuine renormalization group running: logarithmic, generated by vacuum polarization, with a value ≈ 1/128 at the Z scale. In gravity there is no direct analogue of that. What grows with energy is not a running coupling, but the expansion parameter of an effective theory whose coupling is dimensional. And α_G(p) —the number 5.9 × 10⁻³⁹— belongs to neither of the two categories: it is a ratio between scales.
+
+That is why the phrase "gravity is 10³⁶ times weaker than electromagnetism" has to be read as: it compares the strength of the two interactions **between two concrete protons**. It is a statement about that pair of particles, not an intrinsic property of the interactions.
+
+And from here comes the reformulation that the rest of the document presupposes: once Mₚ has been chosen as the reference, saying that gravity is weak for known matter **is equivalent** to saying that its masses are small compared with Mₚ. It is an identity, not a localization of the cause. It does not determine in which of the two sectors the explanation of the hierarchy resides: a fundamental theory could explain a large Mₚ, small matter masses, or both at once.
+
+On the Planck regime: when E ∼ Mₚ one has G E² ∼ 1, and the perturbative ordering of the effective theory ceases to be controlled. The limits of perturbative unitarity may in addition be reached at scales of order Planck, though with factors that depend on the concrete process and on whether Mₚ or M̄ₚ is used. What is robust is the first thing: power counting ceases to provide a small expansion. It is the signal that the effective description is exhausted. It does not say what replaces it.
+
+---
+
+## Dirac and the history of the number 10³⁹
+
+This number has ninety years of history. It shows how a problem like this is attacked and how an attempt is falsified.
+
+In 1937 Dirac observed two coincidences. The ratio between the electric and the gravitational force between a proton and an electron is ≈ 2.3 × 10³⁹. And the age of the universe, measured in the unit of time that Dirac used —e²/(mₑc³) ≈ 9.4 × 10⁻²⁴ s, the crossing time of the classical electron radius; not the standard atomic unit ℏ/E_h, which is seven orders larger— is ≈ 5 × 10⁴⁰ with the age we measure today. Two enormous numbers obtained from domains with no apparent relation. With the age of the universe that was in use in 1937, some 2 × 10⁹ years, the second gave ~7 × 10³⁹ and both coincided closely; today a factor of ~20 separates them, which on the scale of large numbers is still considered the same order.
+
+(That 2.3 × 10³⁹ does not contradict the 10³⁶ quoted earlier: the latter compared **two protons**, this one compares **proton and electron**. They are separated by exactly the factor mₚ/mₑ ≈ 1836, because gravity depends on the product of the masses and the electric force does not.)
+
+Dirac refused to accept that it was chance. His *large numbers hypothesis* proposed that the coincidence is structural and therefore must be maintained in time: if the second number grows with the age of the universe, the first does too. That requires G ∝ 1/t, that is, a decreasing gravitational constant.
+
+It is a genuinely scientific hypothesis: it predicts something measurable. And it **is falsified**. *Lunar laser ranging* —measuring the Earth-Moon distance with retroreflectors since 1969— gives Ġ/G = (7.1 ± 7.6) × 10⁻¹⁴ per year (Hofmann and Müller, 2018), compatible with zero. Dirac's prediction requires |Ġ/G| ≈ 1/t ≈ 7 × 10⁻¹¹ per year. Excluded by some three orders of magnitude. Independent constraints from binary pulsars, primordial nucleosynthesis and helioseismology point in the same direction. Teller had already pointed out in 1948 that a larger G in the past would have made the Sun more luminous and the Earth too hot for the geological record.
+
+Dicke (1961) offered in addition a very influential alternative explanation —not a logical refutation of the large numbers programme; the severe experimental exclusion of Dirac's temporal prediction would come later, with *lunar laser ranging* from 1969 onwards—. The coincidence does not require a dynamical explanation because it is not a coincidence observed at just any moment. There can only be observers during the main-sequence lifetime of stars capable of producing carbon, and that temporal window is fixed by the same constants that appear in the two numbers. The coincidence is a selection effect. It is one of the first rigorous anthropic arguments in physics.
+
+The lesson stands: **the existence of an enormous number does not by itself imply that there is a mechanism generating it**, and any proposal that explains it must survive the experimental constraints on the constancy of G.
+
+---
+
+## Everything that has energy modifies spacetime
+
+It is not only mass that gravitates. Energy does too. The photon has no mass, but it has energy and momentum: it responds to gravity and produces it.
+
+Einstein's equation, written out in full:
+
+G_μν + Λ g_μν = (8π G / c⁴) · T_μν
+
+On the left, geometry. On the right, the tensor T_μν contains energy density, momentum flux, pressure and stresses. Everything that has energy contributes.
+
+In a particle collision:
+
+A + B → C + D + γ + γ + ...
+
+Before the collision there is a certain distribution of energy and momentum. During the collision that distribution changes. Afterwards there are new particles, photons, kinetic energy in new directions. Spacetime responds to the total energy-momentum tensor: how much energy and momentum there is, how they flow and how they are distributed.
+
+---
+
+## Attempts at explanation, and what limits them
+
+The document could end by saying that there is no answer. That would be true but incomplete: there are concrete attempts, and several are falsifiable. They are listed here with their experimental status.
+
+**The weak gravity conjecture (WGC) and the Swampland programme (Arkani-Hamed, Motl, Nicolis and Vafa, 2007).** It is the most cited attempt to turn the weakness of gravity into a theorem instead of an accident. The idea of the Swampland programme is that not every apparently consistent effective field theory admits a completion with quantum gravity: there is a "swamp" of theories that look well constructed but that no theory of quantum gravity can produce. The WGC is the most studied condition of that kind.
+
+Its precise statement matters, because it is almost always misquoted. The standard formulation is: **in any consistent theory of quantum gravity, every gauge force must mediate an interaction at least as strong as gravity *for some particle*.** (The inequality admits saturation —the BPS case—, so "at least as strong" is more exact than "stronger".) Concretely, there must exist a charged state with charge/mass ratio greater than or equal to that of an extremal black hole, q/m ≥ (q/m)_ext. The motivation is the consistency of black hole physics: without that state, extremal charged black holes could not decay and stable remnants would be left in arbitrary number, with the associated pathologies.
+
+**It does not say "gravity is the weakest force" in general, and it does not explain why α_G(p) ≈ 5.9 × 10⁻³⁹.** What it requires, in its basic formulation, is that for each relevant gauge sector there exist **at least some state** for which the gauge repulsion exceeds the gravitational attraction — with the appropriate caveats when scalars or other long-range fields are in play. It is an inequality that ties the gauge coupling to the mass spectrum: given a gauge coupling g_gauge, it forces there to exist a particle with m ≲ g_gauge · Mₚ. It forbids arbitrarily weak couplings without light states accompanying them; but it does not fix any number. It would turn the weakness of gravity into a structural consistency condition —which would be an important conceptual change— without going so far as to derive its magnitude.
+
+Status: it is not a proven theorem. It is a conjecture with evidence accumulated in the string theory landscape and with multiple variants, some much stronger than the original. The reference review is Harlow, Heidenreich, Reece and Rudelius (*Rev. Mod. Phys.* 95, 035003, 2023). There are in addition results that complicate the picture. Knorr and Platania (2024) computed asymptotic safety landscapes from photon-graviton flows and found **violations of the WGC suppressed by the Planck scale** spread across the whole landscape, besides the fact that the landscapes of both programmes project onto a common plane. That is a result **within that truncation** of asymptotic safety and that concrete photon-graviton system, not empirical evidence against the strong versions of the conjecture. What it shows is that the two programmes make comparable statements in partial tension, not that one refutes the other.
+
+**Large extra dimensions (ADD, 1998).** It proposes that gravity is not weak, but diluted: it propagates through n additional compactified spatial dimensions, while the rest of physics is confined to a brane. The fundamental scale could be of the order of the TeV, and Mₚ would be an artefact of the extra volume. It **transfers** the problem instead of dissolving it. Since Mₚ² = M_D^{2+n} R^n, putting M_D ∼ TeV requires R·M_D ∼ 10¹⁵ for n = 2, so that the hierarchy reappears as that of the compactification radius, whose stabilization remains unresolved — something that the authors themselves leave explicitly open. It is a change in the form of the problem with physical content and falsifiable consequences, not a closed explanation. Status: strongly constrained. The Eöt-Wash group (Lee et al., 2020) took torsion balance data between 52 μm and 3.0 mm without finding any deviation from Newtonian gravity, which excludes Yukawa interactions of gravitational strength with ranges greater than 38.6 μm at 95 % confidence. The HUST group contributes something different and complementary: their dual-modulation experiment establishes that the inverse-square law holds (|α_Y| ≤ 1) down to λ = 59 μm, and their best contribution is the bound on the magnitude α_Y in the range from 70 to 300 μm. The two Eöt-Wash figures are not the same thing: the 52 μm is the minimum separation explored; the 38.6 μm, the limit on range that is derived from it. (The comparative picture between groups follows the review of Murata, Fujiie and Suzuki, 2026.) Colliders attack the model by another route: they bound the fundamental scale M_D directly. The ATLAS monojet search with the full Run 2 dataset (139 fb⁻¹) establishes lower limits at 95 % confidence on M_D ranging from 11.2 TeV for n = 2 down to 5.9 TeV for n = 6. Translating those bounds into a compactification radius is not immediate: it depends on the normalization convention adopted, so quote M_D and not a radius. The defensible conclusion is more bounded than "ADD is ruled out": the minimal realizations with M_D ∼ 1 TeV are excluded, while the ADD framework with larger fundamental scales remains allowed in regions of parameter space. What has been lost is the original motivation —solving the hierarchy by bringing the fundamental scale down to the TeV—, not the whole framework.
+
+**Warped geometry (Randall-Sundrum, 1999).** The hierarchy is generated geometrically by means of an exponential warp factor in an extra dimension: scales of order Mₚ at one end appear as TeV scales at the other. It does not require large dimensions. Status: not ruled out, but with no signal at the LHC.
+
+**Asymptotic safety (Weinberg, 1979; Reuter, 1998).** Gravity would be non-perturbatively renormalizable: the dimensionless coupling g = G k² would run towards a non-trivial ultraviolet fixed point, making the theory predictive at all energies. Status: ever broader classes of truncations —Einstein-Hilbert, f(R), quadratic terms, coupling to matter— have found fixed point structures compatible with the scenario. But it is evidence from truncations of the functional renormalization group, not a demonstration, and it drags along known dependences on the truncation, on the regulator, on the parametrization and on the matter content; the reviews of the programme itself keep on enumerating open conceptual and technical questions.
+
+**Asymptotic safety does not predict the value of G nor that of Λ.** And the statement must remain conditional from beginning to end: *if* the ultraviolet fixed point exists with a finite number of relevant directions, *then* the scenario implies a finite number of free parameters, with the irrelevant couplings determined by them. The count of those directions depends in addition on the truncation, on the matter content and on the fixed point considered. None of this is an established prediction while the existence of the fixed point remains undemonstrated. The infrared values of G and Λ continue to be inputs fitted to experiment. What is gained is predictivity, not a derivation of the hierarchy. With that caveat, the framework has indeed produced non-trivial predictions: Shaposhnikov and Wetterich (2010) used it to anticipate a Higgs mass close to the observed one, ≈126 GeV — under strong hypotheses: absence of new physics between the electroweak scale and the Planck scale, a fixed point with λ\* = 0, and a concrete sign of the gravity-induced anomalous dimension. With the opposite sign the prediction degrades to a range of ~126 to 174 GeV.
+
+**Induced gravity (Sakharov, 1967).** G would not be fundamental: the Einstein-Hilbert action would emerge from the quantum fluctuations of the matter fields, with 1/G generated by the loops. It does not solve the problem —it transfers the question to the ultraviolet cutoff— but it changes its status: G goes from datum to consequence.
+
+**Thermodynamic or emergent gravity.** Jacobson (1995) derived Einstein's equation as an equation of state starting from the Clausius relation applied to local horizons. The Bekenstein-Hawking entropy, S = A/4ℓₚ², suggests that G is essentially the conversion factor between area and number of degrees of freedom. If that reading is correct, asking about G is asking about the information density of spacetime.
+
+**Holography (AdS/CFT, 1997).** It is a **proof of existence**. Badly stated, it contradicts the central thesis of this document.
+
+What the boundary field theory fixes is not the dimensional number G_N on its own, but a **dimensionless combination** of G_N with the geometric scale of the bulk: quantities of the type L^(d−1)/G_N, expressed in terms of the central charge or of the number of degrees of freedom of the CFT. In the cleanest case, AdS₃/CFT₂:
+
+c = 3L / (2 G₃)
+
+The central charge of a non-gravitational theory determines the gravitational coupling of the bulk *relative to the AdS radius*. A bare G_N, independent of L, is not what is derived — and it could not be, for the same reason argued before: it would have no physical content.
+
+That does not weaken the example, it reinforces it. It is exactly the form that an explanation should have: a dimensionless ratio derived from dimensionless data of a structure that does not contain gravity. It is not our universe —anti-de Sitter space has a negative cosmological constant, and ours is positive—, but it demonstrates that that class of derivation is not an incoherent aspiration.
+
+**Dynamical relaxation (relaxion; Graham, Kaplan and Rajendran, 2015).** Instead of cancelling the corrections with new particles, a scalar field dynamically scans the possible values of the Higgs mass during early cosmological evolution and stops at a small one, because the braking mechanism itself depends on the Higgs acquiring an expectation value. The smallness would be the result of a history, not of a symmetry. Status: concrete models constructed, without experimental confirmation, with cosmological tensions in several versions.
+
+QCD is an empirically successful example of a theory in which a dimensional scale —Λ_QCD— emerges by dimensional transmutation out of the flow of a dimensionless coupling, without being put in by hand. That is not equivalent to QCD explaining the ratio Λ_QCD/Mₚ: that relation continues to depend on the ultraviolet conditions. What it demonstrates is that the mechanism exists and works in nature. Several programmes look for an analogue for the Planck scale itself.
+
+**Landscape and anthropic selection.** In string theory, the number of possible vacua could be immense, with different effective constants in each one. The observed hierarchy would then be a selection: only certain values allow structure and observers. Weinberg used this reasoning in 1987 to bound the cosmological constant before its measurement, with notable success. Status: the object of serious methodological dispute —measure problem, difficulty of falsification—, but it is not a marginal position.
+
+**Unimodular gravity** (a separate note, because it is usually cited in this context imprecisely). In that formulation what ceases to be a fundamental parameter **is not G, but Λ**, which appears as an integration constant of the equations of motion instead of as a term in the Lagrangian. It changes the status of the cosmological constant problem, not that of the strength of gravity. It does not belong in this list as a candidate to explain G; it is included to undo the confusion.
+
+---
+
+## The other free constant: Λ
+
+G fixes the coupling between the energy-momentum tensor and geometry. Λ is an **independent parameter** of the theory: a term of its own in the action, with its own renormalization. The cosmological constant problem is not that G couples the vacuum energy badly —it couples it exactly as it does any other form of energy—. The vacuum does not have a different gravitational coupling.
+
+In fact, a vacuum contribution has the form T_μν^vac = −ρ_vac g_μν, and can therefore be absorbed entirely into the cosmological constant:
+
+Λ_eff = Λ_bare + 8πG ρ_vac
+
+(with the factors of c and the sign according to the signature convention; here (−,+,+,+) is used). The only thing that exists physically is Λ_eff. The problem is why that **renormalized sum** turns out to be so small, not why G treats the vacuum in a special way.
+
+Measured: an energy scale of about 2 × 10⁻³ eV. To express it dimensionlessly one has to say exactly which quantity is being made dimensionless, because 10⁻¹²⁰, 10⁻¹²² and 10⁻¹²³ all circulate in the literature and the difference is one of convention, not of physics. The two clean combinations are
+
+Λ ℓₚ² ≈ 3 × 10⁻¹²²    and    ρ_Λ / Mₚ⁴ ≈ 1 × 10⁻¹²³
+
+separated by the factor 8π that relates Λ to ρ_Λ, and displaced again if M̄ₚ is used instead of Mₚ. **In this document Λ ℓₚ² ≈ 10⁻¹²² is used**, and that choice is maintained to the end.
+
+The usual formulation —"quantum field theory predicts a value 120 orders of magnitude larger"— is imprecise. Cutting off the zero-point energy at Mₚ and obtaining Mₚ⁴ is a **heuristic naturalness estimate**, not a renormalized prediction of quantum field theory: the result depends on the scheme, and a divergence absorbable into a counterterm does not by itself constitute a problem, just as it does not in the rest of the theory. The real problem is one of **radiative instability**, and it survives intact when only contributions from known physics are used.
+
+What is robust is this: the **changes of vacuum associated with scales we know** produce contributions that are naturally enormous compared with the observed density. (Decomposing the renormalized vacuum into individual pieces is scheme-dependent, so the argument rests on the magnitude of the tuning, not on term-by-term accounting.) The chiral condensate of QCD corresponds to a scale of the order of (100 MeV)⁴; electroweak breaking, of the order of (100 GeV)⁴. Each one exceeds the observed value by some 43 and some 55 orders of magnitude respectively — separated from each other, as they must be, by the 12 orders that lie between (100 MeV)⁴ and (100 GeV)⁴. For the final result to be the one measured, the tuning must be done with dozens of significant figures of precision — and it has to be redone every time the matter sector changes, for example on crossing a phase transition in the early universe. The tuning problem remains intact however it is decomposed.
+
+That is what distinguishes it from a merely unknown parameter: there is no symmetry protecting that value. Supersymmetry would cancel the dominant contributions only if it were unbroken, and we know that it would be broken.
+
+Why it belongs in this document: **not because it is the same problem as the magnitude of G**, but because it is the other free parameter that the theory does not explain, and its hierarchy is worse. With one precision: G and Λ are the two free parameters of the gravitational sector **at two-derivative order** in the Einstein-Hilbert action. Treated as an effective theory, gravity contains in addition the coefficients of R², R_μν R^μν and the whole tower of higher-order operators. What is true is that, of the parameters that dominate at low energy, the worst understood is Λ.
+
+G does not become a well-posed question until it is turned into the dimensionless ratio (m/Mₚ)², which requires choosing a reference mass from the spectrum. Λ does not need that choice: combined with the Planck length it gives directly Λℓₚ², a pure number —of the order of 10⁻¹²²— with no explanation and with no prior reformulation.
+
+---
+
+## Gravitational UV/IR mixing: a limit to Wilsonian reductionism?
+
+There is a more recent line of work that does not propose a mechanism to generate the hierarchy, but rather questions the reasoning that turns it into a problem. If it were right, a good part of the above would be badly posed. The question mark in the title is deliberate: what follows is an active research programme, not an established result.
+
+The reductionist paradigm says that to see smaller structure one has to use higher energy: short distances and high energies are the same thing. All of Wilsonian effective field theory rests on that clean separation of scales, and from there comes the hierarchy problem: if the Higgs is sensitive to heavy thresholds up to the Planck scale, the corrections to its mass should be enormous.
+
+Gravity can break that relation in the semiclassical transplanckian regime. In the transplanckian semiclassical picture, a collision at an energy far above Mₚ **and with a sufficiently small impact parameter** —of the order of the gravitational radius corresponding to that energy— does not probe shorter distances: it collapses into a black hole, and **the more energy is used, the larger the resulting black hole**. The kinematic condition matters: not every collision with E ≫ Mₚ necessarily produces a black hole. But in that regime, increasing the energy degrades the resolution instead of improving it. The ultraviolet and the infrared cease to be hierarchically ordered. In the words of Sergei Dubovsky, quoted in Natalie Wolchover's report in *Quanta* (March 2022) documenting this turn: gravity is anti-reductionist.
+
+One possibility explored in the literature is that this UV/IR mixing modifies the Wilsonian reasoning underlying some naturalness arguments: if the scales do not separate cleanly, extrapolating an effective theory up to Mₚ would cease to be justified, and the hierarchy would not be explained with new particles but by recognizing that the framework which formulates it does not hold as far as was believed. That this really resolves the hierarchy problem **is not established**: black hole formation in transplanckian regimes and the inverted UV/IR relation are ideas with content —there are concrete proposals of self-completeness and of gravitational *classicalization*—, but the inference that goes from there to invalidating the naturalness argument is a theoretical position, not a demonstrated consensus.
+
+What explains the moment at which this change of emphasis gained ground is empirical: the silence of the LHC.
+
+Active fronts:
+
+**The CKN bound (Cohen, Kaplan and Nelson, 1999).** An effective theory with ultraviolet cutoff Λ_UV in a region of size L cannot contain states that would already have collapsed into a black hole. The enclosed energy is of the order of L³Λ_UV⁴ and the mass of a black hole of radius L is of the order of L Mₚ², whence
+
+L³ Λ_UV⁴ ≲ L Mₚ²  ⟹  Λ_UV⁴ ≲ Mₚ² / L²
+
+That is: the allowed ultraviolet cutoff **depends on the infrared size of the system**. That correlation is the content of the bound.
+
+The result is stronger than is usually said. Estimating the entropy of the effective theory as S_EFT ∼ (L Λ_UV)³, the bound gives L Λ_UV ≲ (L Mₚ)^½ and therefore
+
+S_EFT ≲ (L Mₚ)^{3/2}
+
+whereas the Bekenstein-Hawking entropy scales as S_BH ∼ (L Mₚ)². So CKN **does not say that the states scale with the area**: it imposes a bound that is *more restrictive* than the holographic area law. The UV/IR correlation it postulates is stronger than the ordinary holographic one.
+
+Taking L of the order of the Hubble radius, the bound gives ρ ≲ Mₚ² H², which is precisely the order of magnitude of the observed dark energy density.
+
+With one caveat that has to be made explicit, because it affects the coherence of this document: going from a bound on Λ_UV to a bound on ρ requires identifying the vacuum energy density with the fourth power of the cutoff — **the same scheme-dependent heuristic that the previous section declares illegitimate as a prediction**. The numerical coincidence is striking; the step that produces it is exactly the one rejected there. Whoever accepts one should accept the other, or reject both. The bound was revived by Blinov and Draper (*Densities of States and the CKN Bound*, 2021), who reinterpret it as a density of states that becomes depleted with scale, which can render the vacuum energy insensitive to the ultraviolet. What they check is bounded: they study a simple depletion prescription and find that selected observables —the Lamb shift, g−2— are not sensitive at the level considered. They do not demonstrate compatibility with all the predictions of quantum field theory. Necessary precision: this **relates** the cosmological constant to the size of the horizon; it is not a prediction from first principles, it is a coincidence between a bound and an observed quantity.
+
+**Modular invariance in string theory (Abel and Dienes, 2021).** They constructed a framework to calculate the Higgs mass at one loop directly in closed string theory, with no assumption beyond the modular invariance of the worldsheet, and without requiring unbroken supersymmetry. The contributions of the entire tower of string states —from the infrared to the ultraviolet— are correlated by that symmetry. The result they obtain is that a gravitational modular anomaly **relates** the Higgs mass to the cosmological constant at one loop. It is a link between the two quantities that suffer from hierarchy problems, not an exact cancellation that protects them.
+
+**Quadratic gravity.** Stelle demonstrated in 1977 that including the squared curvature invariants (R² and the Weyl term C²) in the Einstein-Hilbert action makes the theory perturbatively renormalizable in four dimensions: the graviton propagator goes from falling as 1/k² to falling as 1/k⁴. That is what is established, and it must not be confused with having an ultraviolet fixed point —which is an additional statement about the renormalization group flow—: a renormalizable theory is not thereby identified with a realization of asymptotic safety.
+
+The price: that same term introduces a **massive tensor ghost**, a spin-2 state with the wrong sign in the propagator, which threatens the unitarity or the stability of the theory. It is a problem open for almost fifty years, not a technical detail. That said, the line is alive: there is recent work attempting to reinterpret the ghost —as an inverted-harmonic-oscillator-type instability, or by means of confinement mechanisms— instead of eliminating it.
+
+---
+
+## What we do not know
+
+General relativity describes extraordinarily well the regimes where gravity can be treated classically: from planetary systems to stars, black holes and cosmology. Quantum theory describes matter and fields when their quantum properties are relevant.
+
+In regimes where quantum effects and an extreme gravitational curvature simultaneously matter (conditions of the very early universe, or on extrapolating towards the singularities that general relativity predicts) a quantum theory of gravity is needed. Reaching a certain mass is not enough: the characteristic length, density and curvature of the system also matter. An object of 22 micrograms has the Planck mass and is not a quantum gravity system; what is relevant is concentrating it within ℓₚ.
+
+General relativity can be treated as an effective quantum theory at low energies, and in that framework well-defined quantum corrections to the Newtonian potential are calculated. What we do not have is a fundamental theory of quantum gravity, valid also in the Planck regime and experimentally confirmed. There are candidates (string theory, loop quantum gravity, asymptotic safety) but none verified.
+
+There is in addition a structural peculiarity of gravity that contradicts the naive reading of "everything that has energy is in T_μν": **the energy of the gravitational field itself is not in T_μν.** The reason has to be given precisely, because the quick version ("the equivalence principle allows the field to be cancelled locally") says too much. What can be cancelled at a point, by choosing locally inertial coordinates, are the **connection coefficients**. A non-zero Riemann tensor, by contrast, cannot be made zero by a mere change of coordinates: it is a tensor, and if it does not vanish in one system it vanishes in none.
+
+And yet gravity does gravitate: Einstein's equation is non-linear, the field couples to itself, and gravitational waves transport energy that is measured — the orbital energy loss of the Hulse-Taylor binary pulsar agrees with the prediction of general relativity. Gravity transports energy, but general relativity **does not admit a local density of gravitational energy that is simultaneously covariant, unique and tensorial**: there are only coordinate-dependent pseudotensors, or quasi-local and asymptotic definitions (ADM, Bondi) valid in particular circumstances. It is one of the structural differences between gravity and the other interactions.
+
+**it is not experimentally established that the gravitational field must be quantized.** It is the majority expectation and there are strong theoretical arguments in favour, but it is an expectation. Bose-Marletto-Vedral type proposals seek to decide it on a laboratory bench: two masses in spatial superposition that become entangled solely through their gravitational interaction.
+
+The conclusion has to be stated conditionally, because the current statement —"a classical mediator could not explain it"— is stronger than what the theorems sustain. What is defensible: **under the hypotheses of locality and of classical mediation that the entanglement-witness theorems employ**, generating entanglement would exclude broad classes of purely classical mediators. What exact degree of gravitational non-classicality would be established depends on the framework: on the assumptions about locality, about the structure of subsystems and about local tomography. There is recent work devoted precisely to examining what happens on relaxing each of those assumptions, and some concrete semiclassical models reproduce or evade the signal.
+
+The experiment is moreover very far from the necessary sensitivity. What it does is to turn a question of principle into an empirical question, not to settle it.
+
+The original question remains open, reformulated:
+
+It is not "what is the value of G?". That is measured —badly, but it is measured— and its isolated numerical value depends on the system of units and is not an invariant quantity.
+
+It is not "how does gravity work?". General relativity describes it within its domain of validity.
+
+The question is: why does there exist such a gigantic hierarchy between the gravitational scale and the scales of known matter? Why is α_G(p) ≈ 5.9 × 10⁻³⁹, why is v/Mₚ ≈ 10⁻¹⁷, and why is Λℓₚ² ≈ 10⁻¹²²?
+
+Combining G, c and ℏ defines the natural Planck scales, but it does not explain why those scales keep the relations we observe with the scales of matter. None of those operations explains why the ratio Mₚ / mₚ is of the order of 10¹⁹.
+
+It is not enough to rewrite G in other variables: we already did that, and it was circular. A real explanation would have to produce those dimensionless ratios out of structures that do not contain them as input data. AdS/CFT shows that that type of derivation is possible in some universe. Not yet in ours.
+
+The field is in transition. For decades the expected answer was supersymmetry: new particles that would cancel the corrections to the Higgs mass and make the hierarchy natural. The LHC has not found them in broad regions of the simplest scenarios, and that experimental silence —which weakens those concrete realizations, not a theorem— has opened space for three distinct types of answer.
+
+One tries to **generate it**: extra dimensions, warping, dimensional transmutation, cosmological relaxation. Another tries to **constrain which hierarchies are compatible with quantum gravity**: the weak gravity conjecture and the Swampland programme impose consistency conditions on couplings and spectra, without fixing the observed magnitude or deriving the concrete ratio m/Mₚ that we measure. And a third maintains that the hierarchy **is not well posed**: UV/IR mixing would break the separation of scales on which the whole argument depends.
+
+All three could be partially correct, and none is confirmed. The only firm thing is the list of numbers —5.9 × 10⁻³⁹, 10⁻¹⁷, 10⁻¹²²— and the observation that ninety years after Dirac we still do not know where they come from.
+
+---
+
+## Notation: symbols that recur with different meanings
+
+Physics reuses the same letters in contexts that have nothing to do with each other. Several collisions appear here.
+
+| Symbol | In this text it means |
+|---|---|
+| α | Fine-structure constant, ≈ 1/137. Coupling of electromagnetism |
+| α_G | G m²/(ℏc). It is **not** a coupling: it is the ratio (m/Mₚ)² |
+| α_s | Coupling of the strong interaction |
+| α_Y | Strength of a hypothetical Yukawa interaction, relative to gravity |
+| Λ | Cosmological constant |
+| Λ_QCD | Characteristic scale of the strong interaction, ~200 MeV |
+| Λ_UV | Ultraviolet cutoff of an effective theory |
+| G | Newton's constant |
+| G_μν | Einstein tensor (geometry). The indices distinguish it |
+| T_μν | Energy-momentum tensor (material content). Not to be confused with G_μν |
+| g(k) | Dimensionless version of G at scale k, in asymptotic safety |
+| g_gauge | Coupling of a gauge force, in the WGC |
+| Mₚ | **Planck mass**, 1.22 × 10¹⁹ GeV |
+| M̄ₚ | **Reduced** Planck mass, Mₚ/√(8π) ≈ 2.44 × 10¹⁸ GeV |
+| mₚ | **Proton mass**, 0.938 GeV |
+| M_D | Fundamental gravitational scale in extra-dimension models |
+| ℓₚ | Planck length, 1.62 × 10⁻³⁵ m |
+
+The dangerous pair is **Mₚ** (Planck) versus **mₚ** (proton): only the capital letter separates them, and the whole document turns on their quotient, which is 1.30 × 10¹⁹.
+
+---
+
+## Glossary
+
+For those who do not come from the field. The definitions are informal on purpose; the body of the text uses the precise statements.
+
+**Dimensionless.** A pure number, with no units. A length of 3 metres is dimensional (in feet it is worth something else); the ratio between two lengths is dimensionless and is worth the same in any system. The whole thesis of the article rests on this distinction.
+
+**1σ, 2σ.** Width of the error bar. For a Gaussian variable, approximately 68 % of the realizations fall within ±1σ and 95 % within ±2σ. In a frequentist confidence interval, those percentages refer to the behaviour of the procedure under repetitions, not to a probability assigned to the true value. "Adding in quadrature" is combining two independent errors as √(a² + b²), not adding them.
+
+**Effective theory (EFT).** A theory that correctly describes what happens below a certain energy, without claiming to hold above it. It is not a defect: it is how almost all of physics works. General relativity is an excellent effective theory far below the Planck scale.
+
+**Ultraviolet / infrared cutoff.** "Ultraviolet" (UV) means high energies or short distances; "infrared" (IR), low energies or long distances. Nothing to do with UV or IR light: it is inherited jargon.
+
+**Renormalization group, *running*.** The observation that the effective strength of an interaction depends on the energy at which it is measured. The electromagnetic coupling is worth 1/137 at low energy and 1/128 at the scale of the Z boson. To "run" is to change with the scale.
+
+**Beta function.** The function that gives the rate of change of a coupling with the scale: β(g) = dg/d ln k. If it is zero, the coupling does not change.
+
+**Fixed point.** A set of values of the couplings for which their beta functions vanish and the renormalization group flow stops changing those couplings. In asymptotic safety it is postulated that the gravitational flow approaches a non-Gaussian fixed point in the ultraviolet.
+
+**Truncation.** In studying that flow one cannot include infinitely many terms, so a subset is retained. The results may depend on which one is chosen, and that is why the text insists that the evidence comes from truncations and is not a demonstration.
+
+**Renormalizable.** That the infinities appearing in the calculations can be absorbed into a finite number of parameters. Einstein gravity is not, perturbatively — which does not make it useless, only limited to its regime.
+
+**Loop, counterterm.** The quantum corrections are calculated as a series; each "loop" is a higher order. A counterterm is the adjustment introduced to absorb an infinity.
+
+**Power counting.** Determining how a quantity scales with energy by looking only at its dimensions, without doing the complete calculation.
+
+**Scheme, regulator.** Technical conventions needed to make sense of divergent integrals. A quantity that depends on the scheme is not directly observable — an argument the text uses several times.
+
+**Energy-momentum tensor (T_μν).** The object that packages energy density, momentum, pressure and stresses. It is what appears on the right-hand side of Einstein's equation: what curves spacetime.
+
+**Pseudotensor.** An object that looks like a tensor but whose value depends on the coordinates chosen. That is why it does not serve to define a genuine local gravitational energy.
+
+**Gauge.** The technical name of the type of symmetry from which electromagnetism and the nuclear forces come. "Gauge force" = any of those, gravity excluded.
+
+**Unitarity.** That the probabilities add up to one. If a theory violates it, it is badly used or badly formulated.
+
+**Ghost.** A state with kinetic energy of the wrong sign. Its presence threatens unitarity or stability, and it is the classic problem of quadratic gravity.
+
+**Spin 2.** The graviton, the excitation of the gravitational field, has spin 2. The "massive tensor ghost" is a second, unwanted spin-2 state.
+
+**Dimensional transmutation.** The phenomenon whereby a theory with no mass put in by hand generates a mass scale through the flow of the coupling. It is how QCD produces Λ_QCD, and the model to be imitated.
+
+**Asymptotic freedom.** Property of the strong interaction: it weakens at high energies, so that quarks are almost free at high energy. At low energy they are confined — a distinct, non-perturbative fact, which asymptotic freedom makes plausible but neither implies nor demonstrates.
+
+**Brane, compactification.** In models with extra dimensions, a "brane" is the surface where ordinary matter lives; to "compactify" is to roll up the additional dimensions so that they are not seen.
+
+**Holography, AdS/CFT, *bulk*, boundary.** A correspondence according to which a theory with gravity in a space of d+1 dimensions (the *bulk*) is equivalent to a theory without gravity on its d-dimensional frontier (the boundary). AdS is a spacetime with negative curvature; CFT, a field theory with scale invariance.
+
+**Central charge.** A number that counts, essentially, how many degrees of freedom a field theory has.
+
+**Entanglement.** Quantum correlation between systems whose joint state cannot be written as a mixture of product states. The BMV experiment seeks to produce it using only gravity.
+
+**Cross section (σ).** Effective area that characterizes the propensity of a process to occur: the expected number of events is N = L_int · σ. The larger it is, the more frequent the process.
+
+**fb⁻¹ (inverse femtobarn).** Unit of **integrated luminosity**, not a count of collisions. Its usefulness is that the expected number of events of a given process is N = L_int · σ, corrected by the efficiency of the detector and by the fraction of events it is capable of seeing. More fb⁻¹ = more exposure = stricter limits.
+
+**Monojet.** Search topology that requires **at least one energetic jet** plus a large missing transverse momentum — not literally a single jet. It is the signature looked for when something escapes the detector without leaving a signal, such as a graviton emitted into extra dimensions.
+
+**Naturalness.** A criterion, not a theorem: the expectation that the dimensionless parameters of a theory be of order one, and that very small values have an explanation —a symmetry or a dynamical mechanism— instead of resulting from a fine-tuned cancellation. It is the criterion that motivated the search for supersymmetry at the LHC and the one that the UV/IR section calls into question.
+
+**Technically natural.** A small dimensionless quantity is technically natural if its smallness is preserved under quantum corrections, normally because setting it to zero would restore a symmetry. What is technically natural here is the **ratio** Λ_QCD/M_UV, not Λ_QCD on its own; the ratio v/Mₚ is not.
+
+**Threshold, threshold sensitivity.** A "threshold" is the mass scale of a heavy state. Threshold sensitivity is the statement —more precise than speaking of divergences— that if a heavy state coupled to the Higgs exists, its mass filters into that of the Higgs by means of a calculable correction.
+
+***Matching*.** The procedure of splicing two descriptions at different scales: the low-energy effective theory is required to reproduce the same results as the complete theory just below the threshold. It is where the preceding sensitivity appears.
+
+**Bare.** The value that a parameter has in the starting formulation, before including the quantum corrections. It is not observable: what is measurable is the renormalized value, which combines the bare one with those corrections. Hence "adjusting the bare term" is not cheating, but the standard procedure — the problem is how many figures have to be tuned.
+
+**Vacuum.** It is not "nothing". It is the minimum energy state of the fields, which in quantum field theory has structure and an energy density of its own, and which changes when the system crosses a phase transition.
+
+**Chiral condensate.** Reorganization of the QCD vacuum that breaks chiral symmetry and gives effective (constituent) mass to the light quarks. The mass of the nucleon comes for the most part from the gluon dynamics associated with Λ_QCD, not from the condensate itself, whose direct contribution is around 10 %.
+
+**Action, Lagrangian.** The mathematical object from which the equations of motion of a theory are derived. "Adding a term to the action" is modifying the theory; that something be "a term of the Lagrangian" instead of an integration constant changes its status.
+
+**Perturbative, non-perturbative.** Perturbative = calculated as a series of ever smaller corrections, valid when the coupling is small. Non-perturbative = phenomena that that series does not capture, such as the confinement of quarks.
+
+**Propagator.** The expression that describes how a particle propagates between two points. Its behaviour at high energy (whether it falls as 1/k² or as 1/k⁴) determines how divergent the calculations are.
+
+**Vacuum polarization.** Effect by which the virtual pairs of the vacuum screen a charge, making the measured coupling depend on the distance. It is the mechanism of the *running* of α.
+
+**Anomalous dimension.** Quantum correction to how a quantity scales with energy, beyond what its classical dimension dictates.
+
+**Non-analytic.** The loop corrections separate into an analytic part —which overlaps with the counterterms and is therefore not fixed by the low-energy theory, although once measured it does predict in other kinematics— and a non-analytic one, which cannot be absorbed and constitutes a genuine prediction of the effective theory. Hence the quantum corrections to the Newtonian potential are indeed calculable.
+
+**Connection coefficients.** The objects that encode how the coordinate system "twists". They can be cancelled at a point; the curvature, which is a tensor, cannot.
+
+**Landscape.** The set —possibly immense— of possible vacua of string theory, each one with different effective constants.
+
+**Self-completeness, *classicalization*.** Proposals according to which gravity protects itself from its own high-energy regime by forming large classical objects (black holes) instead of probing ever smaller distances.
+
+**Worldsheet, modular invariance.** The "worldsheet" is the surface a string sweeps out as it moves. Modular invariance is a symmetry of that surface which correlates the contributions of all the states of the string, from the infrared to the ultraviolet.
+
+**Local tomography.** Technical assumption according to which the state of a composite system is determined by the **joint statistics** of measurements performed locally on each of its parts — by the correlations between local outcomes, with no need for global measurements. The measurements taken separately are not enough: an entangled state and the product of its marginals have the same marginals. Several theorems about the BMV experiment depend on this assumption.
+
+---
+
+## Sources
+
+**Values and measurements**
+
+- CODATA 2022: [Rev. Mod. Phys. 97, 025002](https://link.aps.org/doi/10.1103/RevModPhys.97.025002) · [arXiv:2409.03787](https://arxiv.org/abs/2409.03787)
+- Li et al., *Measurements of the gravitational constant using two independent methods*, [Nature 560, 582 (2018)](https://www.nature.com/articles/s41586-018-0431-5)
+- Schlamminger et al., *Redetermination of the gravitational constant with the BIPM torsion balance at NIST*, [Metrologia, doi:10.1088/1681-7575/ae570f (16 April 2026)](https://iopscience.iop.org/article/10.1088/1681-7575/ae570f) — primary source for the quoted value; the NIST bibliographic record currently shows a different value in its abstract (6.67366 ± 0.00020), inconsistent with the published article and with the press release itself
+
+**Structure of general relativity**
+
+- Taylor & Weisberg, *A new test of general relativity: Gravitational radiation and the binary pulsar PSR 1913+16*, Astrophys. J. 253, 908 (1982) — orbital energy loss of the Hulse-Taylor pulsar
+- Unruh, *Unimodular theory of canonical quantum gravity*, Phys. Rev. D 40, 1048 (1989) — Λ as an integration constant
+- 't Hooft & Veltman, *One-loop divergencies in the theory of gravitation*, Ann. Inst. H. Poincaré A 20, 69 (1974)
+- Goroff & Sagnotti, *The ultraviolet behavior of Einstein gravity*, Nucl. Phys. B 266, 709 (1986) — the R³ counterterm at two loops
+
+**Experimental tests of gravity**
+
+- Touboul et al., *MICROSCOPE Mission: Final Results of the Test of the Equivalence Principle*, [PRL 129, 121102 (2022)](https://link.aps.org/doi/10.1103/PhysRevLett.129.121102) · [arXiv:2209.15487](https://arxiv.org/abs/2209.15487)
+- Hofmann & Müller, *Relativistic tests with lunar laser ranging*, [CQG 35, 035015 (2018)](https://iopscience.iop.org/article/10.1088/1361-6382/aa8f7a)
+- Lee, Adelberger, Cook, Fleischer & Heckel, *New Test of the Gravitational 1/r² Law at Separations down to 52 μm*, [PRL 124, 101101 (2020)](https://link.aps.org/doi/10.1103/PhysRevLett.124.101101)
+- Tan et al., *New Test of the Gravitational Inverse-Square Law at the Submillimeter Range with Dual Modulation and Compensation*, [PRL 116, 131101 (2016)](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.116.131101)
+- Murata, Fujiie & Suzuki, *Short-Range Tests of the Gravitational Inverse-Square Law* (2026), [arXiv:2605.18212](https://arxiv.org/abs/2605.18212)
+- ATLAS Collaboration, *Search for new phenomena in events with an energetic jet and missing transverse momentum in pp collisions at √s = 13 TeV*, [arXiv:2102.10874](https://arxiv.org/abs/2102.10874) (full Run 2, 139 fb⁻¹)
+
+**Constants and units**
+
+- Duff, Okun & Veneziano, *Trialogue on the number of fundamental constants*, [JHEP 03 (2002) 023](https://iopscience.iop.org/article/10.1088/1126-6708/2002/03/023) · [arXiv:physics/0110060](https://arxiv.org/abs/physics/0110060)
+
+**Large numbers and variation of G**
+
+- Dirac, *The Cosmological Constants*, Nature 139, 323 (1937)
+- Teller, *On the Change of Physical Constants*, Nature 162, 325 (1948)
+- Dicke, *Dirac's Cosmology and Mach's Principle*, Nature 192, 440 (1961)
+
+**General relativity as an effective theory**
+
+- Donoghue, *General relativity as an effective field theory: The leading quantum corrections*, Phys. Rev. D 50, 3874 (1994), [arXiv:gr-qc/9405057](https://arxiv.org/abs/gr-qc/9405057) — source of the claim that the low-energy non-analytic corrections are well-defined and parametrizable predictions
+
+**Hierarchy problem and proposed solutions**
+
+- Arkani-Hamed, Dimopoulos & Dvali, *The hierarchy problem and new dimensions at a millimeter* (ADD), Phys. Lett. B 429, 263 (1998), [arXiv:hep-ph/9803315](https://arxiv.org/abs/hep-ph/9803315)
+- Randall & Sundrum, *A large mass hierarchy from a small extra dimension*, Phys. Rev. Lett. 83, 3370 (1999), [arXiv:hep-ph/9905221](https://arxiv.org/abs/hep-ph/9905221)
+- Graham, Kaplan & Rajendran, *Cosmological relaxation of the electroweak scale*, Phys. Rev. Lett. 115, 221801 (2015), [arXiv:1504.07551](https://arxiv.org/abs/1504.07551)
+
+**Asymptotic safety**
+
+- Weinberg, *Ultraviolet divergences in quantum theories of gravitation*, in *General Relativity: An Einstein Centenary Survey* (Hawking & Israel, eds., 1979)
+- Reuter, *Nonperturbative evolution equation for quantum gravity*, Phys. Rev. D 57, 971 (1998), [arXiv:hep-th/9605030](https://arxiv.org/abs/hep-th/9605030)
+- Shaposhnikov & Wetterich, *Asymptotic safety of gravity and the Higgs boson mass*, Phys. Lett. B 683, 196 (2010), [arXiv:0912.0208](https://arxiv.org/abs/0912.0208)
+
+**G as a derived quantity: induced, emergent, holographic gravity**
+
+- Sakharov, *Vacuum quantum fluctuations in curved space and the theory of gravitation*, Dokl. Akad. Nauk SSSR 177, 70 (1967)
+- Jacobson, *Thermodynamics of spacetime: The Einstein equation of state*, Phys. Rev. Lett. 75, 1260 (1995), [arXiv:gr-qc/9504004](https://arxiv.org/abs/gr-qc/9504004)
+- Brown & Henneaux, *Central charges in the canonical realization of asymptotic symmetries*, Commun. Math. Phys. 104, 207 (1986) — origin of c = 3L/2G₃
+- Maldacena, *The large N limit of superconformal field theories and supergravity*, [arXiv:hep-th/9711200](https://arxiv.org/abs/hep-th/9711200) (1997)
+
+**Weak gravity conjecture and Swampland**
+
+- Arkani-Hamed, Motl, Nicolis & Vafa, *The string landscape, black holes and gravity as the weakest force*, JHEP 0706:060 (2007), [arXiv:hep-th/0601001](https://arxiv.org/abs/hep-th/0601001)
+- Harlow, Heidenreich, Reece & Rudelius, *Weak gravity conjecture* (review), [Rev. Mod. Phys. 95, 035003 (2023)](https://link.aps.org/doi/10.1103/RevModPhys.95.035003) · [arXiv:2201.08380](https://arxiv.org/abs/2201.08380)
+- Knorr & Platania, *Unearthing the intersections: positivity bounds, weak gravity conjecture, and asymptotic safety landscapes from photon-graviton flows* (2024), [arXiv:2405.08860](https://arxiv.org/abs/2405.08860)
+
+**Cosmological constant**
+
+- Weinberg, *Anthropic bound on the cosmological constant*, Phys. Rev. Lett. 59, 2607 (1987)
+- Weinberg, *The cosmological constant problem*, Rev. Mod. Phys. 61, 1 (1989) — canonical exposition of the problem, including the formulation by means of a cutoff at Mₚ that this text qualifies in "The other free constant: Λ"
+
+**UV/IR mixing and the crisis of naturalness**
+
+- Cohen, Kaplan & Nelson, *Effective field theory, black holes, and the cosmological constant*, Phys. Rev. Lett. 82, 4971 (1999), [arXiv:hep-th/9803132](https://arxiv.org/abs/hep-th/9803132)
+- Blinov & Draper, *Densities of States and the CKN Bound* (2021), [arXiv:2107.03530](https://arxiv.org/abs/2107.03530)
+- Abel & Dienes, *Calculating the Higgs mass in string theory*, [PRD 104, 126032 (2021)](https://link.aps.org/doi/10.1103/PhysRevD.104.126032) · [arXiv:2106.04622](https://arxiv.org/abs/2106.04622)
+
+**Quadratic gravity**
+
+- Stelle, *Renormalization of higher-derivative quantum gravity*, Phys. Rev. D 16, 953 (1977)
+- Salvio et al., *Quantum (quadratic) gravity: replacing the massive tensor ghost with an inverted harmonic oscillator-like instability* (2026), [arXiv:2603.07150](https://arxiv.org/abs/2603.07150)
+
+**Quantum gravity: is the gravitational field quantum?**
+
+- Bose et al., *Spin entanglement witness for quantum gravity*, Phys. Rev. Lett. 119, 240401 (2017), [arXiv:1707.06050](https://arxiv.org/abs/1707.06050)
+- Marletto & Vedral, *Gravitationally induced entanglement between two massive particles is sufficient evidence of quantum effects in gravity*, Phys. Rev. Lett. 119, 240402 (2017)
+- Critical discussion of what the experiment really establishes: *What gravity mediated entanglement can really tell us about quantum gravity*, [PRD 108, L101702](https://link.aps.org/doi/10.1103/PhysRevD.108.L101702)
+
+- Dvali & Gomez, *Self-completeness of Einstein gravity* (2010), [arXiv:1005.3497](https://arxiv.org/abs/1005.3497) — self-completeness and *classicalization*
+
+**Secondary reading**
+
+- *The curious case of the gravitational constant*, [PNAS](https://www.pnas.org/doi/10.1073/pnas.1612597113)
+- Wolchover, *A Deepening Crisis Forces Physicists to Rethink Structure of Nature's Laws*, [Quanta Magazine, March 2022](https://www.quantamagazine.org/crisis-in-particle-physics-forces-a-rethink-of-what-is-natural-20220301/)
+- *Old 'Ghost' Theory of Quantum Gravity Makes a Comeback*, [Quanta Magazine, November 2025](https://www.quantamagazine.org/old-ghost-theory-of-quantum-gravity-makes-a-comeback-20251117/)
+- Speake & Quinn, *The search for Newton's constant*, [Physics Today](https://physicstoday.aip.org/features/the-search-for-newtons-constant)

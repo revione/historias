@@ -95,6 +95,34 @@ El body no es MDX completo. Se renderiza con un parser interno (`mdToHtml`) que 
 
 No soporta: componentes React, JSX, bloques de código con sintaxis highlight, HTML arbitrario.
 
+## Fuentes
+
+Si la historia se apoya en material externo — papers, mediciones, datos, artículos, libros, notas de otra persona — **las fuentes van al final de la publicación**, en una sección propia:
+
+```md
+---
+
+## Fuentes
+
+- Autor, *Título*, [Publicación, año](url)
+```
+
+Reglas:
+
+- La sección va siempre al final, después de todo el cuerpo, precedida de `---`.
+- Se titula `## Fuentes`.
+- Una fuente por línea, en lista `-`.
+- El enlace usa `[texto](url)`, que es lo único que soporta el parser. Sin notas al pie ni superíndices.
+- Cuando existan las dos, enlazar la versión publicada y el preprint: `[PRL 129, 121102 (2022)](url) · [arXiv:2209.15487](url)`.
+- Si hay muchas fuentes, agruparlas con negritas como subtítulos (`**Mediciones**`, `**Teoría**`). No usar `###`, que compite visualmente con las secciones del cuerpo.
+- Preferir el enlace estable: DOI, arXiv o el sitio del editor antes que un agregador.
+
+Qué citar: cualquier número, medición, fecha o afirmación atribuible a un trabajo concreto. Lo que es conocimiento general del área no necesita fuente.
+
+Si la historia no se apoya en material externo, no lleva sección de fuentes. No se inventa una para rellenar.
+
+Al traducir, la sección `## Fuentes` se traduce en el título y en las descripciones, pero **los títulos de los trabajos citados y las URLs se mantienen sin traducir**.
+
 ## Idiomas
 
 Soportados: `es`, `en`, `de`. La app carga `es` por defecto; el cambio de idioma es client-side.
@@ -127,6 +155,8 @@ head -15 content/ai/es/2026-04-20-llm-agentes.mdx
 ```
 
 Si falta el bloque `---` al inicio, el parser lo ignora y la historia aparece sin metadata.
+
+Y si la historia cita material externo, verificar que la sección `## Fuentes` está al final y que los enlaces resuelven.
 
 ## Categorías del sidebar
 
