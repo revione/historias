@@ -15,6 +15,7 @@ Cuando alguien cierra una investigación con una frase hecha, se responde con un
 La numeración conserva el orden en que se escribieron las secciones. El orden de uso es otro.
 
 ```text
+0. §12            declarar qué se está estudiando
 1. §7.5           la cuenta cruda
 2. §7.3           cortar las versiones propias que fallan por magnitud
 3. §7.1           buscar si el mecanismo tiene nombre
@@ -23,6 +24,9 @@ La numeración conserva el orden en que se escribieron las secciones. El orden d
 6. §7.4 o §11.2   según con quién se hable
 7. §1             registrar lo que respondieron
 8. §5             custodia de todo lo anterior
+
+En cualquier punto: §13 sobre las formulaciones propias y ajenas.
+Si el caso llega cerrado: §14 antes que nada.
 ```
 
 La cuenta de §7.5 decide si el tema llega a merecer ficha. Rellenar §0 antes de hacerla es trabajo que puede caerse entero en el paso uno.
@@ -34,6 +38,7 @@ La cuenta de §7.5 decide si el tema llega a merecer ficha. Rellenar §0 antes d
 Ficha para desarrollar un tema antes de defenderlo. Se escribe en su versión más fuerte, sin atenuar y sin coletillas.
 
 ```text
+Qué se está estudiando:
 Preocupación de fondo:
 Qué descartaría la preocupación:
 Tema:
@@ -49,6 +54,7 @@ Fecha:
 
 **Qué va en cada campo:**
 
+- **Qué se está estudiando.** Ver §12. Determina qué cuenta como evidencia en el resto de la ficha, así que se rellena antes que nada.
 - **Preocupación de fondo.** Qué es lo que de verdad preocupa, por debajo del mecanismo concreto. Se rellena una vez y se mantiene mientras los mecanismos entran y salen debajo.
 - **Qué descartaría la preocupación.** Campo obligatorio, igual que el del tema. Sin él la preocupación queda disponible para un mecanismo nuevo cada vez que cae el anterior, y la cadena de sustituciones de §7.6 puede seguir de forma indefinida sin que nada se cierre. Ejemplo para el caso RF: cohortes con potencia suficiente, gradiente de exposición medido por dosímetro y ajuste por ruido, contaminación y nivel socioeconómico, que no muestren separación en el índice de carga alostática. Si eso llega, se marca descartada la preocupación y no solo el mecanismo de turno.
 - **Tema.** De qué trata. La extensión que haga falta.
@@ -581,7 +587,24 @@ sin lugar a dudas
 
 Estas marcan que se está dando por cerrado algo que no se acaba de mostrar. No dicen quién tiene razón.
 
-### §9.4 Cómo se usa
+### §9.4 Vocabulario que delega el veredicto
+
+```text
+está verificado
+no se ha podido replicar
+no está probado
+carece de respaldo
+no está aceptado
+la evidencia disponible no lo sostiene
+```
+
+Estas describen el estado de una afirmación dentro de una institución. Quien financió la comprobación decide en gran medida ese estado, así que la palabra informa sobre el circuito y no sobre el mundo.
+
+Cuando aparecen, la pregunta es quién comprobó, con qué acceso y con qué financiación. Ver §2.1 y §2.4.
+
+Aplicado al propio texto: evitar montar una conclusión sobre "está verificado" o sobre "no se ha podido replicar". Poner en su lugar qué se midió, quién lo midió y qué salió.
+
+### §9.5 Cómo se usa
 
 1. Al leer una respuesta o un texto, marcar las apariciones.
 2. Por cada una, comprobar si detrás hay un dato citable o si la palabra está sola.
@@ -617,6 +640,49 @@ Reglas de respuesta:
 **Por qué la 6.** Repetir una objeción que ya se contestó es el mecanismo del peaje de §8, ejecutado turno a turno. Convierte una discusión cerrada en una que hay que volver a ganar.
 
 **Cómo se comprueba:** buscar en el propio texto "no es", "sino", "y no", punto seguido de frase corta contrastante. Cada aparición se reescribe en afirmación simple o se borra.
+
+### §10.1 Cuaderno y post son textos distintos
+
+El cuaderno lleva los números de sección. El post no lleva ninguno.
+
+```text
+8.  En el post no aparece ningún §. Ni en títulos, ni entre
+    paréntesis, ni como justificación de un paso.
+9.  Lo que en el cuaderno es un campo, en el post es una frase
+    dentro de un párrafo.
+10. La ficha de §0 no se publica. Se publica lo que produjo.
+```
+
+**Qué sí pasa al post, dicho en prosa:** la cuenta con sus números, lo que hay en contra, lo que está sin verificar, y qué resultado cerraría el asunto. Todo eso se dice sin nombrar de dónde sale.
+
+**Qué se queda en el cuaderno:** la ficha, el registro de cierres, los contadores, las referencias a secciones.
+
+**Por qué.** El armazón se nota en qué se dice y en qué orden. Rotularlo obliga al lector a aprenderse el método antes de leer el tema, y convierte un texto en un expediente.
+
+**Cómo se comprueba:** buscar "§" en el borrador. Cero apariciones.
+
+**Ejemplo.**
+
+```text
+Cuaderno:  ## La cuenta (§7.5)
+           **1. La magnitud propuesta.** Un vapor transatlántico
+           desarrolla del orden de 7.5 MW...
+           **Versión cortada por §7.3.**
+
+Post:      Keely decía que un cubo de agua guarda energía para
+           dar la vuelta al mundo en barco de vapor. Es su
+           afirmación más repetida y la más fácil de comprobar.
+           Un transatlántico de finales del XIX desarrolla unos
+           7.5 MW, y la circunnavegación pide del orden de 10¹³
+           julios. Un cubo de diez litros de agua contiene
+           1.6 × 10⁸ julios en enlaces químicos, y romperlos
+           cuesta exactamente lo que devuelve recombinarlos.
+           Son cinco órdenes de magnitud, contra un techo que
+           además no es extraíble. Ahí se acaba esa versión, y
+           conviene acabarla antes de entrar en aparatos y
+           testigos, porque mientras siga en pie arrastra a las
+           afirmaciones que sí aguantan.
+```
 
 ---
 
@@ -681,6 +747,140 @@ Un número se comprueba desde fuera y un argumento no. Con el disparador atado a
 
 ---
 
+## §12. Qué se está estudiando
+
+Un mismo caso admite más de una lectura, y cada una da un trabajo distinto con material distinto.
+
+Ejemplo. Una persona financiada durante veintiséis años sin llegar a entregar un aparato funcional. Una lectura pregunta si lo que afirmaba se sostiene. Otra pregunta cómo se sostuvo esa relación tanto tiempo, qué veían quienes pagaban y qué obtenían a cambio de seguir pagando.
+
+**La regla:** cuando las dos lecturas dejan material investigable, no hace falta decidir entre ellas para empezar. Se declara qué se está estudiando y se trabaja con las fuentes que ese estudio admita.
+
+### §12.1 Qué cambia con la lectura
+
+Lo que cuenta como evidencia.
+
+El testimonio de quienes presenciaron una demostración sirve como dato sobre qué ocurrió en esa sala y sobre cómo reaccionaron los presentes. En una lectura sobre cómo se sostuvo la relación, es material central. En una lectura sobre si el mecanismo funciona, no aguanta, porque una demostración preparada produce exactamente ese testimonio.
+
+Lo mismo con las cifras. Una cuenta de órdenes de magnitud decide una lectura y es irrelevante para la otra.
+
+**El error que esto evita:** tomar una evidencia como suficiente para una lectura mientras se trabaja en otra.
+
+### §12.2 Lo que no se declara al abrir
+
+El resultado.
+
+Declarar qué se estudia es distinto de decidir qué se va a encontrar. Un caso que entra con el final ya escrito produce confirmación, porque cualquier cosa que aparezca en las fuentes se puede leer en esa dirección. Ver §6.
+
+### §12.3 Por qué la lectura amplia sostiene más casos
+
+Alguien que sostuvo una operación durante décadas ante testigos cualificados hizo algo difícil, con independencia de si el aparato funcionaba. Hay una habilidad ahí y deja rastro documental.
+
+Eso permite abrir el caso sin haber resuelto lo técnico. Lo técnico pasa a ser parte de lo que hay que explicar.
+
+---
+
+## §13. Formulaciones con supuesto enterrado
+
+Distinto de §9. Allí se marcan palabras. Aquí se marcan construcciones que meten un supuesto dentro de la descripción y lo hacen pasar por dato.
+
+**Ejemplo.** "Recibió inversión durante veintiséis años sin entregar ningún producto." La frase parece descriptiva. Da por decidido qué cuenta como producto, y con esa decisión dentro, el lector recibe un veredicto formulado como hecho.
+
+### §13.1 Los tres pasos
+
+```text
+1. Localizar el supuesto enterrado.
+   "Sin entregar producto" supone que producto significa
+   artefacto comercializado.
+
+2. Reescribir en descripción, con cada parte verificable
+   por separado.
+   "Dio demostraciones durante veintiséis años. Ningún
+   dispositivo funcionó fuera del edificio. No llegó
+   ningún producto al mercado."
+
+3. Preguntar a quién le sirve la formulación original
+   frente a la reescrita.
+```
+
+El paso 3 es donde aparece el interés, cuando lo hay. A veces no hay ninguno y la frase es solo pereza de redacción.
+
+### §13.2 Hacia dentro
+
+Se aplica igual al propio texto, según §9.5 paso 4.
+
+Ejemplo propio: "recibió inversión veintiséis años, luego algo estaría encontrando" entierra el supuesto de que la inversión sostenida responde a hallazgos verificados. La versión descriptiva dice que la inversión se sostuvo, sin decidir por qué.
+
+### §13.3 Dónde se busca
+
+En las frases que suenan neutras. Una formulación cargada de forma visible se detecta sola. La que hace trabajo es la que parece descripción.
+
+Señal: una frase descriptiva de la que se puede extraer un juicio sin haberlo argumentado en ningún sitio.
+
+---
+
+## §14. Casos que llegan cerrados
+
+El estado por defecto de un caso es abierto. Cerrarlo exige haber leído la fuente primaria del cierre.
+
+Un caso dado por resuelto llega con el trabajo aparentemente hecho, y eso apaga la búsqueda. Lo que hace falta es lo contrario: un caso cerrado es donde menos se ha buscado, porque nadie ve motivo para buscar.
+
+### §14.1 Las tres preguntas al cierre
+
+Quien informa de que algo está resuelto entrega una conclusión. Antes de aceptarla:
+
+```text
+1. ¿Quién lo resolvió?
+2. ¿Con qué acceso?
+3. ¿Con qué interés en el resultado?
+```
+
+Caso Keely, enero de 1899. Lo resolvió Clarence B. Moore, hijo de la principal financiadora, con la herencia mermada a causa del investigado, y alquiló la casa para hacerlo. Acceso físico completo. Interés directo en el resultado. Los resúmenes posteriores citan el hallazgo y omiten las tres respuestas.
+
+### §14.2 Buscar a quien lo defendió después del cierre
+
+Un cierre aceptado deja de revisarse, así que lo que faltaba se encuentra en quien lo discutió más tarde.
+
+Caso Keely: Charles Fort, 1932, treinta y tres años después del veredicto. Trae dos datos que las fuentes posteriores no traen. Que los accionistas ya conocían la esfera del sótano porque Keely no la ocultaba, y que nadie llegó a demostrar que el motor pudiera funcionar mediante ella.
+
+Ese segundo dato es el que decidía el caso, y estaba disponible sin buscar.
+
+**El límite:** quien defiende después del cierre tiene su propio interés. Fort escribía a favor de lo anómalo. Lo que se toma de él son las afirmaciones comprobables en otra fuente, no su valoración.
+
+### §14.3 Ir a lo que escribió el investigado
+
+Antes que cualquier resumen sobre alguien, lo que esa persona publicó.
+
+Caso Keely: dos textos suyos de 1891 y 1895, accesibles, describiendo su método. Tres versiones de un post sobre él sin que nadie los abriera.
+
+### §14.4 Cómo se escribe el estado del conocimiento
+
+Describir dónde está el conocimiento, sin convertirlo en una propiedad del hecho.
+
+```text
+No:  no se pudo comprobar
+Sí:  no hay publicaciones que expliquen cómo lo consiguió
+
+No:  el efecto no era real
+Sí:  esto es lo que se demostró y esto es lo que quedó
+     sin explicar
+
+No:  se descartó en 1899
+Sí:  en 1899 se afirmó X, quien lo afirmó tenía este
+     interés, y esto quedó sin establecer
+```
+
+Las tres versiones de la derecha dicen más y afirman menos. Ninguna niega lo que la persona hizo, y ninguna da por establecido lo que sigue abierto.
+
+Es §9.4 aplicado antes de escribir, además de al leer.
+
+### §14.5 El fallo que esto corrige
+
+Un caso cerrado consume menos esfuerzo que uno abierto, así que se acepta el cierre y se pasa a otra cosa. El coste aparece después: cuatro rondas defendiendo un veredicto de resúmenes terciarios, y una sola consulta a una fuente contemporánea para que aparezca lo que faltaba.
+
+**Regla:** ningún caso se da por cerrado mientras la fuente primaria del cierre siga sin custodiar según §5.
+
+---
+
 ## Pendientes
 
 ```text
@@ -692,4 +892,6 @@ Arreglar contradicciones es mantenimiento y se hace cuando aparecen. Añadir sec
 
 - §7.6 contra §0: §7.6 dice que una sustitución abre ficha nueva, y §0 no dice qué pasa con la Preocupación de fondo cuando eso ocurre. Mantenimiento, se corrige.
 - Predicción con plazo en §0, para que §6 punto 3 pueda disparar.
+- Un caso puede contener varias búsquedas distintas. Que una esté documentada no contesta las preguntas de §2.4 sobre las otras. Caso Keely: se buscó el mecanismo, no consta búsqueda de los escritos.
+- Contador para §12, §13 y §14, en la línea de los de §6. Sin uso todavía.
 - §7.1 Límite 2 remite a §4 y las cinco preguntas no encajan con ese tipo de hueco. Tratan de gente que sale de un campo. El hueco de Límite 2 es un marco que no existe porque nadie lo financió.
